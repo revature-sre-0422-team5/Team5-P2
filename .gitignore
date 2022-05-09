@@ -1,5 +1,5 @@
-deliverApi\src\main\resources\application.properties
+deliverApi/src/main/resources/application.properties
 
 .idea
 
-deliveryApi\target
+deliveryApi/target
