@@ -1,5 +1,5 @@
-application.yaml
+deliverApi\src\main\resources\application.properties
 
 .idea
 
-target
+deliveryApi\target
