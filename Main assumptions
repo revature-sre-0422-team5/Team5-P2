@@ -1,0 +1,46 @@
+Customer:
+id
+name
+username
+password
+location
+
+Order:
+ReferenceId
+WhoOrdered(Customer.id)
+Date
+Order Store Address 
+Order Location destination
+Items
+   ItemReferenceNumber(Item.id)
+
+Item:
+    id
+    priceInCents
+    description
+
+OrderShopper:
+WhoShopper (Shopper.id)
+WhichOrder (Order.referenceId)
+TotalOrderStoreCost
+OrderStatus
+
+Shopper
+id
+name
+username
+password
+
+2nd API:
+Payments:
+OrderNumber(Order.ReferenceId)
+StatusFromCustomer
+StatusToShopper
+
+Notifications:
+notificationKey unique
+userId
+notificationType
+notificationDescription
+notificationExpiry
+
