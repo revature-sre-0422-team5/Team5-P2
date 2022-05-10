@@ -1,6 +1,5 @@
 package com.team5.api2.controller;
 
-import com.google.maps.DirectionsApiRequest;
 import com.google.maps.model.DirectionsResult;
 import com.team5.api2.dto.getDirectionsRequest;
 import com.team5.api2.services.MapsServices;

@@ -19,8 +19,7 @@ public class MapsServices {
             .apiKey(mapsApiKey)
             .build();
 
-            DirectionsResult results = DirectionsApi.getDirections(context, directionFrom, directionTo).await();
-            return results;
+            return DirectionsApi.getDirections(context, directionFrom, directionTo).await();
         }
         catch (Exception e){
             e.printStackTrace();
