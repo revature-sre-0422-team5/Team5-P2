@@ -1,4 +1,4 @@
-package com.team5.controllers;
+package com.team5.deliveryApi.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
