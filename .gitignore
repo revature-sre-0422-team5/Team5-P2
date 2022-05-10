@@ -1,4 +1,5 @@
-deliverApi/src/main/resources/application.properties
+deliveryApi/src/main/resources/application.properties
+deliveryApi/src/main/resources/application.yaml
 
 .idea
 
