@@ -1,4 +1,4 @@
-package com.team5.entities;
+package com.team5.deliveryApi.Models;
 
 import javax.persistence.*;
 import lombok.*;
@@ -14,6 +14,9 @@ import lombok.*;
 @AllArgsConstructor
 public class OrderItem {
 
+    @Id
+    @Column (name ="itemId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long itemId;
 
     @Column (name="itemName")
