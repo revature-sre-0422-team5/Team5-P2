@@ -3,7 +3,6 @@ package com.team5.api2.dto;
 import lombok.*;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class getDirectionsRequest {

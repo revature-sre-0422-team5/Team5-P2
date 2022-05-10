@@ -10,4 +10,9 @@ class Api2ApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void checkIfApiIsCalled (){
+		
+	}
+
 }

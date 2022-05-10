@@ -1,8 +1,8 @@
 package com.team5.api2.services;
 
 import com.google.maps.DirectionsApi;
-import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
+import com.google.maps.model.DirectionsResult;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,20 +11,20 @@ import org.springframework.stereotype.Service;
 public class MapsServices {
 
     @Value("${api.googledirectionskey}")
-    private String mapsApiKey;
+    private String mapsApiKey;        
 
-    private GeoApiContext context = new GeoApiContext.Builder()
-        .apiKey(mapsApiKey)
-        .build();
-        
-
-    public DirectionsApiRequest getDirections (String directionFrom, String directionTo){
+    public DirectionsResult getDirections (String directionFrom, String directionTo){
         try {
-            return DirectionsApi.getDirections(context, directionFrom, directionTo);
+            GeoApiContext context = new GeoApiContext.Builder()
+            .apiKey(mapsApiKey)
+            .build();
+
+            DirectionsResult results = DirectionsApi.getDirections(context, directionFrom, directionTo).await();
+            return results;
         }
         catch (Exception e){
             e.printStackTrace();
-            return null;            
+            return null;
         }
     }
 }
