@@ -1,5 +1,3 @@
-deliverApi/src/main/resources/application.properties
-
 .idea
-
+deliverApi/src/main/resources/application.properties
 deliveryApi/target
