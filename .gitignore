@@ -1,3 +1,6 @@
+deliveryApi/src/main/resources/application.properties
+deliveryApi/src/main/resources/application.yaml
+
 .idea
 deliverApi/src/main/resources/application.properties
 deliveryApi/src/main/resources/application.yaml
