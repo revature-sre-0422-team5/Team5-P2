@@ -29,6 +29,12 @@ public class MapsController {
 
     @GetMapping ("/getDistance")
     public ResponseEntity<Long> getJourneyCost (@RequestBody getDirectionsRequest gdr){
-        return ResponseEntity.ok().body(mapsService.getDistance(gdr.getLocationFrom(), gdr.getLocationTo()));
+        try {
+            return ResponseEntity.ok().body(mapsService.getDistance(gdr.getLocationFrom(), gdr.getLocationTo()));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(null);
+        }
     }
 }
