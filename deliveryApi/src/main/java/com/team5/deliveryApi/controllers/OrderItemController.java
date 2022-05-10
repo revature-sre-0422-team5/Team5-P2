@@ -14,7 +14,7 @@ public class OrderItemController {
         return null;
     }
 
-    @RequestMapping ("/items/updateItem")
+    @RequestMapping ("/items/updateItemStatus")
     public ResponseEntity updateItem (){
         return null;
     }
