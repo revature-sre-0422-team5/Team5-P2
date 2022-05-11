@@ -1,0 +1,73 @@
+package com.team5.deliveryApi.Controllers;
+
+import com.team5.deliveryApi.Models.Shopper;
+import com.team5.deliveryApi.Models.Status;
+import com.team5.deliveryApi.Repositories.ShopperRepository;
+import com.team5.deliveryApi.Services.ShopperService;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import javax.*;
+
+import java.util.List;
+//import java.util.logging.Logger;
+
+@RestController
+@RequestMapping("/Shopper")
+public class ShopperController {
+    @Autowired
+    ShopperService shopperService;
+    @Autowired
+    ShopperRepository shopperRepository;
+
+    @PostMapping("/Login")
+    public Status loginShopper(@Validated @RequestBody Shopper shopper){
+        List<Shopper> shoppers = shopperRepository.findAll();
+        for (Shopper other : shoppers){
+            if (other.equals(shopper)){
+                shopper.setLoggedIn(true);
+                shopperRepository.save(shopper);
+                return Status.SUCCESS;
+            }
+        } return Status.FAILURE;
+    }
+
+    @PostMapping("/Create")
+    public String createShopperAccount(@RequestBody Shopper creatingShopper){
+        Logger logger = LoggerFactory.getLogger(ShopperController.class);
+        boolean success = shopperService.saveShopper(creatingShopper);
+        logger.info("Creating new Shopper");
+        logger.info("creating shopper" + creatingShopper);
+        if (success==true){
+            return "Shopper Account Created Successfully";
+            } else{
+            return "Error in creating new Shopper Account";
+        }
+    }
+
+    @PostMapping("/Logout")
+    public Status logShopperOut(@Validated @RequestBody Shopper shopper){
+        List<Shopper> shoppers = shopperRepository.findAll();
+        for (Shopper other : shoppers) {
+            if (other.equals(shopper)) {
+                shopper.setLoggedIn(false);
+                shopperRepository.save(shopper);
+                return Status.SUCCESS;
+            }
+        }
+        return Status.FAILURE;
+    }
+
+
+    // Fetch Shopper by ID, passing ID as path variable in get mapping method
+    @GetMapping("/{id}")
+    public ResponseEntity viewShopperById(@PathVariable int id){return shopperService.viewShopperById(id);}
+
+    // Displays list of all shoppers by Get Mapping method
+    @GetMapping("/all")
+    public List<Shopper> viewAllShoppers(){return shopperService.viewShopper();}
+
+}
