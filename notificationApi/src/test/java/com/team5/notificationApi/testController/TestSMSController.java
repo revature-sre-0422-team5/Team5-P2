@@ -52,6 +52,11 @@ public class TestSMSController {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Tests the SMS controller sending a bad request properly
+     * if the service throws an exception.
+     * @throws Exception
+     */
     @Test
     public void shouldSendSMSBadRequest() throws Exception {
         Mockito.when(smsService.sendSMS(Mockito.any())).thenThrow(new ArrayIndexOutOfBoundsException());

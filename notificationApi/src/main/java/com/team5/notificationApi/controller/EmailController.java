@@ -37,10 +37,10 @@ public class EmailController {
     }
 
     /**
-     * Puts file attachments in the pending storage to be sent
-     * later with the email.
+     * Sends an email with file attachments.
+     * @param mail The contents of the mail.
      * @param files The file attachments of the mail.
-     * @return The ResponseEntity containing the unique ID that references the attachments.
+     * @return The ResponseEntity containing the contents of the mail.
      */
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Mail> sendMailWithAttachments(
