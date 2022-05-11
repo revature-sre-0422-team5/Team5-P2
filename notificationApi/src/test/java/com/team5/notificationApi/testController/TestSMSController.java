@@ -52,6 +52,20 @@ public class TestSMSController {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void shouldSendSMSBadRequest() throws Exception {
+        Mockito.when(smsService.sendSMS(Mockito.any())).thenThrow(new ArrayIndexOutOfBoundsException());
+
+        Map<String, String> sms = new HashMap<>();
+        sms.put("recipient", "+1234567891");
+        sms.put("message", "Test SMS");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/notification/sms")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(sms)))
+                .andExpect(status().isBadRequest());
+    }
+
     /**
      * Tests whether the delivery status returns an OK response.
      */

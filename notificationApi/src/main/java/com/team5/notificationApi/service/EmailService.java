@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The email creator and sending service
@@ -62,8 +63,10 @@ public class EmailService {
         mailSender.send(msg);
         // Log the email recipients
         List<Address> addressList = new ArrayList<>(Arrays.asList(msg.getRecipients(Message.RecipientType.TO)));
-        addressList.addAll(Arrays.asList(msg.getRecipients(Message.RecipientType.CC)));
-        addressList.addAll(Arrays.asList(msg.getRecipients(Message.RecipientType.BCC)));
+        addressList.addAll(Arrays.asList(Optional.ofNullable(
+                msg.getRecipients(Message.RecipientType.CC)).orElse(new Address[0])));
+        addressList.addAll(Arrays.asList(Optional.ofNullable(
+                msg.getRecipients(Message.RecipientType.BCC)).orElse(new Address[0])));
         for (Address address : addressList) {
             log.info("[POST] Email has been sent out to " + address.toString() + ".");
         }

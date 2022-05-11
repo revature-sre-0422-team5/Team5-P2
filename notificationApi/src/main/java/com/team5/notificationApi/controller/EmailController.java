@@ -28,27 +28,27 @@ public class EmailController {
     public ResponseEntity<Mail> sendMail(@RequestBody Mail mail) {
         try {
             emailService.sendMail(emailService.buildMimeMessage(mail));
+            mail.setAttachments(new MultipartFile[0]);
             return ResponseEntity.ok(mail);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(mail);
         }
     }
 
     /**
-     * Sends a mail with file attachments to an email.
-     * @param mail The contents of the mail.
+     * Puts file attachments in the pending storage to be sent
+     * later with the email.
      * @param files The file attachments of the mail.
+     * @return The ResponseEntity containing the unique ID that references the attachments.
      */
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Void> sendMailWithAttachments(@RequestPart(name = "mail") Mail mail,
-                                                        @RequestPart(name = "attachments", required = false) MultipartFile[] files) {
+    public ResponseEntity<Mail> sendMailWithAttachments(
+            @RequestPart(name = "mail") Mail mail,
+            @RequestPart(name = "attachments", required = false) MultipartFile[] files) {
         mail.setAttachments(files);
-        try {
-            emailService.sendMail(emailService.buildMimeMessage(mail));
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            log.error("[POST] Failed to send email: " + e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+        return sendMail(mail);
     }
+
+
 }
