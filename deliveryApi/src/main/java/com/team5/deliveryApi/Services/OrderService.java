@@ -1,40 +1,42 @@
 package com.team5.deliveryApi.Services;
 
 import com.team5.deliveryApi.Models.Order;
-import com.team5.deliveryApi.Repository.OrderRepo;
+import com.team5.deliveryApi.Repositories.OrderRepository;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
-import java.util.Optional;
 
 public class OrderService {
 
-    private OrderRepo orderRepo;
+    private OrderRepository orderRepository;
 
-    public OrderService(OrderRepo orderRepo){
+    public OrderService(OrderRepository orderRepository){
         super();
-        this.orderRepo = orderRepo;
+        this.orderRepository = orderRepository;
     }
 
     public ResponseEntity viewAllOrders(){
-        return ResponseEntity.ok(orderRepo.findAll());
+        return ResponseEntity.ok(orderRepository.findAll());
     }
 
     public ResponseEntity viewOrderById(int id){
-        return ResponseEntity.ok(orderRepo.findById(id).get());
+        return ResponseEntity.ok(orderRepository.findById(id).get());
     }
 
     public ResponseEntity viewStatusById(int id){
-        return ResponseEntity.ok(orderRepo.findById(id).get().getStatus());
+        return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
     }
 
     //TO DO
     public void payOrder(int id){
-        orderRepo.updateStatusById("Paid",id);
+        orderRepository.updateStatusById("Paid",id);
         //update status paid?
     }
 
     public void subscribeEmail(int id){
+    }
+
+    public boolean saveOrder(Order incomingOrder) {
+        orderRepository.save(incomingOrder);
+        return true;
     }
 
 }

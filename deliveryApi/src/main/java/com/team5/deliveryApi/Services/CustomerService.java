@@ -1,26 +1,26 @@
 package com.team5.deliveryApi.Services;
 
 import com.team5.deliveryApi.Models.Customer;
-import com.team5.deliveryApi.Repository.CustomerRepo;
+import com.team5.deliveryApi.Repositories.CustomerRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 public class CustomerService {
 
-    private CustomerRepo customerRepo;
+    private CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepo customerRepo){
+    public CustomerService(CustomerRepository customerRepository){
         super();
-        this.customerRepo = customerRepo;
+        this.customerRepository = customerRepository;
     }
 
     public List<Customer> viewCustomer(){
-        return customerRepo.findAll();
+        return customerRepository.findAll();
     }
 
     public Optional<Customer> viewCustomerById(int id){
-        return customerRepo.findById(id);
+        return customerRepository.findById(id);
     }
 
 
