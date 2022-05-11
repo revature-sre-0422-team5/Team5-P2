@@ -1,6 +1,6 @@
 package com.team5.notificationApi.controller;
 
-import com.team5.notificationApi.entity.Mail;
+import com.team5.notificationApi.model.Mail;
 import com.team5.notificationApi.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * The email HTTP request handler of
+ * the notification API.
+ */
 @RestController
-@RequestMapping("/api/email")
+@RequestMapping("/notification/email")
 @Slf4j
 public class EmailController {
     @Autowired
@@ -21,12 +25,12 @@ public class EmailController {
      * @param mail The contents of the mail.
      */
     @PostMapping
-    public ResponseEntity<Void> sendMail(@RequestBody Mail mail) {
+    public ResponseEntity<Mail> sendMail(@RequestBody Mail mail) {
         try {
-            emailService.sendMail(mail);
-            return ResponseEntity.ok().build();
+            emailService.sendMail(emailService.buildMimeMessage(mail));
+            return ResponseEntity.ok(mail);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(mail);
         }
     }
 
@@ -40,7 +44,7 @@ public class EmailController {
                                                         @RequestPart(name = "attachments", required = false) MultipartFile[] files) {
         mail.setAttachments(files);
         try {
-            emailService.sendMail(mail);
+            emailService.sendMail(emailService.buildMimeMessage(mail));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             log.error("[POST] Failed to send email: " + e.getMessage());

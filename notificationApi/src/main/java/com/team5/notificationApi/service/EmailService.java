@@ -1,6 +1,6 @@
 package com.team5.notificationApi.service;
 
-import com.team5.notificationApi.entity.Mail;
+import com.team5.notificationApi.model.Mail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,10 +8,19 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.Address;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+/**
+ * The email creator and sending service
+ * of the notification API.
+ */
 @Service
 @Slf4j
 public class EmailService {
@@ -19,11 +28,11 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     /**
-     * Sends an email to the specified email account.
-     * @param mail The mail object representing the contents of the email.
-     * @return The mail object that was sent to the specified email address.
+     * Builds the MimeMessage object with the specified contents.
+     * @param mail The contents of the email.
+     * @return The built MimeMessage object.
      */
-    public MimeMessage sendMail(Mail mail) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage buildMimeMessage(Mail mail) throws MessagingException, UnsupportedEncodingException {
         MimeMessage msg = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg, mail.getAttachments().length > 0);
 
@@ -41,8 +50,23 @@ public class EmailService {
                 helper.addAttachment("attachment", f);
             }
         }
+        return msg;
+    }
+
+    /**
+     * Sends an email to the specified email accounts.
+     * @param msg The MimeMessage containing the contents of the mail.
+     * @return The MimeMessage to be sent out.
+     */
+    public MimeMessage sendMail(MimeMessage msg) throws MessagingException {
         mailSender.send(msg);
-        log.info("[POST] Email has been sent out to " + mail.getRecipient() + ".");
+        // Log the email recipients
+        List<Address> addressList = new ArrayList<>(Arrays.asList(msg.getRecipients(Message.RecipientType.TO)));
+        addressList.addAll(Arrays.asList(msg.getRecipients(Message.RecipientType.CC)));
+        addressList.addAll(Arrays.asList(msg.getRecipients(Message.RecipientType.BCC)));
+        for (Address address : addressList) {
+            log.info("[POST] Email has been sent out to " + address.toString() + ".");
+        }
         return msg;
     }
 }
