@@ -18,12 +18,6 @@ pipeline {
       }
     }
     stage ('Test 2'){
-      when {
-        anyOf 
-      }
-      steps {
-
-      }
     }
   }
 }
