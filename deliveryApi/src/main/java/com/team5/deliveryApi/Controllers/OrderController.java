@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/Order")
 public class OrderController {
+
     @Autowired
     OrderService orderService;
 
@@ -46,6 +47,7 @@ public class OrderController {
     }
 
     @GetMapping("/status/{id}")
-    public ResponseEntity viewStatusById(@PathVariable int id){
+    public ResponseEntity viewStatusById(@PathVariable int id) {
         return orderService.viewStatusById(id);
+    }
 }

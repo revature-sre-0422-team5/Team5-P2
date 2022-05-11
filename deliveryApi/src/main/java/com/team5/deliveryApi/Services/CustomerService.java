@@ -2,10 +2,12 @@ package com.team5.deliveryApi.Services;
 
 import com.team5.deliveryApi.Models.Customer;
 import com.team5.deliveryApi.Repositories.CustomerRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class CustomerService {
 
     private CustomerRepository customerRepository;

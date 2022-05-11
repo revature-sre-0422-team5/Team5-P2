@@ -23,9 +23,8 @@ public class Order {
     @Column(name = "customerId", nullable = false)
     private int customerId;
 
-
-   @Column(name = "date", nullable = false)
-   private String date;
+    @Column(name = "date", nullable = false)
+    private String date;
 
     @Column(name = "status", nullable = false)
     private String status;

@@ -3,7 +3,9 @@ package com.team5.deliveryApi.Services;
 import com.team5.deliveryApi.Models.Order;
 import com.team5.deliveryApi.Repositories.OrderRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public class OrderService {
 
     private OrderRepository orderRepository;
