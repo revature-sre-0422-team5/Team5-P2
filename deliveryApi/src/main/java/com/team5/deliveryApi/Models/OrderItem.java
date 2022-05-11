@@ -25,4 +25,7 @@ public class OrderItem {
     @Column (name="itemDescription")
     private String itemDescription;
 
+    @Column (name="itemStatus")
+    private String itemStatus; //Double check if you can enforce a boolean type
+
 }
