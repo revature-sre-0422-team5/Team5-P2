@@ -38,5 +38,6 @@ public class Customer {
 
     @Column(name = "email")
     private String email;
-//Add one to many relation to orders
+
+    //Add one to many relation to orders,but different order id,so that should be fine
 }

@@ -17,7 +17,6 @@ public class Order {
 
     @Id
     @Column(name="orderId")
-    //@GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
 
     @Column(name = "customerId", nullable = false)
@@ -41,9 +40,10 @@ public class Order {
      private int item_Id;
     //Add one to many relation to items
 
-  /*@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  /* @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @JoinColumn(name="customerId",referencedColumnName = "id")
-  private Customer customer;*/
+  private Customer customer;*///not really needed because even he orders same for a different day the order id is different
+
 
 
 }

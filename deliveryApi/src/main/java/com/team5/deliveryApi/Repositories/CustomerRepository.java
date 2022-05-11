@@ -1,4 +1,8 @@
 package com.team5.deliveryApi.Repositories;
 
-public class CustomerRepository {
+import com.team5.deliveryApi.Models.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CustomerRepository extends JpaRepository<Customer,Integer> {
+    Customer save(Customer incomingCustomer);
 }
