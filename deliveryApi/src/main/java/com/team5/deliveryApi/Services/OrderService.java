@@ -2,6 +2,7 @@ package com.team5.deliveryApi.Services;
 
 import com.team5.deliveryApi.Models.Order;
 import com.team5.deliveryApi.Repository.OrderRepo;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,20 +16,21 @@ public class OrderService {
         this.orderRepo = orderRepo;
     }
 
-    public List<Order> viewAllOrders(){
-        return orderRepo.findAll();
+    public ResponseEntity viewAllOrders(){
+        return ResponseEntity.ok(orderRepo.findAll());
     }
 
-    public Optional<Order> viewOrderById(int id){
-        return orderRepo.findById(id);
+    public ResponseEntity viewOrderById(int id){
+        return ResponseEntity.ok(orderRepo.findById(id).get());
     }
 
-    public String viewStatusById(int id){
-        return orderRepo.findById(id).get().getStatus();
+    public ResponseEntity viewStatusById(int id){
+        return ResponseEntity.ok(orderRepo.findById(id).get().getStatus());
     }
 
     //TO DO
     public void payOrder(int id){
+        orderRepo.updateStatusById("Paid",id);
         //update status paid?
     }
 
