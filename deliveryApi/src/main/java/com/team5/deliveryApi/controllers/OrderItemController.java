@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.controllers;
 
+import com.team5.deliveryApi.Models.OrderItem;
 import com.team5.deliveryApi.dto.OrderItemAdd;
 import com.team5.deliveryApi.dto.OrderItemUpdate;
 import com.team5.deliveryApi.services.OrderItemService;
@@ -20,16 +21,16 @@ public class OrderItemController {
     private OrderItemService ois;
     
     @RequestMapping("/items/addItem")
-    public ResponseEntity addItem(@RequestBody OrderItemAdd oia){
+    public ResponseEntity<OrderItem> addItem(@RequestBody OrderItemAdd oia){
         try {
             log.info("OrderItemController - Adding an item");
-            ois.addItem(oia.getItemName(), oia.getItemDescription());
-            return ResponseEntity.ok().body("Added item");
+            OrderItem savingOrderItem = ois.addItem(oia.getItemName(), oia.getItemPriceInCents(), oia.getItemDescription());
+            return ResponseEntity.ok().body(savingOrderItem);
        }
        catch (Exception e){
            log.error("OrderItemController - Something went wrong adding an item");
            log.error(e.toString());
-           return ResponseEntity.internalServerError().body("Unable to process request at the time");
+           return ResponseEntity.internalServerError().body(null);
         }
     }
 

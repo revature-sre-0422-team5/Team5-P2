@@ -9,4 +9,6 @@ public class OrderItemAdd {
     private String itemName;
 
     private String itemDescription;
+
+    private long itemPriceInCents;
 }
