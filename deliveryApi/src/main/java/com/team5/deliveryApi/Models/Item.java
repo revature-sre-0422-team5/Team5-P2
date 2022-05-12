@@ -4,27 +4,31 @@ import lombok.*;
 
 import javax.persistence.*;
 
-    @Entity
-    @Table(name = "Items")
-    @Getter
-    @Setter
-    @ToString
-    @Builder
-    @EqualsAndHashCode
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class Item {
+@Entity
+@Table(name = "Items")
+@Getter
+@Setter
+@ToString
+@Builder
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+public class Item {
 
-        @Id
-        @Column(name = "id")
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        private int id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-        @Column(name = "productName", nullable = false)
-        private String productName;
+    @Column
+    private int quantity;
 
-        @Enumerated(EnumType.STRING)
-        @Column
-        private ItemStatus status;
-    }
+    @Enumerated(EnumType.STRING)
+    @Column
+    private ItemStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "grocery_item_id")
+    private GroceryItem groceryItem;
+}
 
