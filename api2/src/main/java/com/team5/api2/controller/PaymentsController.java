@@ -19,7 +19,7 @@ public class PaymentsController {
     @Autowired
     private PaymentsServices ps;
 
-    @GetMapping ("/getOrderCost")
+    @GetMapping ("/get-order-cost")
     public ResponseEntity <OrderCostCalculationResponse> getJourneyCost (@RequestBody OrderCostRequest ocr){
         try {
             return ResponseEntity.ok().body(new OrderCostCalculationResponse(1234));
