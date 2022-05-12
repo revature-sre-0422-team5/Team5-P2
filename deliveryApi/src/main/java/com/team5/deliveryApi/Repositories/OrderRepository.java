@@ -12,7 +12,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     Order save(Order incomingOrder);
 
-    Optional<Order> findById(Integer id);
 
     @Transactional
     @Modifying
@@ -23,4 +22,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Modifying
     @Query(value ="update orders set pay_status= ?1 where order_id = ?2", nativeQuery = true)
     void updatePayStatusById(String status, int id);
+
+    Order findById(int odr_id);
+    
+    void delete(Order incomingOrder);
 }

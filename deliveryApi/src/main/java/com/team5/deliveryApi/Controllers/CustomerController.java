@@ -1,9 +1,7 @@
 package com.team5.deliveryApi.Controllers;
 
 import com.team5.deliveryApi.Models.Customer;
-import com.team5.deliveryApi.Models.Order;
 import com.team5.deliveryApi.Services.CustomerService;
-import com.team5.deliveryApi.Services.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +42,9 @@ public class CustomerController {
         }
 
 
-    @PutMapping("/unsubscribe/{id}")
-    public ResponseEntity unsubscribeEmailById(@PathVariable int id){
-        return  customerService.unsubscribeEmailById(id);
-    }
+        @PutMapping("/unsubscribe/{id}")
+        public ResponseEntity unsubscribeEmailById(@PathVariable int id){
+            return  customerService.unsubscribeEmailById(id);
+        }
 
 }
