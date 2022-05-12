@@ -1,7 +1,7 @@
 package com.team5.api2.controller;
 
 import com.google.maps.model.DirectionsResult;
-import com.team5.api2.dto.GetDirectionsRequest;
+import com.team5.api2.dto.getDirectionsRequest;
 import com.team5.api2.services.MapsServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class MapsController {
     private MapsServices mapsService;
 
     @GetMapping ("/getDirections")
-    public ResponseEntity<DirectionsResult> getDirections (@RequestBody GetDirectionsRequest gdr){
+    public ResponseEntity<DirectionsResult> getDirections (@RequestBody getDirectionsRequest gdr){
         try {
             return ResponseEntity.ok().body(mapsService.getDirections(gdr.getLocationFrom(), gdr.getLocationTo()));
         }
@@ -28,7 +28,7 @@ public class MapsController {
     }
 
     @GetMapping ("/getDistance")
-    public ResponseEntity<Long> getDistance (@RequestBody GetDirectionsRequest gdr){
+    public ResponseEntity<Long> getDistance (@RequestBody getDirectionsRequest gdr){
         try {
             return ResponseEntity.ok().body(mapsService.getDistance(gdr.getLocationFrom(), gdr.getLocationTo()));
         }

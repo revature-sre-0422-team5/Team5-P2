@@ -5,7 +5,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetDirectionsRequest {
+public class getDirectionsRequest {
 
     private String locationFrom;
 
