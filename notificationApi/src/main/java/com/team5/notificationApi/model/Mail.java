@@ -1,4 +1,4 @@
-package com.team5.notificationApi.entity;
+package com.team5.notificationApi.model;
 
 import lombok.Getter;
 import lombok.Setter;
