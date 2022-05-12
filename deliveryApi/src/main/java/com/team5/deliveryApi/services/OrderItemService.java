@@ -20,18 +20,30 @@ public class OrderItemService {
      * @param itemName
      * @param itemDescription
      */
-    public void addItem (String itemName, String itemDescription){
+    public OrderItem addItem (String itemName, long itemPriceInCents, String itemDescription){
         try {
+            if (itemName.equals("") || itemDescription.equals("")){
+                throw new Exception("OrderItemService - attempted to create an object with an invalid name or description");
+            }
+
             log.info("OrderItemService - adding a new item");
-            oir.save(new OrderItem(0, itemName, itemDescription, "AVAILABLE"));
+
+            OrderItem savingOrderItem = new OrderItem(0, itemName, itemDescription, itemPriceInCents, "AVAILABLE");
+            oir.save(savingOrderItem);
+            return savingOrderItem;
         }
         catch (Exception e){
             log.error(e.toString());
+            return null;
         }
     }
 
     public void updateItemStatus (String status, int itemReferenceNumber){
         try {
+            if (status.equals("")){
+                throw new Exception("OrderItemService - attempted to update an object with an invalid status");
+            }
+
             log.info("OrderItemService - updating item: " + itemReferenceNumber + " status to " + status);
             oir.updateItemStatus(status, itemReferenceNumber);
         }
@@ -40,6 +52,6 @@ public class OrderItemService {
         }
     }
 
-    
+
 
 }
