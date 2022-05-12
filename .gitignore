@@ -5,4 +5,5 @@ deliveryApi/src/main/resources/application.yaml
 deliveryApi/target
 
 api2/src/main/resources/application.yaml
+api2/target
 
