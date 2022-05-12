@@ -6,6 +6,9 @@ import java.util.Map;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import com.stripe.model.Payout;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 import com.team5.api2.Repositories.PaymentsRequestRepository;
 import com.team5.api2.models.OrderPaymentEntity;
 
@@ -24,27 +27,52 @@ public class PaymentsServices {
         Stripe.apiKey = apiKey;
     }
 
-    public OrderPaymentEntity chargeUser (int orderReferenceId, long chargeAmount, String email){
+    public String chargeUser (int orderReferenceId, long chargeAmount)
+    {
         try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("amount", chargeAmount);
-            params.put("currency", "cad");
-            params.put("source", "tok_visa");
-            params.put("description", ("Order #" + orderReferenceId));
-            params.put("receipt_email", email);
-            Charge charge = Charge.create(params);
+            SessionCreateParams params =
+            SessionCreateParams.builder()
+              .setMode(SessionCreateParams.Mode.PAYMENT)
+              .setSuccessUrl("https://example.com/success")
+              .setCancelUrl("https://example.com/cancel")
+              .addLineItem(
+              SessionCreateParams.LineItem.builder()
+                .setQuantity(1L)
+                .setPriceData(
+                  SessionCreateParams.LineItem.PriceData.builder()
+                    .setCurrency("cad")
+                    .setUnitAmount(chargeAmount)
+                    .setProductData(
+                      SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                        .setName("Order #" + orderReferenceId)
+                        .build())
+                    .build())
+                .build())
+              .build();
+    
+          Session session = Session.create(params);
+          OrderPaymentEntity ope = new OrderPaymentEntity(orderReferenceId, session.getPaymentIntent());
+          payrepo.save(ope);
 
-            OrderPaymentEntity ope = new OrderPaymentEntity(orderReferenceId, charge.getId());
-            payrepo.save(ope);
-            return ope;
-        } 
-        catch (StripeException e) {
-            e.printStackTrace();
-            return null;
+          return session.getUrl();
         }
         catch (Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void payShopper (String userEmail, long amount){
+        try {
+            Map<String, Object> params = new HashMap<>();
+            params.put("amount", amount);
+            params.put("currency", "cad");
+    
+            Payout payout = Payout.create(params);
+
+        }
+        catch (StripeException e){
+            e.printStackTrace();
         }
     }
 }

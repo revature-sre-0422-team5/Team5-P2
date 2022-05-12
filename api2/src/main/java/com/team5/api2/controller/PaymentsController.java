@@ -30,16 +30,21 @@ public class PaymentsController {
         }
     }
 
-    @PostMapping ("/create-charge")
-    public ResponseEntity<OrderPaymentEntity> chargeUser(@RequestBody ChargeUserInfoRequest cuir){
+    @PostMapping ("/create-checkout")
+    public ResponseEntity<String> chargeUser(@RequestBody ChargeUserInfoRequest cuir){
         try {
-            OrderPaymentEntity res = ps.chargeUser(cuir.getOrderReferenceId(), cuir.getOrderAmount(), cuir.getReceiptEmail());
+            String res = ps.chargeUser(cuir.getOrderReferenceId(), cuir.getOrderAmount());
             return ResponseEntity.ok().body(res);
         }
         catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(null);
         }
+    }
+
+    @PostMapping("/pay-shopper")
+    public ResponseEntity payShopper(){
+        return ResponseEntity.internalServerError().body(null);
     }
     
 }
