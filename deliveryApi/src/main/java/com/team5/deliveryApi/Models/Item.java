@@ -16,14 +16,15 @@ import javax.persistence.*;
     public class Item {
 
         @Id
-        @Column(name="id")
+        @Column(name = "id")
         @GeneratedValue(strategy = GenerationType.AUTO)
         private int id;
 
         @Column(name = "productName", nullable = false)
         private String productName;
 
-
-
+        @Enumerated(EnumType.STRING)
+        @Column
+        private ItemStatus status;
     }
 

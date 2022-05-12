@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.Models;
 
-public enum OrderStatus {
+public enum ItemStatus {
     Added,
     Unavailable,
     Replaced
