@@ -16,7 +16,8 @@ import javax.persistence.*;
 public class Order {
 
     @Id
-    @Column(name="orderId")
+    @Column(name = "orderId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
 
     @Column(name = "customerId", nullable = false)
@@ -25,8 +26,9 @@ public class Order {
     @Column(name = "date", nullable = false)
     private String date;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private OrderStatus status;
 
     @Column(name = "store_location", nullable = false)
     private String store_location;
