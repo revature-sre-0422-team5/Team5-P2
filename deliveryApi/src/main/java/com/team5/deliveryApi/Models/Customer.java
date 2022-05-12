@@ -35,6 +35,8 @@ public class Customer {
     @Column(name = "location", nullable = false)
     private String location;
 
+    @Column(name= "email_subscribe")
+    private String email_subscribe;
 
     @Column(name = "email")
     private String email;

@@ -2,6 +2,7 @@ package com.team5.deliveryApi.Services;
 
 import com.team5.deliveryApi.Models.Customer;
 import com.team5.deliveryApi.Repositories.CustomerRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,12 +24,22 @@ public class CustomerService {
             return true;
         }
 
-        public List<Customer> viewCustomer(){
-            return customerRepository.findAll();
+        public ResponseEntity viewAllCustomer(){
+            return ResponseEntity.ok(customerRepository.findAll());
         }
     
         public Optional<Customer> viewCustomerById(int id){
             return customerRepository.findById(id);
+        }
+
+        public ResponseEntity subscribeEmailById(int id){
+            customerRepository.updateEmailSubscriptionById("yes",id);
+            return ResponseEntity.ok(true);
+        }
+
+        public ResponseEntity unsubscribeEmailById(int id){
+            customerRepository.updateEmailSubscriptionById("no",id);
+            return ResponseEntity.ok(true);
         }
 
 
