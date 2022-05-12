@@ -27,14 +27,9 @@ public class OrderService {
         return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
     }
 
-    //TO DO
     public boolean payOrder(int id){
-        orderRepository.updateOrderStatusById("Paid",id);
-        //update status paid?
+        orderRepository.updatePayStatusById("Paid",id);
         return true;
-    }
-
-    public void subscribeEmail(int id){
     }
 
     public boolean saveOrder(Order incomingOrder) {

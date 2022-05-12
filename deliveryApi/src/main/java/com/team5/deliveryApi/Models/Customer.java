@@ -24,7 +24,6 @@ public class Customer {
     @Column(name = "name", nullable = false)
     private String name;
 
-
    //This is Customer's login ID
     @Column(name = "username", nullable = false)
     private String username;
