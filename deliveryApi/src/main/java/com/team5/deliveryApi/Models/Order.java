@@ -34,6 +34,9 @@ public class Order {
     @Column(name = "destination", nullable = false)
     private String destination;
 
+    @Column(name = "order_status", nullable = false)
+    private String order_status;
+
     @Column(name = "item_Id", nullable = false)
     //private int[] item_Id;
      private int item_Id;

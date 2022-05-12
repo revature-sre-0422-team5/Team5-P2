@@ -28,9 +28,10 @@ public class OrderService {
     }
 
     //TO DO
-    public void payOrder(int id){
-        orderRepository.updateStatusById("Paid",id);
+    public boolean payOrder(int id){
+        orderRepository.updateOrderStatusById("Paid",id);
         //update status paid?
+        return true;
     }
 
     public void subscribeEmail(int id){
