@@ -4,31 +4,27 @@ import com.team5.deliveryApi.Dto.Item;
 import com.team5.deliveryApi.Dto.OrderLocation;
 import com.team5.deliveryApi.Models.Order;
 import com.team5.deliveryApi.Services.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
+@Slf4j
 @RestController
-@RequestMapping("/Order")
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired
-    OrderService orderService;
-    /** To get logging message*/
-    Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private OrderService orderService;
+
     @PostMapping("/new")
     public String createOrder(@RequestBody Order incomingOrder) {
 
 
-        logger.info("Creating new Order");
+        log.info("Creating new Order");
         boolean success = orderService.saveOrder(incomingOrder);
-        logger.info("incoming order" + incomingOrder);
+        log.info("incoming order" + incomingOrder);
         if (success == true) {
             return "Successfully created new order";
-
         } else {
             return "Error in creating new Order";
         }

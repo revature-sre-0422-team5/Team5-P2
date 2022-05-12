@@ -20,7 +20,7 @@ public class CustomerController {
 
             /** To get logging message*/
             Logger logger = LoggerFactory.getLogger(CustomerController.class);
-            boolean success=customerService.saveCustomer(incomingCustomer);
+            boolean success = customerService.saveCustomer(incomingCustomer);
             logger.info("Adding new Customer");
             logger.info("incoming Customer"+ incomingCustomer);
             if (success ==true) {

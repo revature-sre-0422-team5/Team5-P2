@@ -3,6 +3,7 @@ package com.team5.deliveryApi.Models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Orders")
@@ -16,7 +17,8 @@ import javax.persistence.*;
 public class Order {
 
     @Id
-    @Column(name="orderId")
+    @Column(name = "orderId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderId;
 
     @Column(name = "customerId", nullable = false)
@@ -35,7 +37,7 @@ public class Order {
     private String destination;
 
     @Column(name = "pay_status")
-    private String pay_status = "unpaid"; // This is the default value of pay_status
+    private String pay_status = "unpaid";
 
     @Column(name = "from_location")
     private String from_location;
@@ -43,16 +45,9 @@ public class Order {
     @Column(name = "location_description")
     private String description;
 
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private List<Item> items;
 
-    @Column(name = "item_Id")//nullable=false
-     //private int[] item_Id;
-     private int item_Id;
-
-    @Column(name = "item")
-    private String item;
-
-    @Column(name = "item_description")
-    private String item_description;
 
   /* @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="customerId",referencedColumnName = "id")

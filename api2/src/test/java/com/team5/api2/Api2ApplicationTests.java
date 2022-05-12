@@ -1,13 +1,18 @@
-package com.team5.notificationApi;
+package com.team5.api2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NotificationApiApplicationTests {
+class Api2ApplicationTests {
 
 	@Test
 	void contextLoads() {
+	}
+
+	@Test
+	void checkIfApiIsCalled (){
+		
 	}
 
 }
