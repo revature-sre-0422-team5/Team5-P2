@@ -1,6 +1,7 @@
 package com.team5.api2.controller;
 
 import com.team5.api2.dto.OrderCostRequest;
+import com.team5.api2.entities.OrderCostCalculation;
 import com.team5.api2.services.PaymentsServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,9 @@ public class PaymentsController {
     private PaymentsServices ps;
 
     @GetMapping ("/getOrderCost")
-    public ResponseEntity <Integer> getJourneyCost (@RequestBody OrderCostRequest ocr){
+    public ResponseEntity <OrderCostCalculation> getJourneyCost (@RequestBody OrderCostRequest ocr){
         try {
-            return ResponseEntity.ok().body(1234);
+            return ResponseEntity.ok().body(new OrderCostCalculation(1234));
         }
         catch (Exception e){
             e.printStackTrace();
