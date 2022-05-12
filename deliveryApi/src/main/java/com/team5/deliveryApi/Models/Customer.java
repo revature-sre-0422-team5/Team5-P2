@@ -20,7 +20,12 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    //This is Customer's login ID
+    //This is Customer's name
+    @Column(name = "name", nullable = false)
+    private String name;
+
+
+   //This is Customer's login ID
     @Column(name = "username", nullable = false)
     private String username;
 
@@ -30,11 +35,9 @@ public class Customer {
     @Column(name = "location", nullable = false)
     private String location;
 
-    //This is Customer's name
-    @Column(name = "name", nullable = false)
-    private String name;
 
     @Column(name = "email")
     private String email;
 
+    //Add one to many relation to orders,but different order id,so that should be fine
 }

@@ -3,6 +3,7 @@ package com.team5.deliveryApi.Models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Orders")
@@ -16,9 +17,9 @@ import javax.persistence.*;
 public class Order {
 
     @Id
-    @Column(name="id")
+    @Column(name = "orderId")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private int orderId;
 
     @Column(name = "customerId", nullable = false)
     private int customerId;
@@ -35,6 +36,14 @@ public class Order {
     @Column(name = "destination", nullable = false)
     private String destination;
 
-    @Column(name = "item_Id", nullable = false)
-    private int[] item_Id;
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private List<Item> items;
+    //Add one to many relation to items
+
+  /* @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name="customerId",referencedColumnName = "id")
+  private Customer customer;*///not really needed because even he orders same for a different day the order id is different
+
+
+
 }

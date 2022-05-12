@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Shopper")
+@Table(name = "Shoppers")
 @Getter
 @Setter
 @ToString
@@ -31,6 +31,11 @@ public class Shopper {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "loggedIn", nullable = false)
+    private boolean loggedIn;
+
+    // Need to implement FK on OrderId with the Orders table, so that shopper knows which order to shop for,
+    // and see all it's related details like ID, updates status, views destination, and all items in the order.
     @Column(name = "orderId", nullable = false)
     private int orderId;
 
