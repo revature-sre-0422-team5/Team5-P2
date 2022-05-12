@@ -1,6 +1,6 @@
 package com.team5.api2.Repositories;
 
-import com.team5.api2.entities.OrderPaymentEntity;
+import com.team5.api2.models.OrderPaymentEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -7,7 +7,7 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.team5.api2.Repositories.PaymentsRequestRepository;
-import com.team5.api2.entities.OrderPaymentEntity;
+import com.team5.api2.models.OrderPaymentEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

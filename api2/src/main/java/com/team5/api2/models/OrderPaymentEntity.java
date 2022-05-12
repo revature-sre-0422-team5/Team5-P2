@@ -1,4 +1,4 @@
-package com.team5.api2.entities;
+package com.team5.api2.models;
 
 import lombok.*;
 
