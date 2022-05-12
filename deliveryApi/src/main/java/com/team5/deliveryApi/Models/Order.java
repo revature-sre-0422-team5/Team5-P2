@@ -35,14 +35,28 @@ public class Order {
     @Column(name = "destination", nullable = false)
     private String destination;
 
-    @Column(name = "item_Id", nullable = false)
-    //private int[] item_Id;
+    @Column(name = "from_location")
+    private String from_location;
+
+    @Column(name = "location_description")
+    private String description;
+
+
+    @Column(name = "item_Id")//nullable=false
+     //private int[] item_Id;
      private int item_Id;
-    //Add one to many relation to items
+
+    @Column(name = "item")
+    private String item;
+
+    @Column(name = "item_description")
+    private String item_description;
 
   /* @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name="customerId",referencedColumnName = "id")
-  private Customer customer;*///not really needed because even he orders same for a different day the order id is different
+    @JoinColumn(name="customerId",referencedColumnName = "id")
+    private Customer customer;*/
+
+    ///not really needed because even he orders same for a different day the order id is different
 
 
 
