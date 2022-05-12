@@ -30,7 +30,7 @@ public class PaymentsController {
         }
     }
 
-    @PostMapping ("/create-checkout")
+    @PostMapping ("/checkout-order")
     public ResponseEntity<String> chargeUser(@RequestBody ChargeUserInfoRequest cuir){
         try {
             String res = ps.chargeUser(cuir.getOrderReferenceId(), cuir.getOrderAmount());
