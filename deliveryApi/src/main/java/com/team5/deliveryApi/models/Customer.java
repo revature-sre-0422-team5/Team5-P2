@@ -1,8 +1,10 @@
 package com.team5.deliveryApi.models;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Customers")
@@ -34,11 +36,12 @@ public class Customer {
     @Column(name = "location", nullable = false)
     private String location;
 
-    @Column(name= "email_subscribe")
-    private String email_subscribe;
+    @Column(name= "email_subscribe", columnDefinition = "TINYINT(1) DEFAULT 0")
+    private boolean email_subscribe;
 
     @Column(name = "email")
     private String email;
 
-    //Add one to many relation to orders,but because of different order id,so that should be fine
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
+    private List<Order> orders;
 }
