@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.controllers;
 
-import com.team5.deliveryApi.Models.OrderItem;
+import com.team5.deliveryApi.models.OrderItem;
 import com.team5.deliveryApi.dto.OrderItemAdd;
 import com.team5.deliveryApi.dto.OrderItemUpdate;
 import com.team5.deliveryApi.services.OrderItemService;

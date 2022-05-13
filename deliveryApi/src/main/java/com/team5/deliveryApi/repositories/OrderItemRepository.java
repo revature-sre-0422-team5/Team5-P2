@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.repositories;
 
-import com.team5.deliveryApi.Models.OrderItem;
+import com.team5.deliveryApi.models.OrderItem;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
