@@ -1,4 +1,4 @@
-package com.team5.deliveryApi.Models;
+package com.team5.deliveryApi.models;
 
 import lombok.experimental.StandardException;
 

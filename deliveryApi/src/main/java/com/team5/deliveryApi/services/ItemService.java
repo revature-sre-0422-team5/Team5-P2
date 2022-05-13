@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.services;
 
-import com.team5.deliveryApi.Models.*;
+import com.team5.deliveryApi.models.*;
 import com.team5.deliveryApi.repositories.GroceryItemRepository;
 import com.team5.deliveryApi.repositories.ItemRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
