@@ -3,6 +3,7 @@ package com.team5.deliveryApi.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Shoppers")
@@ -33,6 +34,9 @@ public class Shopper {
 
     @Column(name = "loggedIn", nullable = false)
     private boolean loggedIn;
+
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
     /*
     // Need to implement FK on OrderId with the Orders table, so that shopper knows which order to shop for,
