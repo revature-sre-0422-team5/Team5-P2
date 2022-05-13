@@ -1,7 +1,7 @@
 package com.team5.deliveryApi.controllers;
 
-import com.team5.deliveryApi.Models.Shopper;
-import com.team5.deliveryApi.Models.Status;
+import com.team5.deliveryApi.models.Shopper;
+import com.team5.deliveryApi.dto.Status;
 import com.team5.deliveryApi.repositories.ShopperRepository;
 import com.team5.deliveryApi.services.ShopperService;
 
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import javax.*;
 
 import java.util.List;
 //import java.util.logging.Logger;

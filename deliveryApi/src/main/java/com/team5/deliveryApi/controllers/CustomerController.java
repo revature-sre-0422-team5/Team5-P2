@@ -1,15 +1,20 @@
 package com.team5.deliveryApi.controllers;
 
-import com.team5.deliveryApi.Models.Customer;
+import com.team5.deliveryApi.models.Customer;
+import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.services.CustomerService;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/Customer")
 public class CustomerController {
@@ -37,15 +42,22 @@ public class CustomerController {
             return customerService.viewAllCustomer();
         }
 
-        @PutMapping("/subscribe/{id}")
-        public ResponseEntity subscribeEmailById(@PathVariable int id){
-            return  customerService.subscribeEmailById(id);
+    /**
+     * Sets the email subscription of a customer.
+     * @param id The ID of the customer.
+     * @param status The new subscription status of the customer.
+     * @return The HTTP response containing the customer with the updated subscription status.
+     */
+    @PutMapping("/subscribe/{id}")
+    public ResponseEntity<Customer> subscribeEmailById(@PathVariable int id,
+                                                       @PathParam("status") boolean status) {
+        try {
+            return ResponseEntity.ok(customerService.updateEmailSubscription(id, status));
+        } catch (UserNotFoundException e) {
+            log.error("[PUT] User with ID " + id + " was not found.");
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
-
-
-        @PutMapping("/unsubscribe/{id}")
-        public ResponseEntity unsubscribeEmailById(@PathVariable int id){
-            return  customerService.unsubscribeEmailById(id);
-        }
+    }
 
 }

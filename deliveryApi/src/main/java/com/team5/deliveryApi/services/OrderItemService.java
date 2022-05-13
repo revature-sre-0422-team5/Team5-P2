@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.services;
 
-import com.team5.deliveryApi.Models.OrderItem;
+import com.team5.deliveryApi.models.OrderItem;
 import com.team5.deliveryApi.repositories.OrderItemRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;

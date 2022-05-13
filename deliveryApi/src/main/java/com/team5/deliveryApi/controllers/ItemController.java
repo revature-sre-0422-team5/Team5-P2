@@ -1,8 +1,8 @@
 package com.team5.deliveryApi.controllers;
 
-import com.team5.deliveryApi.Models.Item;
-import com.team5.deliveryApi.Models.ItemNotFoundException;
-import com.team5.deliveryApi.Models.ItemStatus;
+import com.team5.deliveryApi.models.Item;
+import com.team5.deliveryApi.models.ItemNotFoundException;
+import com.team5.deliveryApi.dto.ItemStatus;
 import com.team5.deliveryApi.services.ItemService;
 
 import lombok.extern.slf4j.Slf4j;

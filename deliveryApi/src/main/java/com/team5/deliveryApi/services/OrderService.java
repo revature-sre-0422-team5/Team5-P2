@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.services;
 
-import com.team5.deliveryApi.Models.Order;
+import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.dto.Item;
 import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.repositories.OrderRepository;
@@ -54,12 +54,15 @@ public class OrderService {
         } else { return null;
         }
     }
+
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
         incomingOrder.setFrom_location(incomingLocation.getDto_from_location());
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;
     }
+
+
     public boolean removeItem(Order incomingOrder,int item_Id){
         /*
         if(incomingOrder.getItem_Id()==item_Id) {
@@ -70,7 +73,8 @@ public class OrderService {
             return true;
         }
         else{return false;}
-        */
+
+         */
         return true;
     }
     public Order addItem(Order incomingOrder, int item, Item dto_item) {
@@ -80,15 +84,18 @@ public class OrderService {
           incomingOrder.setItem_description(dto_item.getProductDescription());
           Order updatedOrder=orderRepository.save(incomingOrder);
           return updatedOrder;
-        */
+
+         */
         return null;
     }
-    public boolean submitOrder(Order incomingOrder){
+
+
+    public boolean submitOrder(Order incomingOrder) {
         incomingOrder.setStatus("Submitted");
         Order updatedOrder=orderRepository.save(incomingOrder);
         return true;
     }
-    public boolean deleteOrder(Order incomingOrder){
+    public boolean deleteOrder(Order incomingOrder) {
 
         orderRepository.delete(incomingOrder);
         return true;
