@@ -45,13 +45,15 @@ public class Order {
     @Column(name = "location_description")
     private String description;
 
+
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Item> items;
 
-
-  /* @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    /*
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="customerId",referencedColumnName = "id")
-    private Customer customer;*/
+    private Customer customer;
+    */
 
     ///not really needed because even he orders same for a different day the order id is different
 

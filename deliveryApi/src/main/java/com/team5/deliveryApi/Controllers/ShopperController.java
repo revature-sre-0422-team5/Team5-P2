@@ -1,9 +1,10 @@
-package com.team5.deliveryApi.Controllers;
+package com.team5.deliveryApi.controllers;
 
 import com.team5.deliveryApi.Models.Shopper;
 import com.team5.deliveryApi.Models.Status;
-import com.team5.deliveryApi.Repositories.ShopperRepository;
-import com.team5.deliveryApi.Services.ShopperService;
+import com.team5.deliveryApi.repositories.ShopperRepository;
+import com.team5.deliveryApi.services.ShopperService;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

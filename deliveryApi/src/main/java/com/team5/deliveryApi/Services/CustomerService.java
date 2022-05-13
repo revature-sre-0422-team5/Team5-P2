@@ -1,7 +1,8 @@
-package com.team5.deliveryApi.Services;
+package com.team5.deliveryApi.services;
 
 import com.team5.deliveryApi.Models.Customer;
-import com.team5.deliveryApi.Repositories.CustomerRepository;
+import com.team5.deliveryApi.repositories.CustomerRepository;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

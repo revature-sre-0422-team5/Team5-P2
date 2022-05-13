@@ -1,9 +1,10 @@
-package com.team5.deliveryApi.Services;
+package com.team5.deliveryApi.services;
 
-import com.team5.deliveryApi.Dto.Item;
-import com.team5.deliveryApi.Dto.OrderLocation;
 import com.team5.deliveryApi.Models.Order;
-import com.team5.deliveryApi.Repositories.OrderRepository;
+import com.team5.deliveryApi.dto.Item;
+import com.team5.deliveryApi.dto.OrderLocation;
+import com.team5.deliveryApi.repositories.OrderRepository;
+
 import org.springframework.http.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +61,7 @@ public class OrderService {
         return updatedOrder;
     }
     public boolean removeItem(Order incomingOrder,int item_Id){
+        /*
         if(incomingOrder.getItem_Id()==item_Id) {
             incomingOrder.setItem_Id(0);
             incomingOrder.setItem(null);
@@ -68,14 +70,18 @@ public class OrderService {
             return true;
         }
         else{return false;}
+        */
+        return true;
     }
     public Order addItem(Order incomingOrder, int item, Item dto_item) {
+        /*
           incomingOrder.setItem_Id(item);
           incomingOrder.setItem(dto_item.getProductName());
           incomingOrder.setItem_description(dto_item.getProductDescription());
           Order updatedOrder=orderRepository.save(incomingOrder);
           return updatedOrder;
-
+        */
+        return null;
     }
     public boolean submitOrder(Order incomingOrder){
         incomingOrder.setStatus("Submitted");

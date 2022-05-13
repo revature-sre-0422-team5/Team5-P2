@@ -1,4 +1,4 @@
-package com.team5.deliveryApi.Dto;
+package com.team5.deliveryApi.dto;
 
 import lombok.*;
 
@@ -10,4 +10,4 @@ import lombok.*;
 public class OrderLocation {
     private String dto_from_location;
     private String dto_description;
-    }
+}
