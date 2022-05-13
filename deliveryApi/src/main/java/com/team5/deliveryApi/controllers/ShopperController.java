@@ -2,7 +2,6 @@ package com.team5.deliveryApi.controllers;
 
 import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.dto.Status;
-import com.team5.deliveryApi.models.Status;
 import com.team5.deliveryApi.repositories.ShopperRepository;
 import com.team5.deliveryApi.services.ShopperService;
 
@@ -14,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-//import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/Shopper")
