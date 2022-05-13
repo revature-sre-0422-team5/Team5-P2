@@ -34,6 +34,7 @@ public class Shopper {
     @Column(name = "loggedIn", nullable = false)
     private boolean loggedIn;
 
+    /*
     // Need to implement FK on OrderId with the Orders table, so that shopper knows which order to shop for,
     // and see all it's related details like ID, updates status, views destination, and all items in the order.
     @Column(name = "orderId", nullable = false)
@@ -47,4 +48,5 @@ public class Shopper {
 
     @Column(name = "item_Id", nullable = false)
     private int[] item_Id;
+    */
 }

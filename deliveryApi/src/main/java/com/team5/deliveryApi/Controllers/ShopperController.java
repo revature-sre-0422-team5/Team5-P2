@@ -49,6 +49,7 @@ public class ShopperController {
         }
     }
 
+    
     @PostMapping("/Logout")
     public Status logShopperOut(@Validated @RequestBody Shopper shopper){
         List<Shopper> shoppers = shopperRepository.findAll();
