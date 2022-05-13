@@ -1,6 +1,5 @@
 package com.team5.deliveryApi.models;
 
-import com.team5.deliveryApi.dto.ItemStatus;
 import lombok.*;
 
 import javax.persistence.*;
