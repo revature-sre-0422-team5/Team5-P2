@@ -4,6 +4,12 @@ P2-Groceries-Instacart
 Monday  - May 23rd 2022
 # Environment Variables
 These are the environment variables required to run the API.
+### Maps/Payments API
+`MAPS_API_KEY`
+The access key for Google Maps API
+
+`STRIPE_KEY`
+The access key for Stripe API
 ### Notification API
 `EMAIL_USER`
 The email username used by the API.  
