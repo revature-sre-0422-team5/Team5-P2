@@ -1,0 +1,64 @@
+package com.team5.deliveryApi.services;
+
+import com.team5.deliveryApi.Models.*;
+import com.team5.deliveryApi.repositories.GroceryItemRepository;
+import com.team5.deliveryApi.repositories.ItemRepository;
+import com.team5.deliveryApi.repositories.OrderRepository;
+
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class ItemService {
+    private GroceryItemRepository groceryItemRepository;
+    private ItemRepository itemRepository;
+    private OrderRepository orderRepository;
+
+    public ItemService(GroceryItemRepository groceryItemRepository, ItemRepository itemRepository,
+                       OrderRepository orderRepository) {
+        this.groceryItemRepository = groceryItemRepository;
+        this.itemRepository = itemRepository;
+        this.orderRepository = orderRepository;
+    }
+
+    /**
+     * Sets the new status of an item in an order.
+     * @param orderId The ID of the order containing the item.
+     * @param itemId The ID of the item.
+     * @param newStatus The new status of the order.
+     * @return The Item object with the new status.
+     * @throws ItemNotFoundException The item was not found in the order.
+     */
+    public Item setItemStatus(int orderId, int itemId, ItemStatus newStatus) throws ItemNotFoundException {
+        Order order = orderRepository.getById(orderId);
+        Optional<Item> cartItem = order.getItems().stream().filter(i -> i.getId() == itemId).findFirst();
+        if (!cartItem.isPresent()) {
+            throw new ItemNotFoundException();
+        }
+        cartItem.get().setStatus(newStatus);
+        return cartItem.get();
+    }
+
+    /**
+     * Replace an item in an order with a new grocery item.
+     * @param orderId The ID of the order.
+     * @param oldItemId The ID of the item in the order to replace.
+     * @param newItemId The ID of the grocery item to replace the item with.
+     * @return The Item object containing the new grocery item.
+     * @throws ItemNotFoundException The grocery item or cart item was not found.
+     */
+    public Item replaceItem(int orderId, int oldItemId, int newItemId) throws ItemNotFoundException {
+        Order order = orderRepository.getById(orderId);
+        Optional<Item> cartItem = order.getItems().stream().filter(i -> i.getId() == oldItemId).findFirst();
+        if (!cartItem.isPresent()) {
+            throw new ItemNotFoundException();
+        }
+        Optional<GroceryItem> groceryItem = groceryItemRepository.findById(newItemId);
+        if (!groceryItem.isPresent()) {
+            throw new ItemNotFoundException();
+        }
+        cartItem.get().setGroceryItem(groceryItem.get());
+        return cartItem.get();
+    }
+}
