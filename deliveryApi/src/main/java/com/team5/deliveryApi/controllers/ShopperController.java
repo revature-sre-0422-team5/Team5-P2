@@ -2,6 +2,7 @@ package com.team5.deliveryApi.controllers;
 
 import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.dto.Status;
+import com.team5.deliveryApi.models.Status;
 import com.team5.deliveryApi.repositories.ShopperRepository;
 import com.team5.deliveryApi.services.ShopperService;
 
