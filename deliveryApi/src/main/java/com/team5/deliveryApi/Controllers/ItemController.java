@@ -1,9 +1,10 @@
-package com.team5.deliveryApi.Controllers;
+package com.team5.deliveryApi.controllers;
 
 import com.team5.deliveryApi.Models.Item;
 import com.team5.deliveryApi.Models.ItemNotFoundException;
 import com.team5.deliveryApi.Models.ItemStatus;
-import com.team5.deliveryApi.Services.ItemService;
+import com.team5.deliveryApi.services.ItemService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

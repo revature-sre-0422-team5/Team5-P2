@@ -1,13 +1,15 @@
-package com.team5.deliveryApi.Controllers;
+package com.team5.deliveryApi.controllers;
 
-import com.team5.deliveryApi.Dto.Item;
-import com.team5.deliveryApi.Dto.OrderLocation;
 import com.team5.deliveryApi.Models.Order;
-import com.team5.deliveryApi.Services.OrderService;
+import com.team5.deliveryApi.services.OrderService;
+import com.team5.deliveryApi.dto.Item;
+import com.team5.deliveryApi.dto.OrderLocation;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 @Slf4j
 @RestController
 @RequestMapping("/order")

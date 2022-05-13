@@ -1,7 +1,8 @@
-package com.team5.deliveryApi.Controllers;
+package com.team5.deliveryApi.controllers;
 
 import com.team5.deliveryApi.Models.Customer;
-import com.team5.deliveryApi.Services.CustomerService;
+import com.team5.deliveryApi.services.CustomerService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

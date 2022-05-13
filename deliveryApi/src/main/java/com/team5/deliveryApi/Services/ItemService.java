@@ -1,9 +1,10 @@
-package com.team5.deliveryApi.Services;
+package com.team5.deliveryApi.services;
 
 import com.team5.deliveryApi.Models.*;
-import com.team5.deliveryApi.Repositories.GroceryItemRepository;
-import com.team5.deliveryApi.Repositories.ItemRepository;
-import com.team5.deliveryApi.Repositories.OrderRepository;
+import com.team5.deliveryApi.repositories.GroceryItemRepository;
+import com.team5.deliveryApi.repositories.ItemRepository;
+import com.team5.deliveryApi.repositories.OrderRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
