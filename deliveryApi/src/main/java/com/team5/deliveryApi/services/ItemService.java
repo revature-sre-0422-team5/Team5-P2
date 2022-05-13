@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.services;
 
+import com.team5.deliveryApi.dto.ItemStatus;
 import com.team5.deliveryApi.models.*;
 import com.team5.deliveryApi.repositories.GroceryItemRepository;
 import com.team5.deliveryApi.repositories.ItemRepository;
@@ -37,6 +38,7 @@ public class ItemService {
             throw new ItemNotFoundException();
         }
         cartItem.get().setStatus(newStatus);
+        itemRepository.save(cartItem.get());
         return cartItem.get();
     }
 
@@ -59,6 +61,7 @@ public class ItemService {
             throw new ItemNotFoundException();
         }
         cartItem.get().setGroceryItem(groceryItem.get());
+        itemRepository.save(cartItem.get());
         return cartItem.get();
     }
 }
