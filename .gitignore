@@ -1,7 +1,8 @@
 .idea
 .vscode
-deliverApi/src/main/resources/application.properties
+deliveryApi/src/main/resources/application.properties
 deliveryApi/src/main/resources/application.yaml
-api2/src/main/resources/application.yaml
-
 deliveryApi/target
+
+api2/src/main/resources/application.yaml
+api2/target
