@@ -1,4 +1,4 @@
-package com.team5.deliveryApi.Dto;
+package com.team5.deliveryApi.dto;
 
 import lombok.*;
 

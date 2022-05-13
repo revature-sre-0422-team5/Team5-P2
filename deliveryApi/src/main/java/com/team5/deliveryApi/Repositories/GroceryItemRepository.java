@@ -1,4 +1,4 @@
-package com.team5.deliveryApi.Repositories;
+package com.team5.deliveryApi.repositories;
 
 import com.team5.deliveryApi.Models.GroceryItem;
 import org.springframework.data.jpa.repository.JpaRepository;
