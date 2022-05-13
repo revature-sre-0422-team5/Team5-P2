@@ -1,4 +1,4 @@
-package com.team5.deliveryApi.controllers;
+package com.team5.deliveryApi.Controllers;
 
 import com.team5.deliveryApi.Models.OrderItem;
 import com.team5.deliveryApi.dto.OrderItemAdd;

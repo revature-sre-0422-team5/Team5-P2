@@ -1,4 +1,4 @@
-package com.team5.deliveryApi.controllers;
+package com.team5.deliveryApi.Controllers;
 
 import com.team5.deliveryApi.Models.Shopper;
 import com.team5.deliveryApi.Models.Status;
@@ -17,14 +17,14 @@ import java.util.List;
 //import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/Shopper")
+@RequestMapping("/shopper")
 public class ShopperController {
     @Autowired
     ShopperService shopperService;
     @Autowired
     ShopperRepository shopperRepository;
 
-    @PostMapping("/Login")
+    @PostMapping("/login")
     public Status loginShopper(@Validated @RequestBody Shopper shopper){
         List<Shopper> shoppers = shopperRepository.findAll();
         for (Shopper other : shoppers){
@@ -36,7 +36,7 @@ public class ShopperController {
         } return Status.FAILURE;
     }
 
-    @PostMapping("/Create")
+    @PostMapping("/create")
     public String createShopperAccount(@RequestBody Shopper creatingShopper){
         Logger logger = LoggerFactory.getLogger(ShopperController.class);
         boolean success = shopperService.saveShopper(creatingShopper);
@@ -50,7 +50,7 @@ public class ShopperController {
     }
 
     
-    @PostMapping("/Logout")
+    @PostMapping("/logout")
     public Status logShopperOut(@Validated @RequestBody Shopper shopper){
         List<Shopper> shoppers = shopperRepository.findAll();
         for (Shopper other : shoppers) {

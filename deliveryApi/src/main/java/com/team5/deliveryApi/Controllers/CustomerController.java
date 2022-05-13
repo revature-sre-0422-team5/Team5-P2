@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/Customer")
+@RequestMapping("/customer")
 public class CustomerController {
         @Autowired
         CustomerService customerService;
