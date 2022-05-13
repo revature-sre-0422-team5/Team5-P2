@@ -10,5 +10,4 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer,Integer> {
-    Customer save(Customer incomingCustomer);
 }
