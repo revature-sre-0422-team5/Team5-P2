@@ -24,7 +24,6 @@ public class Customer {
     @Column(name = "name", nullable = false)
     private String name;
 
-
    //This is Customer's login ID
     @Column(name = "username", nullable = false)
     private String username;
@@ -35,9 +34,11 @@ public class Customer {
     @Column(name = "location", nullable = false)
     private String location;
 
+    @Column(name= "email_subscribe")
+    private String email_subscribe;
 
     @Column(name = "email")
     private String email;
 
-    //Add one to many relation to orders,but different order id,so that should be fine
+    //Add one to many relation to orders,but because of different order id,so that should be fine
 }

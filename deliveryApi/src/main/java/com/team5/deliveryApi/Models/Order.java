@@ -36,13 +36,24 @@ public class Order {
     @Column(name = "destination", nullable = false)
     private String destination;
 
+    @Column(name = "pay_status")
+    private String pay_status = "unpaid";
+
+    @Column(name = "from_location")
+    private String from_location;
+
+    @Column(name = "location_description")
+    private String description;
+
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Item> items;
-    //Add one to many relation to items
+
 
   /* @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name="customerId",referencedColumnName = "id")
-  private Customer customer;*///not really needed because even he orders same for a different day the order id is different
+    @JoinColumn(name="customerId",referencedColumnName = "id")
+    private Customer customer;*/
+
+    ///not really needed because even he orders same for a different day the order id is different
 
 
 
