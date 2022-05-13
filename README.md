@@ -34,6 +34,13 @@ map.put("recipient", recipient);
 map.put("message", message);
 restTemplate.postForEntity(url, map, ResponseEntity.class);
 ```
+### Maps/Payments API
+`MAPS_API_KEY`
+The access key for Google Maps API
+
+`STRIPE_KEY`
+The access key for Stripe API
+
 
 # Test3 solution
 Roshney
