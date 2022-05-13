@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.controllers;
 
-import com.team5.deliveryApi.Models.Customer;
+import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.services.CustomerService;
 
 import org.slf4j.Logger;

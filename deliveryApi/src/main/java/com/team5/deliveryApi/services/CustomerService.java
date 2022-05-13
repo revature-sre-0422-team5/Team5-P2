@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.services;
 
-import com.team5.deliveryApi.Models.Customer;
+import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 
 import org.springframework.http.ResponseEntity;

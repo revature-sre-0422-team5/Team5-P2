@@ -1,5 +1,5 @@
 package com.team5.deliveryApi.repositories;
-import com.team5.deliveryApi.Models.Shopper;
+import com.team5.deliveryApi.models.Shopper;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
