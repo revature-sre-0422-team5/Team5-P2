@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,14 +65,14 @@ public class OrderController {
     }
 
 
-     @RequestMapping(value = "/addLocationDescription/{odr_id}", method = RequestMethod.PUT)
+     @RequestMapping(value = "/adddescription/{odr_id}", method = RequestMethod.PUT)
      public Order updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
          Order Out=orderService.updateLocation(orderService.findByOrderId(odr_id),orderLocation);
          return Out;
     }
 
 
-    @RequestMapping(value = "/removeItem/{odr_id}/{item_id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/removeitem/{odr_id}/{item_id}", method = RequestMethod.PUT)
     public String removeItem(@PathVariable int odr_id,@PathVariable int item_id) {
 
        boolean success=orderService.removeItem(orderService.findByOrderId(odr_id),item_id);
@@ -85,7 +84,7 @@ public class OrderController {
 
 
     }
-   @RequestMapping(value = "/addItem/{odr_id}/{item}", method = RequestMethod.PUT)
+   @RequestMapping(value = "/additem/{odr_id}/{item}", method = RequestMethod.PUT)
    public Order addItem(@PathVariable int odr_id, @PathVariable  int item, @RequestBody Item dto_item) {
        Order Out=orderService.addItem(orderService.findByOrderId(odr_id),item,dto_item);
        return Out;

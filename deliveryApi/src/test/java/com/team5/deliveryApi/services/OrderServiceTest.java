@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.services;
 
+import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.models.Shopper;
@@ -37,7 +38,7 @@ public class OrderServiceTest {
     public void shouldAssignShopperToOrder() {
         Optional<Shopper> shopper = Optional.of(new Shopper(1, "john_smith", "passwordJohn",
                 "John Smith", "john.smith@gmail.com", true, new ArrayList<>()));
-        Optional<Order> order = Optional.of(new Order(1, "11/11/1111", "",
+        Optional<Order> order = Optional.of(new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new ArrayList<>(), new Customer(), null));
         Mockito.when(orderRepository.findById(Mockito.anyInt())).thenReturn(order);
