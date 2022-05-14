@@ -41,8 +41,14 @@ public class OrderService {
         return true;
     }
 
-    public boolean saveOrder(int userid, Order incomingOrder) {
-        Customer customer = customerRepository.getById(userid);
+    /**
+     * Saves an order from a customer.
+     * @param customerId The customer who created the order.
+     * @param incomingOrder The newly created order.
+     * @return
+     */
+    public boolean saveOrder(int customerId, Order incomingOrder) {
+        Customer customer = customerRepository.getById(customerId);
         customer.getOrders().add(incomingOrder);
         incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
