@@ -10,21 +10,4 @@ import javax.transaction.Transactional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order,Integer> {
-
-    Order save(Order incomingOrder);
-
-
-    @Transactional
-    @Modifying
-    @Query(value ="update orders set status= ?1 where order_id = ?2", nativeQuery = true)
-    void updateOrderStatusById(String status, int id);
-
-    @Transactional
-    @Modifying
-    @Query(value ="update orders set pay_status= ?1 where order_id = ?2", nativeQuery = true)
-    void updatePayStatusById(String status, int id);
-
-    Order findById(int odr_id);
-    
-    void delete(Order incomingOrder);
 }

@@ -4,13 +4,17 @@ import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.services.OrderService;
 import com.team5.deliveryApi.dto.Item;
 import com.team5.deliveryApi.dto.OrderLocation;
-import com.team5.deliveryApi.models.Order;
-import com.team5.deliveryApi.services.OrderService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -19,13 +23,16 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Value("${api.directions}")
+    private String directionsApiUrl;
 
-    @PostMapping("/new")
-    public String createOrder(@RequestBody Order incomingOrder) {
+    @PostMapping("/new/{customerId}")
+    public String createOrder(@RequestBody Order incomingOrder,
+                              @PathVariable int customerId) {
 
 
         log.info("Creating new Order");
-        boolean success = orderService.saveOrder(incomingOrder);
+        boolean success = orderService.saveOrder(customerId, incomingOrder);
         log.info("incoming order" + incomingOrder);
         if (success == true) {
             return "Successfully created new order";
@@ -101,5 +108,21 @@ public class OrderController {
          else{
              return "Error in cancelling Order";
          }
+    }
+
+    /**
+     * Get directions from the store to the
+     * customer's location.
+     * @param orderId The order ID containing the address of the customer and store.
+     * @return The HTTP response of the directions API.
+     */
+    @GetMapping("/directions/{orderId}")
+    public ResponseEntity<Object> getCustomerDirections(@PathVariable int orderId) {
+        Order order = orderService.findByOrderId(orderId);
+        Map<String, Object> map = new HashMap<>();
+        RestTemplate restTemplate = new RestTemplateBuilder().build();
+        map.put("locationFrom", order.getStore_location());
+        map.put("locationTo", order.getCustomer().getLocation());
+        return restTemplate.postForEntity(directionsApiUrl, map, Object.class);
     }
 }

@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +10,6 @@ import java.util.List;
 @Table(name = "Orders")
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -18,11 +18,8 @@ public class Order {
 
     @Id
     @Column(name = "orderId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderId;
-
-    @Column(name = "customerId", nullable = false)
-    private int customerId;
 
     @Column(name = "date", nullable = false)
     private String date;
@@ -33,30 +30,16 @@ public class Order {
     @Column(name = "store_location", nullable = false)
     private String store_location;
 
-    @Column(name = "destination", nullable = false)
-    private String destination;
-
     @Column(name = "pay_status")
     private String pay_status = "unpaid";
-
-    @Column(name = "from_location")
-    private String from_location;
 
     @Column(name = "location_description")
     private String description;
 
-
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Item> items;
-
-    /*
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="customerId",referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    @JsonIgnore
     private Customer customer;
-    */
-
-    ///not really needed because even he orders same for a different day the order id is different
-
-
-
 }
