@@ -16,7 +16,7 @@ public class OrderItem {
 
     @Id
     @Column (name ="itemId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long itemId;
 
     @Column (name="itemName")

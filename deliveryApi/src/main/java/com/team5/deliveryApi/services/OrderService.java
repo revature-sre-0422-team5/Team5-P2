@@ -1,8 +1,10 @@
 package com.team5.deliveryApi.services;
 
+import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.dto.Item;
 import com.team5.deliveryApi.dto.OrderLocation;
+import com.team5.deliveryApi.repositories.CustomerRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
 
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderService {
 
+    private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
 
-    public OrderService(OrderRepository orderRepository){
+    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository) {
         super();
+        this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
     }
 
@@ -29,15 +33,18 @@ public class OrderService {
     }
 
     public ResponseEntity viewStatusById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id).getStatus());
+        return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
     }
 
     public boolean payOrder(int id){
-        orderRepository.updatePayStatusById("Paid",id);
+        orderRepository.findById(id).get().setPay_status("Paid");
         return true;
     }
 
-    public boolean saveOrder(Order incomingOrder) {
+    public boolean saveOrder(int userid, Order incomingOrder) {
+        Customer customer = customerRepository.getById(userid);
+        customer.getOrders().add(incomingOrder);
+        incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
         return true;
     }
@@ -46,7 +53,7 @@ public class OrderService {
         Logger logger = LoggerFactory.getLogger(OrderService.class);
         logger.info("Getting Order by Id");
 
-        Order outGoingOrder = orderRepository.findById(odr_id);
+        Order outGoingOrder = orderRepository.findById(odr_id).get();
 
         if (outGoingOrder != null) {
 
@@ -56,7 +63,7 @@ public class OrderService {
     }
 
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
-        incomingOrder.setFrom_location(incomingLocation.getDto_from_location());
+        incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;
