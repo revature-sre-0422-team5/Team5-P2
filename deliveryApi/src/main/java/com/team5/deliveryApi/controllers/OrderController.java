@@ -111,6 +111,18 @@ public class OrderController {
     }
 
     /**
+     * Assigns a shopper to an order.
+     * @param orderId The ID of the order.
+     * @param shopperId The ID of the shopper.
+     * @return The HTTP response containing the newly updated order.
+     */
+    @PutMapping("/assign/{orderId}/{shopperId}")
+    public ResponseEntity<Order> assignShopperToOrder(@PathVariable int orderId,
+                                                      @PathVariable int shopperId) {
+        return ResponseEntity.ok(orderService.assignShopper(orderId, shopperId));
+    }
+
+    /**
      * Get directions from the store to the
      * customer's location.
      * @param orderId The order ID containing the address of the customer and store.

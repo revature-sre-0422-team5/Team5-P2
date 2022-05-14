@@ -4,24 +4,31 @@ import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.dto.Item;
 import com.team5.deliveryApi.dto.OrderLocation;
+import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
 
+import com.team5.deliveryApi.repositories.ShopperRepository;
 import org.springframework.http.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class OrderService {
 
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
+    private ShopperRepository shopperRepository;
 
-    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository) {
+    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
+                        ShopperRepository shopperRepository) {
         super();
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
+        this.shopperRepository = shopperRepository;
     }
 
     public ResponseEntity viewAllOrders(){
@@ -112,5 +119,18 @@ public class OrderService {
 
         orderRepository.delete(incomingOrder);
         return true;
+    }
+
+    /**
+     * Assign a shopper to an order.
+     * @param orderId The ID of the order.
+     * @param shopperId The ID of the shopper.
+     * @return The updated order with the newly assigned shopper.
+     */
+    public Order assignShopper(int orderId, int shopperId) {
+        Optional<Order> order = orderRepository.findById(orderId);
+        Optional<Shopper> shopper = shopperRepository.findById(shopperId);
+        order.get().setShopper(shopper.get());
+        return order.get();
     }
 }

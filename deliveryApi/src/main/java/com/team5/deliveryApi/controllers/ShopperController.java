@@ -22,7 +22,7 @@ public class ShopperController {
     @Autowired
     ShopperRepository shopperRepository;
 
-    @PostMapping("/Login")
+    @PostMapping("/login")
     public Status loginShopper(@Validated @RequestBody Shopper shopper){
         List<Shopper> shoppers = shopperRepository.findAll();
         for (Shopper other : shoppers){
@@ -34,7 +34,7 @@ public class ShopperController {
         } return Status.FAILURE;
     }
 
-    @PostMapping("/Create")
+    @PostMapping("/create")
     public String createShopperAccount(@RequestBody Shopper creatingShopper){
         Logger logger = LoggerFactory.getLogger(ShopperController.class);
         boolean success = shopperService.saveShopper(creatingShopper);
@@ -48,7 +48,7 @@ public class ShopperController {
     }
 
     
-    @PostMapping("/Logout")
+    @PostMapping("/logout")
     public Status logShopperOut(@Validated @RequestBody Shopper shopper){
         List<Shopper> shoppers = shopperRepository.findAll();
         for (Shopper other : shoppers) {
