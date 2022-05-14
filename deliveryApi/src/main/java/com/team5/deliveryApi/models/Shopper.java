@@ -9,7 +9,6 @@ import java.util.List;
 @Table(name = "Shoppers")
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
