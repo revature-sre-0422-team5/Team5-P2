@@ -20,7 +20,7 @@ public class OrderItemController {
     @Autowired
     private OrderItemService ois;
     
-    @RequestMapping("/items/addItem")
+    @RequestMapping("/items/add")
     public ResponseEntity<OrderItem> addItem(@RequestBody OrderItemAdd oia){
         try {
             log.info("OrderItemController - Adding an item");
@@ -34,7 +34,7 @@ public class OrderItemController {
         }
     }
 
-    @RequestMapping ("/items/updateItemStatus")
+    @RequestMapping ("/items/updatestatus")
     public ResponseEntity updateItem (@RequestBody OrderItemUpdate oiu){
         try {
             log.info ("OrderItemController - Updating item status");

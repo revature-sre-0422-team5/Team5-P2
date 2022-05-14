@@ -42,4 +42,9 @@ public class Order {
     @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customer;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "shopper_id")
+    @JsonIgnore
+    private Shopper shopper;
 }
