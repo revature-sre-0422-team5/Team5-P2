@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.controllers;
 
+import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.services.OrderService;
 import com.team5.deliveryApi.dto.Item;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,15 +92,19 @@ public class OrderController {
 
    }
 
-   @RequestMapping(value="/submitOrder/{odr_id}", method = RequestMethod.PUT)
-    public String submitOrder(@PathVariable int odr_id){
-         boolean success= orderService.submitOrder(orderService.findByOrderId(odr_id));
-        if (success==true) {
-            return "Order submitted Successfully";
-        }else{
-            return "Error in submitting order";
-        }
+    /**
+     * Updates the status of an order.
+     * @param odr_id The ID of the order to update.
+     * @param orderStatus The new status to assign to the order.
+     * @return The HTTP response containing the newly updated order.
+     */
+   @PutMapping("/status/{odr_id}")
+    public ResponseEntity<Order> changeOrderStatus(@PathVariable int odr_id,
+                                                   @RequestParam("status") String orderStatus) {
+       OrderStatus status = OrderStatus.valueOf(orderStatus);
+       return ResponseEntity.ok(orderService.updateOrderStatus(odr_id, status));
     }
+
     @DeleteMapping("/delete/{odr_id}")
     public String cancelOrder(@PathVariable int odr_id) {
          boolean success=orderService.deleteOrder(orderService.findByOrderId(odr_id));

@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.services;
 
+import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.dto.Item;
@@ -110,10 +111,15 @@ public class OrderService {
     }
 
 
-    public boolean submitOrder(Order incomingOrder) {
-        incomingOrder.setStatus("Submitted");
-        Order updatedOrder=orderRepository.save(incomingOrder);
-        return true;
+    /**
+     * Update the status of an order.
+     * @param orderId The ID of the order to update.
+     * @return The order with an updated status.
+     */
+    public Order updateOrderStatus(int orderId, OrderStatus status) {
+        Order order = findByOrderId(orderId);
+        order.setStatus(status);
+        return orderRepository.save(order);
     }
     public boolean deleteOrder(Order incomingOrder) {
 
