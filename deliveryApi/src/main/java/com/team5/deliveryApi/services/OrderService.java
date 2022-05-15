@@ -68,7 +68,6 @@ public class OrderService {
         logger.info("Getting Order by Id");
 
         Order outGoingOrder = orderRepository.findById(odr_id).get();
-
         if (outGoingOrder != null) {
 
             return outGoingOrder;
