@@ -14,7 +14,7 @@ pipeline {
     }
     stage ('Notifications Unit Testing'){
       when {
-        anyOf {branch  'daewoon/*'; branch 'bg_*'}
+        anyOf {branch  'daewoon/*'/*; branch 'bg_*'*/}
       }
       steps {
         withMaven {
@@ -23,6 +23,20 @@ pipeline {
         junit skipPublishingChecks: true, testResults: 'notificationApi/target/surefire-reports/*.xml'
       }
     }
+    //Tests are currently failing
+    /*
+    stage ('Delivery Api Unit Testing'){
+      when {
+        anyOf {branch 'daewoon/*'}
+      }
+      steps {
+        withMaven {
+          sh 'cd deliveryApi; mvn test'
+        }
+        junit skipPublishingChecks: true, testResults: 'deliveryApi/target/surefire-reports/*.xml'
+      }
+    }
+    */
     /*
     stage ('Build'){
 
