@@ -26,15 +26,35 @@ spec:
       containers:
         - env:
             - name: DB_PASSWORD
-              value: "${DB_PASSWORD}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_PASSWORD
+                  optional: false
             - name: DB_URL
-              value: "${DB_URL}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_URL
+                  optional: false
             - name: DB_USERNAME
-              value: "${DB_USERNAME}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_USERNAME
+                  optional: false
             - name: MAPS_API_KEY
-              value: "${MAPS_API_KEY}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: MAPS_API_KEY
+                  optional: false
             - name: STRIPE_KEY
-              value: "${STRIPE_KEY}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: STRIPE_KEY
+                  optional: false
           image: api2:latest
           imagePullPolicy: Never
           name: api2
