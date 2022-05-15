@@ -1,13 +1,13 @@
 version: "3.9"
 services:
-  notificationsApi:
+  notificationapi:
       build: './notificationApi'
-      container_name: 'notificationApi'
+      container_name: 'notificationapi'
       environment: 
         DB_URL: '${DB_URL}'
         DB_USERNAME: '${DB_USERNAME}'
         DB_PASSWORD: '${DB_PASSWORD}'
-      image: 'notificationapi:latest'   
+      image: 'notificationapi:latest'
   api2:
       build: './api2'
       container_name: 'api2'
