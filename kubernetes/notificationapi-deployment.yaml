@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Programs\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: notificationapi
+  name: notificationapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: notificationapi
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Programs\kompose.exe convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: notificationapi
+    spec:
+      containers:
+        - env:
+            - name: DB_PASSWORD
+              value: "${DB_PASSWORD}"
+            - name: DB_URL
+              value: "${DB_URL}"
+            - name: DB_USERNAME
+              value: "${DB_USERNAME}"
+          image: notificationapi:latest
+          imagePullPolicy: Never
+          name: notificationapi
+          resources: {}
+      restartPolicy: Always
+status: {}

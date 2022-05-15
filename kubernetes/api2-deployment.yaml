@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Programs\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api2
+  name: api2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: api2
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Programs\kompose.exe convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: api2
+    spec:
+      containers:
+        - env:
+            - name: DB_PASSWORD
+              value: "${DB_PASSWORD}"
+            - name: DB_URL
+              value: "${DB_URL}"
+            - name: DB_USERNAME
+              value: "${DB_USERNAME}"
+            - name: MAPS_API_KEY
+              value: "${MAPS_API_KEY}"
+            - name: STRIPE_KEY
+              value: "${STRIPE_KEY}"
+          image: api2:latest
+          imagePullPolicy: Never
+          name: api2
+          ports:
+            - containerPort: 8081
+          resources: {}
+      restartPolicy: Always
+status: {}
