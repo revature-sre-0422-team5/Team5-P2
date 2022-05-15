@@ -7,22 +7,31 @@ pipeline {
     dockerImage = ''
   }*/
   stages {
-    stage('') {
+    stage('Begin Pipeline') {
       steps {
         sh 'echo "Hello world"'
       }
     }
-    stage ('Unit Testing'){
+    stage ('Notifications Unit Testing'){
       when {
-        anyOf {branch  'ft_*'; branch 'bg_*'}
+        anyOf {branch  'daewoon/*'; branch 'bg_*'}
       }
       steps {
         withMaven {
-          sh 'mvn test'
+          sh 'cd notificationApi; mvn test'
         }
-        junit skipPublishingChecks: true, testResults: 'target/surefire-reports/*.xml'
+        junit skipPublishingChecks: true, testResults: 'notificationApi/target/surefire-reports/*.xml'
       }
     }
+    /*
+    stage ('Build'){
+
+    }
+    stage ('Run on Daewoon Instance'){
+
+    }
+    */
+    /*
     stage ('Test 2'){
       steps {
         echo 'Test 2'
@@ -59,5 +68,6 @@ pipeline {
         }
       }
     }
+    */
   }
 }
