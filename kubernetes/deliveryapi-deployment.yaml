@@ -26,11 +26,23 @@ spec:
       containers:
         - env:
             - name: DB_PASSWORD
-              value: "${DB_PASSWORD}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_PASSWORD
+                  optional: false
             - name: DB_URL
-              value: "${DB_URL}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_URL
+                  optional: false
             - name: DB_USERNAME
-              value: "${DB_USERNAME}"
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_USERNAME
+                  optional: false
           image: deliveryapi:latest
           imagePullPolicy: Never
           name: deliveryapi
