@@ -46,7 +46,7 @@ public class Order {
     private String description;
 
 
-      @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+      @OneToMany(mappedBy = "id", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
       private List<Item> items;
 
 

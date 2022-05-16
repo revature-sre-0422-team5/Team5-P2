@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team5.deliveryApi.dto.ItemStatus;
 import lombok.*;
 
@@ -9,7 +10,6 @@ import javax.persistence.*;
 @Table(name = "Items")
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -24,18 +24,24 @@ public class Item {
     @Enumerated(EnumType.STRING)
     @Column
     private ItemStatus status;
+
     @ManyToOne
     @JoinColumn(name = "grocery_item_id")
     private GroceryItem groceryItem;
 
-    public Item(int quantity,ItemStatus status,GroceryItem groceryItem){
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="orderId")
+    private  Order order;
+
+    public Item(int quantity,ItemStatus status,GroceryItem groceryItem,Order order){
         this.quantity=quantity;
         this.status=status;
         this.groceryItem=groceryItem;
-
+        this.order=order;
     }
 
-    public void delete(int id){}
+
 
 }
 

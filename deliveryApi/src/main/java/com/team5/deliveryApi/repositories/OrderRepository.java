@@ -25,7 +25,4 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     void updatePayStatusById(String status, int id);
 
 
-    Order save(Order incomingOrder);
-    Order findById(int odrId);
-    void delete(Order incomingOrder);
 }
