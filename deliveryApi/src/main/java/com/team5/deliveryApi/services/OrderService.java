@@ -41,15 +41,6 @@ public class OrderService {
     @Autowired
     private ShopperRepository shopperRepository;
 
-    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
-                        ShopperRepository shopperRepository) {
-        super();
-        this.customerRepository = customerRepository;
-        this.orderRepository = orderRepository;
-        this.shopperRepository = shopperRepository;
-    }
-
-
     public ResponseEntity viewAllOrders(){
         return ResponseEntity.ok(orderRepository.findAll());
     }
