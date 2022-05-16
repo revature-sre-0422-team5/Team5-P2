@@ -34,7 +34,7 @@ public class ItemService {
      * @return The Item object with the new status.
      * @throws ItemNotFoundException The item was not found in the order.
      */
-    public Item setItemStatus(int orderId, int itemId, ItemStatus newStatus) throws ItemNotFoundException {
+     public Item setItemStatus(int orderId, int itemId, ItemStatus newStatus) throws ItemNotFoundException {
         Order order = orderRepository.getById(orderId);
         Optional<Item> cartItem = order.getItems().stream().filter(i -> i.getId() == itemId).findFirst();
         if (!cartItem.isPresent()) {
@@ -59,7 +59,7 @@ public class ItemService {
         if (!cartItem.isPresent()) {
             throw new ItemNotFoundException();
         }
-        Optional<GroceryItem> groceryItem = groceryItemRepository.findById(newItemId);
+       Optional<GroceryItem> groceryItem = groceryItemRepository.findById(newItemId);
         if (!groceryItem.isPresent()) {
             throw new ItemNotFoundException();
         }

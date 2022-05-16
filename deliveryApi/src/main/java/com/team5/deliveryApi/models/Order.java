@@ -46,16 +46,8 @@ public class Order {
     private String description;
 
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private List<Item> items;
-
-    /*
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="customerId",referencedColumnName = "id")
-    private Customer customer;
-    */
-
-    ///not really needed because even he orders same for a different day the order id is different
+      @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+      private List<Item> items;
 
 
 
