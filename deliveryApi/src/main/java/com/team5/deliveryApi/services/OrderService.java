@@ -16,6 +16,8 @@ import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 
 import com.team5.deliveryApi.repositories.ShopperRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,19 @@ import java.util.Optional;
 @Service
 public class OrderService {
 
+    @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
     private GroceryItemRepository groceryItemRepository;
+
+    @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
     private ShopperRepository shopperRepository;
 
     public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
