@@ -16,6 +16,7 @@ import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 
 import com.team5.deliveryApi.repositories.ShopperRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +32,14 @@ public class OrderService {
     private ShopperRepository shopperRepository;
 
     public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
-                        ShopperRepository shopperRepository) {
+                        ShopperRepository shopperRepository, GroceryItemRepository groceryItemRepository,
+                        ItemRepository itemRepository) {
         super();
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
         this.shopperRepository = shopperRepository;
+        this.groceryItemRepository = groceryItemRepository;
+        this.itemRepository = itemRepository;
     }
 
 
@@ -101,13 +105,13 @@ public class OrderService {
 
     public Order addItem(int odrID,int gItemID,int qnty) {
           log.info("checking"+odrID+gItemID+qnty);
-          GroceryItem groceryItem=groceryItemRepository.findById(gItemID).get();
+          GroceryItem groceryItem = groceryItemRepository.findById(gItemID).get();
           log.info("Checking Grocery Item"+groceryItem);
           Item item =new Item(qnty, ItemStatus.Added,groceryItem);
           Order addedOrder = orderRepository.findById(odrID).get();
           addedOrder.getItems().add(item);
           orderRepository.save(addedOrder);
-          return (addedOrder);
+          return addedOrder;
     }
 
 

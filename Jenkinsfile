@@ -27,11 +27,10 @@ pipeline {
     }
     stage('Docker Image') {
         steps {
-            echo 'Docker Image'
-            // script {
-            //     echo "$registry:$currentBuild.number"
-            //     dockerImage = docker.build "$registry:$currentBuild.number"
-            // }
+            script {
+                echo "$registry:$currentBuild.number"
+                dockerImage = docker.build "$registry:$currentBuild.number"
+            }
         }
     }
     stage('Docker Deliver') {

@@ -23,6 +23,10 @@ public class Item {
     @Enumerated(EnumType.STRING)
     @Column
     private ItemStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
     @ManyToOne
     @JoinColumn(name = "grocery_item_id")
     private GroceryItem groceryItem;
