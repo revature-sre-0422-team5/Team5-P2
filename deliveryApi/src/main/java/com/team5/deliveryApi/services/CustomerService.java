@@ -17,8 +17,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public boolean saveCustomer(Customer incominngCustomer) {
-        customerRepository.save(incominngCustomer);
+    public boolean saveCustomer(Customer incomingCustomer) {
+        customerRepository.save(incomingCustomer);
         return true;
     }
 
@@ -46,5 +46,7 @@ public class CustomerService {
         customerRepository.save(customer.get());
         return customer.get();
     }
+
+
 }
 

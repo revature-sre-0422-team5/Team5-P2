@@ -8,10 +8,7 @@ import com.team5.deliveryApi.services.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 
@@ -34,9 +31,9 @@ public class ItemController {
     public ResponseEntity<Item> setItemStatus(@PathVariable int itemId,
                                                @PathVariable int orderId,
                                                @PathVariable(required = false) int newItemId,
-                                               @PathParam("status") ItemStatus newStatus) {
+                                               @RequestParam("status") ItemStatus newStatus) {
         try {
-            if (newStatus.equals(ItemStatus.Replaced)) {
+            if (newStatus != null && newStatus.equals(ItemStatus.Replaced)) {
                 itemService.replaceItem(orderId, itemId, newItemId);
             }
             ResponseEntity<Item> response = ResponseEntity.ok(itemService.setItemStatus(orderId, itemId, newStatus));
