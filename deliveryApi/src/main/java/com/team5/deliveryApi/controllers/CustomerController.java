@@ -16,7 +16,7 @@ import javax.websocket.server.PathParam;
 
 @Slf4j
 @RestController
-@RequestMapping("/Customer")
+@RequestMapping("/customer")
 public class CustomerController {
         @Autowired
         CustomerService customerService;
