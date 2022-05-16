@@ -69,7 +69,7 @@ pipeline {
       }
     }
     */
-    //In order to run this step, had to install google cloud authentication, create a service account, and attach it to the gke instance
+    //In order to run this step, had to install google cloud authentication, create a service account, and attach it to the gke instance, and give jenkins permission to dockergroup
     stage ('Docker Build'){ 
       /*
       when {
@@ -87,7 +87,8 @@ pipeline {
     stage ('Docker push to Google Artifact Repository'){
       steps {
         script {
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/ test-p2/api2:latest"
+          echo "Docker push"
+          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2:latest"
         }
       }
     }
