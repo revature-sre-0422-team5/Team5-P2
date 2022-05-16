@@ -65,23 +65,23 @@ pipeline {
         }
       }
     }
-    stage ('Docker Deliver'){
+    */
+    stage ('Docker Build and Push to Google Artifact Repository'){
+      /*
       when {
         branch 'main'
-      }
+      }*/
       steps {
         script {
           echo "$registry":"$currentBuild.number"
-          dockerImage = docker.build "$registry:$currentBuild.number"
-          //create a dockerfile
-          docker.withRegistry("", dockerHubCreds)
-          {
-            dockerImage.push("$currentBuild.number")
-            dockerImage.push("latest")
+
+          docker.withRegistry ('northamerica-northeast2-docker.pkg.dev') {
+            def dockerImage = docker.build ("deliveryApi:latest", "./api2")
+            dockerImage.push()
           }
+
         }
       }
     }
-    */
   }
 }
