@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Table(name = "Items")
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -17,7 +16,7 @@ import javax.persistence.*;
 public class Item {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private int quantity;
@@ -27,5 +26,15 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "grocery_item_id")
     private GroceryItem groceryItem;
+
+    public Item(int quantity,ItemStatus status,GroceryItem groceryItem){
+        this.quantity=quantity;
+        this.status=status;
+        this.groceryItem=groceryItem;
+
+    }
+
+    public void delete(int id){}
+
 }
 

@@ -9,7 +9,6 @@ import java.util.List;
 @Table(name = "Shoppers")
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -17,7 +16,7 @@ import java.util.List;
 public class Shopper {
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "username", nullable = false)

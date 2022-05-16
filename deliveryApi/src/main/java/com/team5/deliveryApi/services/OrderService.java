@@ -1,52 +1,78 @@
 package com.team5.deliveryApi.services;
 
+import com.team5.deliveryApi.dto.ItemStatus;
+import com.team5.deliveryApi.dto.OrderStatus;
+import com.team5.deliveryApi.models.GroceryItem;
+import com.team5.deliveryApi.models.Item;
+import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
-import com.team5.deliveryApi.dto.Item;
 import com.team5.deliveryApi.dto.OrderLocation;
+import com.team5.deliveryApi.repositories.GroceryItemRepository;
+import com.team5.deliveryApi.repositories.ItemRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
 
+import lombok.extern.slf4j.Slf4j;
+import com.team5.deliveryApi.models.Shopper;
+import com.team5.deliveryApi.repositories.CustomerRepository;
+
+import com.team5.deliveryApi.repositories.ShopperRepository;
 import org.springframework.http.ResponseEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+@Slf4j
 @Service
 public class OrderService {
 
+    private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
+    private GroceryItemRepository groceryItemRepository;
+    private ItemRepository itemRepository;
+    private ShopperRepository shopperRepository;
 
-    public OrderService(OrderRepository orderRepository){
+    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
+                        ShopperRepository shopperRepository) {
         super();
+        this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
+        this.shopperRepository = shopperRepository;
     }
+
 
     public ResponseEntity viewAllOrders(){
         return ResponseEntity.ok(orderRepository.findAll());
     }
 
-    public ResponseEntity viewOrderById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id));
-    }
 
     public ResponseEntity viewStatusById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id).getStatus());
+        return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
     }
 
     public boolean payOrder(int id){
-        orderRepository.updatePayStatusById("Paid",id);
+        orderRepository.findById(id).get().setPay_status("Paid");
         return true;
     }
 
-    public boolean saveOrder(Order incomingOrder) {
+    /**
+     * Saves an order from a customer.
+     * @param customerId The customer who created the order.
+     * @param incomingOrder The newly created order.
+     * @return
+     */
+    public boolean saveOrder(int customerId, Order incomingOrder) {
+        Customer customer = customerRepository.getById(customerId);
+        customer.getOrders().add(incomingOrder);
+        incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
         return true;
     }
-   public Order findByOrderId(int odr_id) {
 
-        Logger logger = LoggerFactory.getLogger(OrderService.class);
-        logger.info("Getting Order by Id");
-
-        Order outGoingOrder = orderRepository.findById(odr_id);
+    public Order viewOrderById(int id) {
+        Order outGoingOrder = orderRepository.findById(id).get();
+        return outGoingOrder;
+    }
+    public Order findByOrderId(int odrId) {
+        Order outGoingOrder = orderRepository.findById(odrId).get();
 
         if (outGoingOrder != null) {
 
@@ -56,7 +82,7 @@ public class OrderService {
     }
 
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
-        incomingOrder.setFrom_location(incomingLocation.getDto_from_location());
+        incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;
@@ -64,40 +90,53 @@ public class OrderService {
 
 
     public boolean removeItem(Order incomingOrder,int item_Id){
-        /*
-        if(incomingOrder.getItem_Id()==item_Id) {
-            incomingOrder.setItem_Id(0);
-            incomingOrder.setItem(null);
-            incomingOrder.setItem_description(null);
+
+        /*Optional<Item> cartItem = incomingOrder.getItems().stream().filter(i -> i.getId() == item_Id).findFirst();
+
+           // itemRepository.delete(cartItem);*/
             orderRepository.save(incomingOrder);
             return true;
-        }
-        else{return false;}
 
-         */
-        return true;
     }
-    public Order addItem(Order incomingOrder, int item, Item dto_item) {
-        /*
-          incomingOrder.setItem_Id(item);
-          incomingOrder.setItem(dto_item.getProductName());
-          incomingOrder.setItem_description(dto_item.getProductDescription());
-          Order updatedOrder=orderRepository.save(incomingOrder);
-          return updatedOrder;
 
-         */
-        return null;
+    public Order addItem(int odrID,int gItemID,int qnty) {
+          log.info("checking"+odrID+gItemID+qnty);
+          GroceryItem groceryItem=groceryItemRepository.findById(gItemID).get();
+          log.info("Checking Grocery Item"+groceryItem);
+          Item item =new Item(qnty, ItemStatus.Added,groceryItem);
+          Order addedOrder = orderRepository.findById(odrID).get();
+          addedOrder.getItems().add(item);
+          orderRepository.save(addedOrder);
+          return (addedOrder);
     }
 
 
-    public boolean submitOrder(Order incomingOrder) {
-        incomingOrder.setStatus("Submitted");
-        Order updatedOrder=orderRepository.save(incomingOrder);
-        return true;
+    /**
+     * Update the status of an order.
+     * @param orderId The ID of the order to update.
+     * @return The order with an updated status.
+     */
+    public Order updateOrderStatus(int orderId, OrderStatus status) {
+        Order order = findByOrderId(orderId);
+        order.setStatus(status);
+        return orderRepository.save(order);
     }
     public boolean deleteOrder(Order incomingOrder) {
 
         orderRepository.delete(incomingOrder);
         return true;
+    }
+
+    /**
+     * Assign a shopper to an order.
+     * @param orderId The ID of the order.
+     * @param shopperId The ID of the shopper.
+     * @return The updated order with the newly assigned shopper.
+     */
+    public Order assignShopper(int orderId, int shopperId) {
+        Optional<Order> order = orderRepository.findById(orderId);
+        Optional<Shopper> shopper = shopperRepository.findById(shopperId);
+        order.get().setShopper(shopper.get());
+        return order.get();
     }
 }
