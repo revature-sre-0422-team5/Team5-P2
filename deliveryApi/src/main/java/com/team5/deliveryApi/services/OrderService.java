@@ -29,7 +29,7 @@ public class OrderService {
     }
 
     public ResponseEntity viewStatusById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id).getStatus());
+        return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
     }
 
     public boolean payOrder(int id){
@@ -46,7 +46,7 @@ public class OrderService {
         Logger logger = LoggerFactory.getLogger(OrderService.class);
         logger.info("Getting Order by Id");
 
-        Order outGoingOrder = orderRepository.findById(odr_id);
+        Order outGoingOrder = orderRepository.findById(odr_id).get();
 
         if (outGoingOrder != null) {
 

@@ -42,22 +42,22 @@ public class CustomerController {
             return customerService.viewAllCustomer();
         }
 
-    /**
-     * Sets the email subscription of a customer.
-     * @param id The ID of the customer.
-     * @param status The new subscription status of the customer.
-     * @return The HTTP response containing the customer with the updated subscription status.
-     */
-    @PutMapping("/subscribe/{id}")
-    public ResponseEntity<Customer> subscribeEmailById(@PathVariable int id,
-                                                       @PathParam("status") boolean status) {
-        try {
-            return ResponseEntity.ok(customerService.updateEmailSubscription(id, status));
-        } catch (UserNotFoundException e) {
-            log.error("[PUT] User with ID " + id + " was not found.");
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
-        }
+        /**
+         * Sets the email subscription of a customer.
+         * @param id The ID of the customer.
+         * @param status The new subscription status of the customer.
+         * @return The HTTP response containing the customer with the updated subscription status.
+         */
+        @PutMapping("/subscribe/{id}")
+        public ResponseEntity<Customer> subscribeEmailById(@PathVariable int id,
+                                                           @PathParam("status") boolean status) {
+            try {
+                return ResponseEntity.ok(customerService.updateEmailSubscription(id, status));
+            } catch (UserNotFoundException e) {
+                log.error("[PUT] User with ID " + id + " was not found.");
+                e.printStackTrace();
+                return ResponseEntity.badRequest().build();
+            }
     }
 
 }

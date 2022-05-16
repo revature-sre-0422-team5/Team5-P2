@@ -24,7 +24,7 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query(value ="update orders set pay_status= ?1 where order_id = ?2", nativeQuery = true)
     void updatePayStatusById(String status, int id);
 
-    Order findById(int odr_id);
+    //Order findById(int odr_id);
     
     void delete(Order incomingOrder);
 }

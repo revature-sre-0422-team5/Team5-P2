@@ -35,4 +35,35 @@ public class CustomerServiceTest {
         Customer updated = customerService.updateEmailSubscription(1, true);
         Assertions.assertTrue(updated.isEmail_subscribe());
     }
+
+    /**
+     * Test if the CustomerService save the customer properly
+     */
+    @Test
+    public void shouldSaveCustomerWork() {
+        Customer customer = new Customer(1, "John Smith", "johnsmithy123",
+                "JohnSmithPassword", "100 Nowhereville",
+                false, "john.smith@gmail.com", new ArrayList<>());
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
+        customerService.saveCustomer(customer);
+        Assertions.assertNotNull(customerService.viewAllCustomer());
+    }
+
+    @Test
+    public void shouldViewCustomerByIdWork(){
+        Customer customer = new Customer(1, "John Smith", "johnsmithy123",
+                "JohnSmithPassword", "100 Nowhereville",
+                false, "john.smith@gmail.com", new ArrayList<>());
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
+        customerService.saveCustomer(customer);
+        Assertions.assertEquals("johnsmithy123",customerService.viewCustomerById(1).get().getUsername());
+    }
+
+
+
+
+
+
+
+
 }
