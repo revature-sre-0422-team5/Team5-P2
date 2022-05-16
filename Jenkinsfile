@@ -70,7 +70,7 @@ pipeline {
     }
     */
     //In order to run this step, had to install google cloud authentication, create a service account, and attach it to the gke instance
-    stage ('Docker Build and Push to Google Artifact Repository'){ 
+    stage ('Docker Build'){ 
       /*
       when {
         branch 'main'
@@ -79,11 +79,17 @@ pipeline {
         script {
           echo "Docker Build"
           docker.withRegistry ('northamerica-northeast2-docker.pkg.dev') {
-            docker.build ("api2:latest", "./api2").push('latest')
+            docker.build("api2:latest", "./api2")
           }
         }
       }
-
+    }
+    stage ('Docker push to Google Artifact Repository'){
+      steps {
+        script {
+          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/ test-p2/api2:latest"
+        }
+      }
     }
   }
 }
