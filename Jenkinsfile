@@ -12,9 +12,6 @@ pipeline {
         }
     }
     stage('Unit Testing') {
-        when {
-            anyOf {branch 'ft_*'; branch 'dev_*'}
-        }
         steps{
             withMaven {
                 sh 'mvn test'
@@ -24,9 +21,6 @@ pipeline {
         }
     }
     stage('Build') {
-        when {
-            branch 'main'
-        }
         steps{
             withMaven {
                 sh 'mvn package -DskipTests'
@@ -34,33 +28,26 @@ pipeline {
         }
     }
     stage('Docker Image') {
-        // when {
-        //     branch 'main'
-        // }
-        // steps{
-        //     script {
-        //         echo "$registry:$currentBuild.number"
-        //         dockerImage = docker.build "$registry:$currentBuild.number"
-        //     }
-        // }
+        steps {
+            echo 'Docker Image'
+            // script {
+            //     echo "$registry:$currentBuild.number"
+            //     dockerImage = docker.build "$registry:$currentBuild.number"
+            // }
+        }
     }
     stage('Docker Deliver') {
-        // when {
-        //     branch 'main'
-        // }
-        // steps{
-        //     script {
-        //         docker.withRegistry("", dockerHubCreds) {
-        //             dockerImage.push("$currentBuild.number")
-        //             dockerImage.push("latest")
-        //         }
-        //     }
-        // }
+        steps {
+            echo 'Docker Deliver'
+            // script {
+            //     docker.withRegistry("", dockerHubCreds) {
+            //         dockerImage.push("$currentBuild.number")
+            //         dockerImage.push("latest")
+            //     }
+            // }
+        }
     }
     stage('Wait for approval') {
-        when {
-            branch 'main'
-        }
         steps {
             script {
             try {
