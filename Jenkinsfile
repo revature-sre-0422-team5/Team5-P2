@@ -15,7 +15,7 @@ pipeline {
     /*
     stage ('Notifications Unit Testing'){
       when {
-        anyOf {branch  'daewoon/*'/*; branch 'bg_*'*/}
+        anyOf {branch  'daewoon/*'/*; branch 'bg_*'*//*}
       }
       /*
       steps {
@@ -78,11 +78,7 @@ pipeline {
         script {
           echo "$registry":"$currentBuild.number"
 
-          docker.withRegistry ('northamerica-northeast2-docker.pkg.dev') {
-            def dockerImage = docker.build ("deliveryApi:latest", "./api2")
-            dockerImage.push()
-          }
-
+          sh 'docker build ./api2 ; docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/ test-p2/api2:latest'
         }
       }
     }
