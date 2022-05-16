@@ -36,11 +36,13 @@ public class OrderController {
 
     @GetMapping("/all")
     public ResponseEntity viewAllOrders(){
+        log.info("Viewing All Orders");
         return orderService.viewAllOrders();
     }
     
     @GetMapping("/viewId/{odr_id}")
     public Order viewRbById(@PathVariable int odr_id) {
+        log.info("Viewing Order By Id");
         Order outGoingOrder = orderService.findByOrderId(odr_id);
         return outGoingOrder;
     }
@@ -48,11 +50,13 @@ public class OrderController {
 
     @GetMapping("/status/{id}")
     public ResponseEntity viewStatusById(@PathVariable int id) {
+        log.info("Viewing Status By Id");
         return orderService.viewStatusById(id);
     }
 
     @PutMapping("/pay/{id}")
     public ResponseEntity payOrderById(@PathVariable int id){
+        log.info("Paying Order By Id");
         return ResponseEntity.ok(orderService.payOrder(id));
     }
 

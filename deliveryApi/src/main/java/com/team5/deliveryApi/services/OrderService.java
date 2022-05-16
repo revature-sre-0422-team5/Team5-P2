@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class OrderService {
 
     private OrderRepository orderRepository;
+    Logger logger = LoggerFactory.getLogger(OrderService.class);
 
     public OrderService(OrderRepository orderRepository){
         super();
@@ -38,6 +39,7 @@ public class OrderService {
     }
 
     public boolean saveOrder(Order incomingOrder) {
+        logger.info("Saving Order");
         orderRepository.save(incomingOrder);
         return true;
     }
