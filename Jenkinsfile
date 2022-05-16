@@ -75,13 +75,17 @@ pipeline {
         branch 'main'
       }*/
       steps {
-        sh 'docker build ./api2 ; docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/ test-p2/api2:latest'
-        /*
         script {
-          echo "$registry":"$currentBuild.number"
-
-        }*/
+          echo "Docker Build"
+        }
+        node ('linux') {
+          docker.withRegistry ('northamerica-northeast2-docker.pkg.dev') {
+              def dockerImage = docker.build ("deliveryApi:latest", "./api2")
+              dockerImage.push()
+            }
+        }
       }
+      
     }
   }
 }
