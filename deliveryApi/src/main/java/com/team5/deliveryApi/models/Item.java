@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Table(name = "Items")
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -17,7 +16,7 @@ import javax.persistence.*;
 public class Item {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     private int quantity;

@@ -4,6 +4,8 @@ import com.team5.deliveryApi.dto.ItemStatus;
 import com.team5.deliveryApi.models.GroceryItem;
 import com.team5.deliveryApi.models.Item;
 import com.team5.deliveryApi.models.ItemNotFoundException;
+import com.team5.deliveryApi.dto.OrderStatus;
+import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.repositories.GroceryItemRepository;
@@ -11,6 +13,11 @@ import com.team5.deliveryApi.repositories.ItemRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
 
 import lombok.extern.slf4j.Slf4j;
+import com.team5.deliveryApi.models.Shopper;
+import com.team5.deliveryApi.repositories.CustomerRepository;
+import com.team5.deliveryApi.repositories.OrderRepository;
+
+import com.team5.deliveryApi.repositories.ShopperRepository;
 import org.springframework.http.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +29,19 @@ import java.util.Optional;
 @Service
 public class OrderService {
 
+    private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
     private GroceryItemRepository groceryItemRepository;
     private ItemRepository itemRepository;
-    Logger logger = LoggerFactory.getLogger(OrderService.class);
     public OrderService(OrderRepository orderRepository){
+    private ShopperRepository shopperRepository;
+
+    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
+                        ShopperRepository shopperRepository) {
         super();
+        this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
+        this.shopperRepository = shopperRepository;
     }
 
 
@@ -40,11 +53,11 @@ public class OrderService {
 
 
     public ResponseEntity viewStatusById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id).getStatus());
+        return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
     }
 
     public boolean payOrder(int id){
-        orderRepository.updatePayStatusById("Paid",id);
+        orderRepository.findById(id).get().setPay_status("Paid");
         return true;
     }
 
@@ -52,8 +65,17 @@ public class OrderService {
 
 
 
-
     public boolean saveOrder(Order incomingOrder) {
+    /**
+     * Saves an order from a customer.
+     * @param customerId The customer who created the order.
+     * @param incomingOrder The newly created order.
+     * @return
+     */
+    public boolean saveOrder(int customerId, Order incomingOrder) {
+        Customer customer = customerRepository.getById(customerId);
+        customer.getOrders().add(incomingOrder);
+        incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
         return true;
     }
@@ -65,8 +87,7 @@ public class OrderService {
 
 
         logger.info("Getting Order by Id");
-
-        Order outGoingOrder = orderRepository.findById(odrId);
+        Order outGoingOrder = orderRepository.findById(odr_id).get();
 
         if (outGoingOrder != null) {
 
@@ -76,8 +97,7 @@ public class OrderService {
     }
 
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
-
-        incomingOrder.setFrom_location(incomingLocation.getDto_from_location());
+        incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;
@@ -107,14 +127,32 @@ public class OrderService {
     }
 
 
-    public boolean submitOrder(Order incomingOrder) {
-        incomingOrder.setStatus("Submitted");
-        Order updatedOrder=orderRepository.save(incomingOrder);
-        return true;
+    /**
+     * Update the status of an order.
+     * @param orderId The ID of the order to update.
+     * @return The order with an updated status.
+     */
+    public Order updateOrderStatus(int orderId, OrderStatus status) {
+        Order order = findByOrderId(orderId);
+        order.setStatus(status);
+        return orderRepository.save(order);
     }
     public boolean deleteOrder(Order incomingOrder) {
 
         orderRepository.delete(incomingOrder);
         return true;
+    }
+
+    /**
+     * Assign a shopper to an order.
+     * @param orderId The ID of the order.
+     * @param shopperId The ID of the shopper.
+     * @return The updated order with the newly assigned shopper.
+     */
+    public Order assignShopper(int orderId, int shopperId) {
+        Optional<Order> order = orderRepository.findById(orderId);
+        Optional<Shopper> shopper = shopperRepository.findById(shopperId);
+        order.get().setShopper(shopper.get());
+        return order.get();
     }
 }
