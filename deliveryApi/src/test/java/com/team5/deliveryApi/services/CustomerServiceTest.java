@@ -5,20 +5,20 @@ import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
-@SpringBootTest
+@SpringBootTest(classes = CustomerService.class)
 public class CustomerServiceTest {
-
     @Autowired
     private CustomerService customerService;
-    @Mock
+
+    @MockBean
     private CustomerRepository customerRepository;
 
     /**
