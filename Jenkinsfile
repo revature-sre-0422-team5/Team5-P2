@@ -84,11 +84,12 @@ pipeline {
         }
       }
     }
-    stage ('Docker push to Google Artifact Repository'){
+    stage ('Docker tag and push to Google Artifact Repository'){
       steps {
         script {
           echo "Docker push"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2:latest"
+          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
         }
       }
     }
