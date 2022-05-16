@@ -77,15 +77,15 @@ pipeline {
       steps {
         script {
           echo "Docker Build"
-        }
-        node ('linux') {
-          docker.withRegistry ('northamerica-northeast2-docker.pkg.dev') {
-              def dockerImage = docker.build ("deliveryApi:latest", "./api2")
-              dockerImage.push()
+          node ('linux') {
+              docker.withRegistry ('northamerica-northeast2-docker.pkg.dev') {
+                def dockerImage = docker.build ("deliveryApi:latest", "./api2")
+                dockerImage.push()
             }
+          }
         }
       }
-      
+
     }
   }
 }
