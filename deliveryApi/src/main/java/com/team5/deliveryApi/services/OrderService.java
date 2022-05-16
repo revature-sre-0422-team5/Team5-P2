@@ -26,9 +26,11 @@ public class OrderService {
     private GroceryItemRepository groceryItemRepository;
     private ItemRepository itemRepository;
     Logger logger = LoggerFactory.getLogger(OrderService.class);
-    public OrderService(OrderRepository orderRepository){
+    public OrderService(OrderRepository orderRepository,GroceryItemRepository groceryItemRepository,ItemRepository itemRepository){
         super();
         this.orderRepository = orderRepository;
+        this.groceryItemRepository= groceryItemRepository;
+        this.itemRepository=itemRepository;
     }
 
 
@@ -39,9 +41,9 @@ public class OrderService {
 
 
 
-    public ResponseEntity viewStatusById(int id){
+ /* public ResponseEntity viewStatusById(int id){
         return ResponseEntity.ok(orderRepository.findById(id).getStatus());
-    }
+    }*/
 
     public boolean payOrder(int id){
         orderRepository.updatePayStatusById("Paid",id);
@@ -58,21 +60,15 @@ public class OrderService {
         return true;
     }
     public Order viewOrderById(int id){
-        Order outGoingOrder=(orderRepository.findById(id));
+        Order outGoingOrder=(orderRepository.findById(id).get());
         return outGoingOrder;
     }
-   public Order findByOrderId(int odrId) {
-
-
+   public Order findById(int odrId) {
         logger.info("Getting Order by Id");
+        //List<Item> outGoingItem =itemRepository.findById(odrId).get();
+        Order outGoingOrder = orderRepository.findById(odrId).get();
+        return outGoingOrder;
 
-        Order outGoingOrder = orderRepository.findById(odrId);
-
-        if (outGoingOrder != null) {
-
-            return outGoingOrder;
-        } else { return null;
-        }
     }
 
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
@@ -84,12 +80,16 @@ public class OrderService {
     }
 
 
-    public boolean removeItem(Order incomingOrder,int item_Id){
+    public boolean removeItem(Order incomingOrder,int itemId){
 
-        /*Optional<Item> cartItem = incomingOrder.getItems().stream().filter(i -> i.getId() == item_Id).findFirst();
-
-           // itemRepository.delete(cartItem);*/
+      Item item = incomingOrder.getItems().stream().filter(i -> i.getGroceryItem().getId() == itemId).findFirst().get();
+            //Item items=itemRepository.delete(item);
+        log.info("checking"+item+incomingOrder);
+            itemRepository.delete(item);
+          //List<Item> items=itemRepository.removeItem(itemId);
+            itemRepository.save(item);
             orderRepository.save(incomingOrder);
+        log.info("checking"+item+incomingOrder);
             return true;
 
     }
@@ -98,11 +98,13 @@ public class OrderService {
           log.info("checking"+odrID+gItemID+qnty);
           GroceryItem groceryItem=groceryItemRepository.findById(gItemID).get();
           log.info("Checking Grocery Item"+groceryItem);
-          Item item =new Item(qnty, ItemStatus.Added,groceryItem);
+          Item item =new Item(qnty, ItemStatus.Added,groceryItem,orderRepository.findById(odrID).get());
           logger.info("item"+item);
-          Order addedOrder=orderRepository.findById(odrID);
+          Order addedOrder=orderRepository.findById(odrID).get();
           addedOrder.getItems().add(item);
+          log.info("Added Order"+addedOrder);
           orderRepository.save(addedOrder);
+          log.info("Added Order after saving"+addedOrder);
           return (addedOrder);
     }
 

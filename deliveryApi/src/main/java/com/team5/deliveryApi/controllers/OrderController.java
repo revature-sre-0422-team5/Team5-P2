@@ -25,10 +25,10 @@ public class OrderController {
     }
     
 
-    @GetMapping("/status/{id}")
-    public ResponseEntity viewStatusById(@PathVariable int id) {
+   /* @GetMapping("/status/{id}")
+      public ResponseEntity viewStatusById(@PathVariable int id) {
         return orderService.viewStatusById(id);
-    }
+    }*/
 
     @PutMapping("/pay/{id}")
     public ResponseEntity payOrderById(@PathVariable int id){
@@ -53,22 +53,22 @@ public class OrderController {
 
     @GetMapping("/viewId/{odrId}")
     public ResponseEntity<Order> viewOrderById(@PathVariable int odrId) {
-        Order outGoingOrder = orderService.findByOrderId(odrId);
+        Order outGoingOrder = orderService.findById(odrId);
         return ResponseEntity.ok().body(outGoingOrder);
 
     }
 
     @RequestMapping(value = "/addLocationDescription/{odrId}", method = RequestMethod.PUT)
      public ResponseEntity<Order>  updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odrId) {
-         Order Out=orderService.updateLocation(orderService.findByOrderId(odrId),orderLocation);
+         Order Out=orderService.updateLocation(orderService.findById(odrId),orderLocation);
          return ResponseEntity.ok().body(Out);
     }
 
 
-    @RequestMapping(value = "/removeItem/{odrId}/{itemId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/removeItem/{odrId}/{itemId}", method = RequestMethod.DELETE)
     public ResponseEntity removeItem(@PathVariable int odrId,@PathVariable int itemId) {
-
-       boolean success=orderService.removeItem(orderService.findByOrderId(odrId),itemId);
+       log.info( "checking"+orderService.findById(odrId));
+       boolean success=orderService.removeItem(orderService.findById(odrId),itemId);
        if (success==true) {
            return ResponseEntity.ok().body( "Successfully Removed the item");
        }else{
@@ -88,7 +88,7 @@ public class OrderController {
 
    @RequestMapping(value="/submitOrder/{odrId}", method = RequestMethod.PUT)
     public ResponseEntity submitOrder(@PathVariable int odrId){
-         boolean success= orderService.submitOrder(orderService.findByOrderId(odrId));
+         boolean success= orderService.submitOrder(orderService.findById(odrId));
         if (success==true) {
             return ResponseEntity.ok().body("Order submitted Successfully");
         }else{
@@ -97,7 +97,7 @@ public class OrderController {
     }
     @DeleteMapping("/delete/{odrId}")
     public ResponseEntity cancelOrder(@PathVariable int odrId) {
-         boolean success=orderService.deleteOrder(orderService.findByOrderId(odrId));
+         boolean success=orderService.deleteOrder(orderService.findById(odrId));
          if(success==true) {
              return ResponseEntity.ok().body("Order cancelled Successfully");
          }
