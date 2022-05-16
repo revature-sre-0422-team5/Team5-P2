@@ -12,10 +12,12 @@ pipeline {
         sh 'echo "Hello world"'
       }
     }
+    /*
     stage ('Notifications Unit Testing'){
       when {
         anyOf {branch  'daewoon/*'/*; branch 'bg_*'*/}
       }
+      /*
       steps {
         withMaven {
           sh 'cd notificationApi; mvn test'
@@ -23,6 +25,7 @@ pipeline {
         junit skipPublishingChecks: true, testResults: 'notificationApi/target/surefire-reports/*.xml'
       }
     }
+    */
     //Tests are currently failing
     /*
     stage ('Delivery Api Unit Testing'){
