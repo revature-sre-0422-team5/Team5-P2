@@ -75,11 +75,12 @@ pipeline {
         branch 'main'
       }*/
       steps {
+        sh 'docker build ./api2 ; docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/ test-p2/api2:latest'
+        /*
         script {
           echo "$registry":"$currentBuild.number"
 
-          sh 'docker build ./api2 ; docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/ test-p2/api2:latest'
-        }
+        }*/
       }
     }
   }
