@@ -40,6 +40,7 @@ public class Order {
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<Item> items;
+  
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     @JsonIgnore

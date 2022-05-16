@@ -26,5 +26,15 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "grocery_item_id")
     private GroceryItem groceryItem;
+
+    public Item(int quantity,ItemStatus status,GroceryItem groceryItem){
+        this.quantity=quantity;
+        this.status=status;
+        this.groceryItem=groceryItem;
+
+    }
+
+    public void delete(int id){}
+
 }
 

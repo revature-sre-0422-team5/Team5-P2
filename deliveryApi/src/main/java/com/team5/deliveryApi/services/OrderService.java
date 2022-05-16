@@ -1,10 +1,18 @@
 package com.team5.deliveryApi.services;
 
+import com.team5.deliveryApi.dto.ItemStatus;
+import com.team5.deliveryApi.models.GroceryItem;
+import com.team5.deliveryApi.models.Item;
+import com.team5.deliveryApi.models.ItemNotFoundException;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
-import com.team5.deliveryApi.dto.Item;
 import com.team5.deliveryApi.dto.OrderLocation;
+import com.team5.deliveryApi.repositories.GroceryItemRepository;
+import com.team5.deliveryApi.repositories.ItemRepository;
+import com.team5.deliveryApi.repositories.OrderRepository;
+
+import lombok.extern.slf4j.Slf4j;
 import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
@@ -15,13 +23,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Service
 public class OrderService {
 
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
+    private GroceryItemRepository groceryItemRepository;
+    private ItemRepository itemRepository;
+    public OrderService(OrderRepository orderRepository){
     private ShopperRepository shopperRepository;
 
     public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
@@ -32,13 +44,13 @@ public class OrderService {
         this.shopperRepository = shopperRepository;
     }
 
+
+
     public ResponseEntity viewAllOrders(){
         return ResponseEntity.ok(orderRepository.findAll());
     }
 
-    public ResponseEntity viewOrderById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id));
-    }
+
 
     public ResponseEntity viewStatusById(int id){
         return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
@@ -49,6 +61,11 @@ public class OrderService {
         return true;
     }
 
+
+
+
+
+    public boolean saveOrder(Order incomingOrder) {
     /**
      * Saves an order from a customer.
      * @param customerId The customer who created the order.
@@ -62,12 +79,16 @@ public class OrderService {
         orderRepository.save(incomingOrder);
         return true;
     }
-   public Order findByOrderId(int odr_id) {
+    public Order viewOrderById(int id){
+        Order outGoingOrder=(orderRepository.findById(id));
+        return outGoingOrder;
+    }
+   public Order findByOrderId(int odrId) {
 
-        Logger logger = LoggerFactory.getLogger(OrderService.class);
+
         logger.info("Getting Order by Id");
-
         Order outGoingOrder = orderRepository.findById(odr_id).get();
+
         if (outGoingOrder != null) {
 
             return outGoingOrder;
@@ -84,29 +105,25 @@ public class OrderService {
 
 
     public boolean removeItem(Order incomingOrder,int item_Id){
-        /*
-        if(incomingOrder.getItem_Id()==item_Id) {
-            incomingOrder.setItem_Id(0);
-            incomingOrder.setItem(null);
-            incomingOrder.setItem_description(null);
+
+        /*Optional<Item> cartItem = incomingOrder.getItems().stream().filter(i -> i.getId() == item_Id).findFirst();
+
+           // itemRepository.delete(cartItem);*/
             orderRepository.save(incomingOrder);
             return true;
-        }
-        else{return false;}
 
-         */
-        return true;
     }
-    public Order addItem(Order incomingOrder, int item, Item dto_item) {
-        /*
-          incomingOrder.setItem_Id(item);
-          incomingOrder.setItem(dto_item.getProductName());
-          incomingOrder.setItem_description(dto_item.getProductDescription());
-          Order updatedOrder=orderRepository.save(incomingOrder);
-          return updatedOrder;
 
-         */
-        return null;
+    public Order addItem(int odrID,int gItemID,int qnty) {
+          log.info("checking"+odrID+gItemID+qnty);
+          GroceryItem groceryItem=groceryItemRepository.findById(gItemID).get();
+          log.info("Checking Grocery Item"+groceryItem);
+          Item item =new Item(qnty, ItemStatus.Added,groceryItem);
+          logger.info("item"+item);
+          Order addedOrder=orderRepository.findById(odrID);
+          addedOrder.getItems().add(item);
+          orderRepository.save(addedOrder);
+          return (addedOrder);
     }
 
 
