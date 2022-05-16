@@ -12,10 +12,12 @@ pipeline {
         }
     }
     stage('Unit Testing') {
-        steps{
+        steps {
+            sh '''
+            ls
+            cd notificationApi
+            '''
             withMaven {
-                ls
-                cd notificationApi
                 sh 'mvn test'
             }
         }
