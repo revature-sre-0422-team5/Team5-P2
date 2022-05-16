@@ -16,6 +16,7 @@ pipeline {
             sh '''
             ls
             cd notificationApi
+            ls
             '''
             withMaven {
                 sh 'mvn test'
