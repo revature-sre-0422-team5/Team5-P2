@@ -139,6 +139,7 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(orderId);
         Optional<Shopper> shopper = shopperRepository.findById(shopperId);
         order.get().setShopper(shopper.get());
+        orderRepository.save(order.get());
         return order.get();
     }
 }
