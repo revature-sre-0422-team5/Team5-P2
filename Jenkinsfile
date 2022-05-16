@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Unit Testing') {
         when {
-            anyOf {branch 'ft_*'; branch 'bg_*'}
+            anyOf {branch 'ft_*'; branch 'dev_*'}
         }
         steps{
             withMaven {
