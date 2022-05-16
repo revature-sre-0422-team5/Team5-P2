@@ -1,4 +1,4 @@
-package com.team5.deliveryApi.dto;
+package com.team5.deliveryApi.models;
 
 public enum Status {
     SUCCESS,
