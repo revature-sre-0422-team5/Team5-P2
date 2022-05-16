@@ -88,7 +88,6 @@ pipeline {
       steps {
         script {
           echo "Docker push"
-          sh "gcloud auth configure-docker"
           sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
           sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
         }
