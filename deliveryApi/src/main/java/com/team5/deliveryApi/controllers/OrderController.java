@@ -1,9 +1,9 @@
 package com.team5.deliveryApi.controllers;
 
+import com.team5.deliveryApi.models.Item;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.services.OrderService;
-import com.team5.deliveryApi.dto.Item;
 import com.team5.deliveryApi.dto.OrderLocation;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,12 +47,6 @@ public class OrderController {
         return orderService.viewAllOrders();
     }
     
-    @GetMapping("/viewId/{odr_id}")
-    public Order viewRbById(@PathVariable int odr_id) {
-        Order outGoingOrder = orderService.findByOrderId(odr_id);
-        return outGoingOrder;
-    }
-
 
     @GetMapping("/status/{id}")
     public ResponseEntity viewStatusById(@PathVariable int id) {
@@ -64,31 +58,37 @@ public class OrderController {
         return ResponseEntity.ok(orderService.payOrder(id));
     }
 
+    @GetMapping("/viewId/{odrId}")
+    public ResponseEntity<Order> viewOrderById(@PathVariable int odrId) {
+        Order outGoingOrder = orderService.findByOrderId(odrId);
+        return ResponseEntity.ok().body(outGoingOrder);
 
-     @RequestMapping(value = "/adddescription/{odr_id}", method = RequestMethod.PUT)
-     public Order updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
-         Order Out=orderService.updateLocation(orderService.findByOrderId(odr_id),orderLocation);
-         return Out;
+    }
+    @PutMapping(value = "/adddescription/{odr_id}")
+    public Order updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
+        Order Out=orderService.updateLocation(orderService.findByOrderId(odr_id),orderLocation);
+        return Out;
     }
 
-
     @RequestMapping(value = "/removeitem/{odr_id}/{item_id}", method = RequestMethod.PUT)
-    public String removeItem(@PathVariable int odr_id,@PathVariable int item_id) {
-
-       boolean success=orderService.removeItem(orderService.findByOrderId(odr_id),item_id);
+    public ResponseEntity<String> removeItem(@PathVariable int odrId,@PathVariable int itemId) {
+       boolean success=orderService.removeItem(orderService.findByOrderId(odrId),itemId);
        if (success==true) {
-           return "Successfully Removed the item";
+           return ResponseEntity.ok().body( "Successfully Removed the item");
        }else{
-           return "Error in removing item";
+           return ResponseEntity.ok().body("Error in removing item");
        }
 
 
     }
-   @RequestMapping(value = "/additem/{odr_id}/{item}", method = RequestMethod.PUT)
-   public Order addItem(@PathVariable int odr_id, @PathVariable  int item, @RequestBody Item dto_item) {
-       Order Out=orderService.addItem(orderService.findByOrderId(odr_id),item,dto_item);
-       return Out;
-
+      
+  @PostMapping(value = "/addItem/{odrId}/{groceryItemID}")
+  public ResponseEntity <Order> addItem(@PathVariable int odrId, @PathVariable int groceryItemID,
+                                        @RequestParam("qty") int quantity) {
+        log.info("checking"+odrId+groceryItemID+quantity);
+        Order order=orderService.addItem(odrId,groceryItemID,quantity);
+        log.info("in controller");
+        return ResponseEntity.ok().body(order);
    }
 
     /**
@@ -105,13 +105,13 @@ public class OrderController {
     }
 
     @DeleteMapping("/delete/{odr_id}")
-    public String cancelOrder(@PathVariable int odr_id) {
+    public ResponseEntity<String> cancelOrder(@PathVariable int odr_id) {
          boolean success=orderService.deleteOrder(orderService.findByOrderId(odr_id));
          if(success==true) {
-             return "Order cancelled Successfully";
+             return ResponseEntity.ok().body("Order cancelled Successfully");
          }
          else{
-             return "Error in cancelling Order";
+             return ResponseEntity.ok().body("Error in cancelling Order");
          }
     }
 
