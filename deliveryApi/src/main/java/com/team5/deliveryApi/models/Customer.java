@@ -42,6 +42,12 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
+ //   @Column(name = "isLoggedIn")
+ //   private int isLoggedIn;
+
     @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
     private List<Order> orders;
+
+
+
 }
