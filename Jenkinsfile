@@ -14,10 +14,10 @@ pipeline {
     stage('Unit Testing') {
         steps{
             withMaven {
+                ls
+                cd notificationApi
                 sh 'mvn test'
             }
-
-            junit skipPublishingChecks: true, testResults: 'notificationApi/target/surefire-reports/*.xml'
         }
     }
     stage('Build') {
