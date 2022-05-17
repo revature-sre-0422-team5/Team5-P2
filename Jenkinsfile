@@ -4,7 +4,7 @@ pipeline {
       PROJECT_ID = 'revature-346918'
       CLUSTER_NAME = 'delivery-cluster'
       LOCATION = 'northamerica-northeast2-a'
-      CREDENTIALS_ID = 'Team5-P2'
+      CREDENTIALS_ID = 'revature-346918'
       }
   stages {
     stage('Quality Gate') {
@@ -37,7 +37,7 @@ pipeline {
                 $class: 'KubernetesEngineBuilder',
                 projectId: env.PROJECT_ID,
                 clusterName: env.CLUSTER_NAME,
-                location: env.LOCATION,
+                zone: 'northamerica-northeast2-a',
                 manifestPattern: 'notificationapi.yaml',
                 credentialsId: env.CREDENTIALS_ID,
             verifyDeployments: true])
