@@ -14,7 +14,7 @@ pipeline {
     stage('Unit Testing') {
         steps{
             withMaven {
-                sh 'mvn test'
+                sh 'cd api2; mvn test'
             }
 
             junit skipPublishingChecks: true, testResults: 'target/surefire-reports/*.xml'
@@ -26,7 +26,7 @@ pipeline {
         }
         steps{
             withMaven {
-                sh 'mvn package -DskipTests'
+                sh 'cd api2; mvn package -DskipTests'
             }
         }
     }
@@ -36,6 +36,7 @@ pipeline {
         }
         steps{
             script {
+                sh 'cd api2'
                 echo "$registry:$currentBuild.number"
                 dockerImage = docker.build "$registry:$currentBuild.number"
             }
@@ -47,6 +48,7 @@ pipeline {
         }
         steps{
             script {
+                sh 'cd api2'
                 docker.withRegistry("", dockerHubCreds) {
                     dockerImage.push("$currentBuild.number")
                     dockerImage.push("latest")
