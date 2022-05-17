@@ -56,10 +56,11 @@ spec:
                   key: STRIPE_KEY
                   optional: false
           image: api2:latest
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           name: api2
           ports:
             - containerPort: 8081
           resources: {}
       restartPolicy: Always
 status: {}
+

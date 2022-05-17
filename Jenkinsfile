@@ -12,7 +12,7 @@ pipeline {
         sh 'echo "Hello world"'
       }
     }
-    stage ('Docker Build'){ 
+    stage ('Docker Build'){
       steps {
         script {
           echo "Docker Build"
