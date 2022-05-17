@@ -13,19 +13,12 @@ pipeline {
             }
         }
     }
-    stage('Build') {
-        steps{
-            withMaven {
-                sh 'mvn -f notificationApi/pom.xml package -DskipTests'
-            }
-        }
-    }
     stage ('Docker Build'){ 
       steps {
         script {
           echo "Docker Build"
 
-          sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."          
+          sh "cd notificationApi; docker build --no-cache -t api2:latest ."          
         }
       }
     }
@@ -33,8 +26,8 @@ pipeline {
         steps {
             echo 'Docker Deliver'
             script {
-                sh "docker tag notificationApi northamerica-northeast2-docker.pkg.dev/devops-javasre/gcp-docker/notificationapi"
-                sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/gcp-docker/notificationapi"
+                sh "docker tag notificationApi northamerica-northeast2-docker.pkg.dev/devops-javasre/gcp-docker/api2"
+                sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/gcp-docker/api2"
             }
         }
     }
