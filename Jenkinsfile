@@ -1,53 +1,46 @@
 pipeline {
-  agent any
-  environment {
-      PROJECT_ID = 'revature-346918'
-      CLUSTER_NAME = 'delivery-cluster'
-      LOCATION = 'northamerica-northeast2-a'
-      CREDENTIALS_ID = 'Team5-P2'
-  }
-  stages {
-    stage('Begin Pipeline') {
-      steps {
-        sh 'echo "Hello world"'
-      }
+    agent any
+    environment {
+        PROJECT_ID = 'revature-346918'
+        CLUSTER_NAME = 'delivery-cluster'
+        LOCATION = 'northamerica-northeast2-a'
+        CREDENTIALS_ID = 'Team5-P2'
     }
-    stage ('Docker Build'){
-      steps {
-        script {
-          echo "Docker Build"
-
-          //sh "cd api2; docker build -t api2:latest ."
+    stages {
+        stage('Begin Pipeline') {
+            steps {
+                sh 'echo "Hello world"'
+            }
         }
-      }
-    }
-    //For this step I had to sign into the jenkins account in the vm, generate artifact permissions file, upload the file, and docker login using that file
-    //https://cloud.google.com/artifact-registry/docs/docker/authentication#json-key
-    stage ('Docker tag and push to Google Artifact Repository'){
-      steps {
-        script {
-          echo "Docker push"
-          //sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
-          //sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+        stage ('Docker Build'){
+            steps {
+                script {
+                    echo "Docker Build"
+                    //sh "cd api2; docker build -t api2:latest ."
+                }
+            }
         }
-      }
+        stage ('Docker tag and push to Google Artifact Repository'){
+            steps {
+                script {
+                    echo "Docker push"
+                    //sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+                    //sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+                }
+            }
+        }
+        stage ('Deploy to GKE'){
+            steps{
+                echo "Deploying to GKE"
+                step([
+                $class: 'KubernetesEngineBuilder',
+                projectId: env.PROJECT_ID,/*'devops-javasre',*/
+                clusterName: env.CLUSTER_NAME,
+                zone: env.LOCATION,
+                manifestPattern: './',
+                credentialsId: env.CREDENTIALS_ID,
+                verifyDeployments: true])
+            }
+        }
     }
-
-    stage ('Deploy to GKE'){
-      steps{
-          echo "Deploying to GKE"
-
-          step([
-            $class: 'KubernetesEngineBuilder',
-            projectId: env.PROJECT_ID,/*'devops-javasre',*/
-            clusterName: env.CLUSTER_NAME,
-            zone: env.LOCATION,
-            manifestPattern: './',
-            credentialsId: env.CREDENTIALS_ID,
-            verifyDeployments: true
-          ])
-      }
-    }
-
-  }
 }
