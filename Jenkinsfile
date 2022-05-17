@@ -40,7 +40,7 @@ pipeline {
           projectId: env.PROJECT_ID,
           clusterName: env.CLUSTER_NAME,
           location: env.LOCATION,
-          manifestPattern: 'kubernetes/',
+          manifestPattern: './kubernetes/api2-deployment.yaml',
           credentialsId: env.CREDENTIALS_ID,
           verifyDeployments: true])
       }
