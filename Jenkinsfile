@@ -1,9 +1,4 @@
 pipeline {
-  environment {
-    registry = 'jamesty2114/deliveryapi'
-    dockerHubCreds = 'docker_hub'
-    dockerImage = ''
-  }
   agent any
   stages {
     stage('Quality Gate') {
@@ -25,22 +20,21 @@ pipeline {
             }
         }
     }
-    stage('Docker Image') {
-        steps {
-            script {
-                echo "$registry:$currentBuild.number"
-                dockerImage = docker.build "$registry:$currentBuild.number"
-            }
+    stage ('Docker Build'){ 
+      steps {
+        script {
+          echo "Docker Build"
+
+          sh "cd notificationApi; docker build --no-cache -t notificationApi:latest ."          
         }
+      }
     }
     stage('Docker Deliver') {
         steps {
             echo 'Docker Deliver'
             script {
-                docker.withRegistry("", dockerHubCreds) {
-                    dockerImage.push("$currentBuild.number")
-                    dockerImage.push("latest")
-                }
+                sh "docker tag notificationApi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationApi"
+                sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationApi"
             }
         }
     }
