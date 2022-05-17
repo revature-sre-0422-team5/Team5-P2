@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Slf4j
 @Service
@@ -28,18 +29,15 @@ public class OrderService {
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
     private GroceryItemRepository groceryItemRepository;
-    private ItemRepository itemRepository;
     private ShopperRepository shopperRepository;
-
+    @Autowired
+    private ItemRepository itemRepository;
     public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
-                        ShopperRepository shopperRepository, GroceryItemRepository groceryItemRepository,
-                        ItemRepository itemRepository) {
-        super();
+                        ShopperRepository shopperRepository, GroceryItemRepository groceryItemRepository) {
         this.customerRepository = customerRepository;
         this.orderRepository = orderRepository;
         this.shopperRepository = shopperRepository;
         this.groceryItemRepository = groceryItemRepository;
-        this.itemRepository = itemRepository;
     }
 
 
@@ -77,7 +75,7 @@ public class OrderService {
     }
     public Order findByOrderId(int odrId) {
         Order outGoingOrder = orderRepository.findById(odrId).get();
-
+        log.info("AMOUNT OF ITEMS:  " + String.valueOf(outGoingOrder.getItems().size()));
         if (outGoingOrder != null) {
 
             return outGoingOrder;
@@ -104,14 +102,11 @@ public class OrderService {
     }
 
     public Order addItem(int odrID,int gItemID,int qnty) {
-          log.info("checking"+odrID+gItemID+qnty);
-          GroceryItem groceryItem = groceryItemRepository.findById(gItemID).get();
-          log.info("Checking Grocery Item"+groceryItem);
-          Item item =new Item(qnty, ItemStatus.Added,groceryItem);
-          Order addedOrder = orderRepository.findById(odrID).get();
-          addedOrder.getItems().add(item);
-          orderRepository.save(addedOrder);
-          return addedOrder;
+        GroceryItem groceryItem = groceryItemRepository.findById(gItemID).get();
+        Order order = orderRepository.findById(odrID).get();
+        Item item = itemRepository.save(new Item(qnty, ItemStatus.Added,groceryItem));
+        order.getItems().add(item);
+        return orderRepository.save(order);
     }
 
 

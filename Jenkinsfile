@@ -6,19 +6,12 @@ pipeline {
             echo 'Quality Gate'
         }
     }
-    stage('Unit Testing') {
-        steps {
-            withMaven {
-                sh 'mvn -f notificationApi/pom.xml test'
-            }
-        }
-    }
     stage ('Docker Build'){ 
       steps {
         script {
           echo "Docker Build"
 
-          sh "cd api2; docker build --no-cache -t notificationapi:latest ."          
+          sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."          
         }
       }
     }

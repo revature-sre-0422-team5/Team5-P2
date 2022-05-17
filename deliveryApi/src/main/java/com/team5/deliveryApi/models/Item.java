@@ -1,5 +1,8 @@
 package com.team5.deliveryApi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team5.deliveryApi.dto.ItemStatus;
 import lombok.*;
 
@@ -10,7 +13,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Item {
@@ -25,9 +27,6 @@ public class Item {
     private ItemStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
-    @ManyToOne
     @JoinColumn(name = "grocery_item_id")
     private GroceryItem groceryItem;
 
@@ -35,10 +34,6 @@ public class Item {
         this.quantity=quantity;
         this.status=status;
         this.groceryItem=groceryItem;
-
     }
-
-    public void delete(int id){}
-
 }
 

@@ -1,10 +1,12 @@
 package com.team5.deliveryApi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team5.deliveryApi.dto.OrderStatus;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
@@ -38,7 +39,8 @@ public class Order {
     @Column(name = "location_description")
     private String description;
 
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    @OneToMany
+    @JoinColumn(name = "orderId")
     private List<Item> items;
   
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
