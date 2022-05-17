@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Slf4j
 @Service
@@ -62,6 +63,7 @@ public class OrderService {
      * @return
      */
     public boolean saveOrder(int customerId, Order incomingOrder) {
+        orderRepository.save(incomingOrder);
         Customer customer = customerRepository.getById(customerId);
         customer.getOrders().add(incomingOrder);
         incomingOrder.setCustomer(customer);
@@ -69,20 +71,23 @@ public class OrderService {
         return true;
     }
 
-    public Order viewOrderById(int id) {
-        Order outGoingOrder = orderRepository.findById(id).get();
-        return outGoingOrder;
-    }
+    /**
+     * to find order by its id
+     * @param odrId refers to the id of the order
+     * @return the order with the given id
+     */
     public Order findByOrderId(int odrId) {
         Order outGoingOrder = orderRepository.findById(odrId).get();
 
-        if (outGoingOrder != null) {
-
-            return outGoingOrder;
-        } else { return null;
-        }
+        return outGoingOrder;
     }
 
+    /**
+     * To update the location of store
+     * @param incomingOrder refers to which order the location is to be updated
+     * @param incomingLocation refers to location description of the store
+     * @return updated order
+     */
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
         incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
         incomingOrder.setDescription(incomingLocation.getDto_description());
@@ -90,27 +95,49 @@ public class OrderService {
         return updatedOrder;
     }
 
+    /**
+     * Remove an item from the order
+     * @param incomingOrder refers to the order from which item to be removed
+     * @param itemId refers to item id
+     * @return boolean value
+     */
+    public boolean removeItem(Order incomingOrder,int itemId){
 
-    public boolean removeItem(Order incomingOrder,int item_Id){
+       // Item item = incomingOrder.getItems().stream().filter(i -> i.getId() == itemId).findFirst().get();
+        Item item = incomingOrder.getItems().stream().filter(i -> i.getGroceryItem().getId() == itemId).findFirst().get();
+        log.info("checking"+item+incomingOrder);
+        itemRepository.delete(item);
 
-        /*Optional<Item> cartItem = incomingOrder.getItems().stream().filter(i -> i.getId() == item_Id).findFirst();
-
-           // itemRepository.delete(cartItem);*/
-            orderRepository.save(incomingOrder);
-            return true;
+        itemRepository.save(item);
+        log.info("checking"+item+incomingOrder);
+        return true;
 
     }
 
+
+    /**
+     * Adding items to order
+     * @param odrID  refers to order id
+     * @param gItemID refers to grocery item id
+     * @param qnty refers to quantity of grocery item
+     * @return updated order
+     */
     public Order addItem(int odrID,int gItemID,int qnty) {
-          log.info("checking"+odrID+gItemID+qnty);
-          GroceryItem groceryItem=groceryItemRepository.findById(gItemID).get();
-          log.info("Checking Grocery Item"+groceryItem);
-          Item item =new Item(qnty, ItemStatus.Added,groceryItem);
-          Order addedOrder = orderRepository.findById(odrID).get();
-          addedOrder.getItems().add(item);
-          orderRepository.save(addedOrder);
-          return (addedOrder);
+        log.info("checking"+odrID+gItemID+qnty);
+        GroceryItem groceryItem=groceryItemRepository.findById(gItemID).get();
+        log.info("Checking Grocery Item"+groceryItem);
+        Order order=orderRepository.findById(odrID).get();
+        log.info("order"+order+odrID);
+
+        Item item =new Item(qnty, ItemStatus.Added,groceryItem);
+        log.info("item"+item);
+        itemRepository.save(item);
+        order.getItems().add(item);
+        log.info("Added Order"+order);
+        orderRepository.save(order);
+        return (order);
     }
+
 
 
     /**
