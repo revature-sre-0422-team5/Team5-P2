@@ -1,0 +1,43 @@
+version: "3"
+services:
+  notificationapi:
+      build: './notificationApi'
+      container_name: 'notificationapi'
+      environment: 
+        DB_URL: '${DB_URL}'
+        DB_USERNAME: '${DB_USERNAME}'
+        DB_PASSWORD: '${DB_PASSWORD}'
+      image: 'notificationapi:latest'
+  api2:
+      build: './api2'
+      container_name: 'api2'
+      environment: 
+        MAPS_API_KEY: '${MAPS_API_KEY}'
+        STRIPE_KEY: '${STRIPE_KEY}'
+        DB_URL: '${DB_URL}'
+        DB_USERNAME: '${DB_USERNAME}'
+        DB_PASSWORD: '${DB_PASSWORD}'
+      image: 'api2:latest' 
+      ports: 
+        - '8080:8081'
+  deliveryApi:
+    build: './deliveryApi'
+    container_name: 'deliveryApi'
+    environment: 
+      DB_URL: '${DB_URL}'
+      DB_USERNAME: '${DB_USERNAME}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+    image: 'deliveryapi:latest' 
+  prometheus:
+    container_name: 'prometheus'
+    image: 'bitnami/prometheus'
+    volumes: 
+      - './prometheus.yml:/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+  graf:
+    image: 'grafana/grafana'
+    container_name: 'grafana'
+    ports:
+      - '3000:3000'
+

@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -10,7 +11,6 @@ import java.util.List;
 @Table(name = "Customers")
 @Getter
 @Setter
-@ToString
 @Builder
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -19,7 +19,7 @@ public class Customer {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     //This is Customer's name
@@ -45,7 +45,8 @@ public class Customer {
  //   @Column(name = "isLoggedIn")
  //   private int isLoggedIn;
 
-    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Order> orders;
 
 
