@@ -1,5 +1,11 @@
 pipeline {
   agent any
+  environment {
+      PROJECT_ID = 'devops-javasre'
+      CLUSTER_NAME = 'autopilot-cluster-1'
+      LOCATION = 'northamerica-northeast1'
+      CREDENTIALS_ID = 'kubernetes_sa'
+  }
   stages {
     stage('Begin Pipeline') {
       steps {
@@ -24,6 +30,19 @@ pipeline {
           sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
           sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
         }
+      }
+    }
+
+    stage ('Deploy to GKE'){
+      steps{
+          step([
+          $class: 'KubernetesEngineBuilder',
+          projectId: env.PROJECT_ID,
+          clusterName: env.CLUSTER_NAME,
+          location: env.LOCATION,
+          manifestPattern: 'kubernetes/',
+          credentialsId: env.CREDENTIALS_ID,
+          verifyDeployments: true])
       }
     }
 
