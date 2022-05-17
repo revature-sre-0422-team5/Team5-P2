@@ -5,42 +5,49 @@ pipeline {
       CLUSTER_NAME = 'delivery-cluster'
       LOCATION = 'northamerica-northeast2-a'
       CREDENTIALS_ID = 'Team5-P2'
-      }
+  }
   stages {
-    stage('Quality Gate') {
-        steps{
-            echo 'Quality Gate '
-        }
+    stage('Begin Pipeline') {
+      steps {
+        sh 'echo "Hello world"'
+      }
     }
-    stage ('Docker Build'){ 
+    stage ('Docker Build'){
       steps {
         script {
           echo "Docker Build"
 
-          //sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."          
+          //sh "cd api2; docker build -t api2:latest ."
         }
       }
     }
-    stage('Docker Deliver') {
-        steps {
-            echo 'Docker Deliver'
-            script {
-                //sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-                //sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-            }
+    //For this step I had to sign into the jenkins account in the vm, generate artifact permissions file, upload the file, and docker login using that file
+    //https://cloud.google.com/artifact-registry/docs/docker/authentication#json-key
+    stage ('Docker tag and push to Google Artifact Repository'){
+      steps {
+        script {
+          echo "Docker push"
+          //sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+          //sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
         }
+      }
     }
-    stage('Deploy to GKE') {
-        steps {
-            step([
+
+    stage ('Deploy to GKE'){
+      steps{
+          echo "Deploying to GKE"
+
+          step([
             $class: 'KubernetesEngineBuilder',
-            projectId: env.PROJECT_ID,
+            projectId: env.PROJECT_ID,/*'devops-javasre',*/
             clusterName: env.CLUSTER_NAME,
-            zone: 'northamerica-northeast2-a',
+            zone: env.LOCATION,
             manifestPattern: './',
             credentialsId: env.CREDENTIALS_ID,
-            verifyDeployments: true])
-        }
+            verifyDeployments: true
+          ])
+      }
     }
+
   }
 }
