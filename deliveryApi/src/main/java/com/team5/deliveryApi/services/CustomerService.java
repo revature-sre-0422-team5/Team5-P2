@@ -17,10 +17,16 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    /**
+     * To save a customer
+     * @param incomingCustomer The details of customer
+     * @return boolean value
+     */
     public boolean saveCustomer(Customer incomingCustomer) {
         customerRepository.save(incomingCustomer);
         return true;
     }
+
 
     public ResponseEntity viewAllCustomer(){
         return ResponseEntity.ok(customerRepository.findAll());
