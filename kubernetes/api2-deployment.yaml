@@ -1,41 +1,65 @@
----
-apiVersion: "apps/v1"
-kind: "Deployment"
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: "api2-deployment"
-  namespace: "default"
+  annotations:
+    kompose.cmd: C:\Programs\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
   labels:
-    app: "api2-deployment"
+    io.kompose.service: api2
+  name: api2
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: "api2-deployment"
+      io.kompose.service: api2
+  strategy: {}
   template:
     metadata:
+      annotations:
+        kompose.cmd: C:\Programs\kompose.exe convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
       labels:
-        app: "api2-deployment"
+        io.kompose.service: api2
     spec:
       containers:
-      - name: "api2-1"
-        image: "northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2:latest"
----
-apiVersion: "autoscaling/v2beta1"
-kind: "HorizontalPodAutoscaler"
-metadata:
-  name: "api2-deployment-hpa-iqdq"
-  namespace: "default"
-  labels:
-    app: "api2-deployment"
-spec:
-  scaleTargetRef:
-    kind: "Deployment"
-    name: "api2-deployment"
-    apiVersion: "apps/v1"
-  minReplicas: 1
-  maxReplicas: 5
-  metrics:
-  - type: "Resource"
-    resource:
-      name: "cpu"
-      targetAverageUtilization: 80
+        - env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_PASSWORD
+                  optional: false
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_URL
+                  optional: false
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: DB_USERNAME
+                  optional: false
+            - name: MAPS_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: MAPS_API_KEY
+                  optional: false
+            - name: STRIPE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: apikeys
+                  key: STRIPE_KEY
+                  optional: false
+          image: api2:latest
+          imagePullPolicy: Never
+          name: api2
+          ports:
+            - containerPort: 8081
+          resources: {}
+      restartPolicy: Always
+status: {}
