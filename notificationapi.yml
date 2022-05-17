@@ -9,6 +9,10 @@ spec:
     matchLabels:
       app: notificationapi
   template:
+    metadata:
+      labels:
+        tier: data
+        app: microservices
     spec:
       containers:
         - name: notificationapi
