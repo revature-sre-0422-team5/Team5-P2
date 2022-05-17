@@ -35,7 +35,7 @@ pipeline {
 
     stage ('Deploy to GKE'){
       steps{
-        echo "Deploying to GKE"
+          echo "Deploying to GKE"
           step([
           $class: 'KubernetesEngineBuilder',
           projectId: env.PROJECT_ID,
