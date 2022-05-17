@@ -30,37 +30,17 @@ pipeline {
             }
         }
     }
-    stage('Wait for approval') {
-        steps {
-            script {
-            try {
-                timeout(time: 1, unit: 'MINUTES') {
-                    approved = input message: 'Deploy to production?', ok: 'Continue',
-                        parameters: [choice(name: 'approved', choices: 'Yes\nNo', description: 'Deploy build to production')]
-
-                    if(approved != 'Yes') {
-                        error('Build did not pass approval')
-                    }
-                }
-            } catch(error) {
-                error('Build failed because timeout was exceeded');
-            }
-        }
-        }
-    }
     stage('Deploy'){
         steps{
             echo 'Deploy'
-            steps{
-                step([
+            step([
                 $class: 'KubernetesEngineBuilder',
                 projectId: env.PROJECT_ID,
                 clusterName: env.CLUSTER_NAME,
                 location: env.LOCATION,
                 manifestPattern: 'manifest.yaml',
                 credentialsId: env.CREDENTIALS_ID,
-                verifyDeployments: true])
-            }
+            verifyDeployments: true])
         }
     }
   }
