@@ -78,9 +78,14 @@ pipeline {
       steps {
         script {
           echo "Docker Build"
+
+          sh "cd deliveryApi; docker build --no-cache -t api2:latest ."
+          
+          /*
           docker.withRegistry ('northamerica-northeast2-docker.pkg.dev') {
             docker.build("api2:latest", "./api2")
           }
+          */
         }
       }
     }
