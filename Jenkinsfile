@@ -36,17 +36,16 @@ pipeline {
     stage ('Deploy to GKE'){
       steps{
           echo "Deploying to GKE"
+
           step([
-          $class: 'KubernetesEngineBuilder',
-          projectId: env.PROJECT_ID,
-          clusterName: env.CLUSTER_NAME,
-          zone: env.LOCATION,
-          manifestPattern: 'kubernetes/api2-deployment.yaml',
-          credentialsId: env.CREDENTIALS_ID,
-          verifyDeployments: true])
-        }
-
-
+            $class: 'KubernetesEngineBuilder',
+            projectId: env.PROJECT_ID,
+            clusterName: env.CLUSTER_NAME,
+            location: env.LOCATION,
+            manifestPattern: 'kubernetes/api2-deployment.yaml',
+            credentialsId: env.CREDENTIALS_ID,
+            verifyDeployments: false
+          ])
       }
 
 
