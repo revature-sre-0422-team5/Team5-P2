@@ -54,6 +54,7 @@ spec:
                   key: STRIPE_KEY
                   optional: false
           image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2
+          imagePullPolicy: Always
           name: api2
           ports:
             - containerPort: 8081
