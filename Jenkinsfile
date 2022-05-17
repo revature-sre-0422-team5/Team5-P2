@@ -1,7 +1,7 @@
 pipeline {
   environment {
     registry = 'jamesty2114/deliveryapi'
-    dockerHubCreds = 'jamesty2114'
+    dockerHubCreds = 'docker_hub'
     dockerImage = ''
   }
   agent any
