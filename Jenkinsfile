@@ -33,12 +33,12 @@ pipeline {
             steps{
                 echo "Deploying to GKE"
                 step([$class: 'KubernetesEngineBuilder',
-                projectId: env.PROJECT_ID,/*'devops-javasre',*/
-                clusterName: env.CLUSTER_NAME,
-                zone: env.LOCATION,
-                manifestPattern: './',
-                credentialsId: env.CREDENTIALS_ID,
-                verifyDeployments: true])
+                    projectId: env.PROJECT_ID,/*'devops-javasre',*/
+                    clusterName: env.CLUSTER_NAME,
+                    zone: env.LOCATION,
+                    manifestPattern: 'notificationapi.yml',
+                    credentialsId: env.CREDENTIALS_ID,
+                    verifyDeployments: true])
             }
         }
     }
