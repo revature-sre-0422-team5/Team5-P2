@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Quality Gate') {
         steps{
-            echo 'Quality Gate'
+            echo 'Quality Gate '
         }
     }
     stage ('Docker Build'){ 
