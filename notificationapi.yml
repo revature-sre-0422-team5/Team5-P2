@@ -24,7 +24,7 @@ metadata:
   name: notificationapi-service
 spec:
   selector:
-    app: project2
+    app: nginx
   type: LoadBalancer
   ports:
     - port: 8080
