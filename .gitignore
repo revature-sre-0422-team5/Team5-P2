@@ -10,3 +10,5 @@ api2/target
 terraform/
 
 kubernetes/
+
+old/
