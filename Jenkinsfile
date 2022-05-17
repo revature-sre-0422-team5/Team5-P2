@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    registry = 'jam/project2'
+    registry = 'jamesty2114/deliveryapi'
     dockerHubCreds = 'docker_hub'
     dockerImage = ''
   }
