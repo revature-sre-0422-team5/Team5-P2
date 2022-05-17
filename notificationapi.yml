@@ -9,12 +9,20 @@ spec:
     matchLabels:
       app: notificationapi
   template:
-    containers:
-      - name: notificationapi
-        imagePullPolicy: Always
-        image: notificationapi
-        ports:
-          - containerPort: 8080
+    spec:
+      containers:
+        - name: notificationapi
+          imagePullPolicy: Always
+          image: notificationapi
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
