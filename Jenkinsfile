@@ -38,7 +38,7 @@ pipeline {
                 projectId: env.PROJECT_ID,
                 clusterName: env.CLUSTER_NAME,
                 zone: 'northamerica-northeast2-a',
-                manifestPattern: '/',
+                manifestPattern: './',
                 credentialsId: env.CREDENTIALS_ID,
             verifyDeployments: true])
         }
