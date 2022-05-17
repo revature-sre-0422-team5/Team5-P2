@@ -11,7 +11,7 @@ pipeline {
         script {
           echo "Docker Build"
 
-          sh "cd api2; docker build --no-cache -t api2:latest ."          
+          sh "cd api2; docker build -t api2:latest ."
         }
       }
     }
