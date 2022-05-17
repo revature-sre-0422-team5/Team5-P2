@@ -31,7 +31,7 @@ pipeline {
         }
     }
     stage('Deploy'){
-        steps{
+        steps {
             echo 'Deploy'
             step([
                 $class: 'KubernetesEngineBuilder',
