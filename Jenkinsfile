@@ -25,7 +25,7 @@ pipeline {
         script {
           echo "Docker Build"
 
-          sh "cd notificationApi; docker build --no-cache -t notificationApi:latest ."          
+          sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."          
         }
       }
     }
@@ -33,8 +33,8 @@ pipeline {
         steps {
             echo 'Docker Deliver'
             script {
-                sh "docker tag notificationApi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationApi"
-                sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationApi"
+                sh "docker tag notificationApi northamerica-northeast2-docker.pkg.dev/devops-javasre/gcp-docker/notificationapi"
+                sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/gcp-docker/notificationapi"
             }
         }
     }
