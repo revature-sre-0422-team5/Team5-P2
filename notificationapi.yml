@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: notificationapi
+spec:
+  replica: 2
+  selector:
+    matchLabels:
+      app: notificationapi
+  template:
+    containers:
+      - name: notificationapi
+        imagePullPolicy: Always
+        image: notificationapi
+        ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notificationapi-service
+spec:
+  selector:
+    app: project2
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 80

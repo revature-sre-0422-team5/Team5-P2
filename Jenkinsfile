@@ -1,5 +1,11 @@
 pipeline {
   agent any
+  environment {
+      PROJECT_ID = '<YOUR_PROJECT_ID>'
+      CLUSTER_NAME = 'delivery-cluster'
+      LOCATION = 'northamerica-northeast2'
+      CREDENTIALS_ID = 'Team5-P2'
+      }
   stages {
     stage('Quality Gate') {
         steps{
@@ -45,6 +51,16 @@ pipeline {
     stage('Deploy'){
         steps{
             echo 'Deploy'
+            steps{
+                step([
+                $class: 'KubernetesEngineBuilder',
+                projectId: env.PROJECT_ID,
+                clusterName: env.CLUSTER_NAME,
+                location: env.LOCATION,
+                manifestPattern: 'manifest.yaml',
+                credentialsId: env.CREDENTIALS_ID,
+                verifyDeployments: true])
+            }
         }
     }
   }
