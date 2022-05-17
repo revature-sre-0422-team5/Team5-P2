@@ -4,7 +4,7 @@ pipeline {
       PROJECT_ID = 'devops-javasre'
       CLUSTER_NAME = 'autopilot-cluster-1'
       LOCATION = 'northamerica-northeast1'
-      CREDENTIALS_ID = 'autopilot-cluster-1'
+      CREDENTIALS_ID = 'javasre-devops'
   }
   stages {
     stage('Begin Pipeline') {
