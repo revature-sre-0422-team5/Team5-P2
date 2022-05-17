@@ -4,7 +4,7 @@ pipeline {
       PROJECT_ID = 'revature-346918'
       CLUSTER_NAME = 'delivery-cluster'
       LOCATION = 'northamerica-northeast2-a'
-      CREDENTIALS_ID = 'revature-346918'
+      CREDENTIALS_ID = 'Team5-P2'
       }
   stages {
     stage('Quality Gate') {
