@@ -55,7 +55,7 @@ spec:
                   name: apikeys
                   key: STRIPE_KEY
                   optional: false
-          image: api2:latest
+          image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2:latest
           imagePullPolicy: Never
           name: api2
           ports:
