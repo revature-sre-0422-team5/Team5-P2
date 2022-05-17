@@ -12,10 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<Item,Integer> {
 
-   //@Query("update Item item set item.groceryItem = null where item.groceryItemId = ?1")
-   //@Modifying
-   //Query("delete * from Item where item.groceryItem.Id=?1")
-   //Item removeItem(Integer groceryItemId);
+
 
 
 }
