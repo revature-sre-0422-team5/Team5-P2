@@ -25,6 +25,14 @@ pipeline {
             }
         }
     }
+    stage('Docker Image') {
+        steps {
+            script {
+                echo "$registry:$currentBuild.number"
+                dockerImage = docker.build "$registry:$currentBuild.number"
+            }
+        }
+    }
     stage('Docker Deliver') {
         steps {
             echo 'Docker Deliver'
@@ -33,14 +41,6 @@ pipeline {
                     dockerImage.push("$currentBuild.number")
                     dockerImage.push("latest")
                 }
-            }
-        }
-    }
-    stage('Docker Image') {
-        steps {
-            script {
-                echo "$registry:$currentBuild.number"
-                dockerImage = docker.build "$registry:$currentBuild.number"
             }
         }
     }
