@@ -34,12 +34,12 @@ pipeline {
         steps {
             echo 'Deploy'
             step([
-                $class: 'KubernetesEngineBuilder',
-                projectId: env.PROJECT_ID,
-                clusterName: env.CLUSTER_NAME,
-                zone: 'northamerica-northeast2-a',
-                manifestPattern: './',
-                credentialsId: env.CREDENTIALS_ID,
+            $class: 'KubernetesEngineBuilder',
+            projectId: env.PROJECT_ID,
+            clusterName: env.CLUSTER_NAME,
+            zone: 'northamerica-northeast2-a',
+            manifestPattern: './',
+            credentialsId: env.CREDENTIALS_ID,
             verifyDeployments: true])
         }
     }
