@@ -3,7 +3,7 @@ pipeline {
   environment {
       PROJECT_ID = 'revature-346918'
       CLUSTER_NAME = 'delivery-cluster'
-      LOCATION = 'northamerica-northeast2'
+      LOCATION = 'northamerica-northeast2-a'
       CREDENTIALS_ID = 'Team5-P2'
       }
   stages {
