@@ -39,12 +39,12 @@ pipeline {
 
           step([
             $class: 'KubernetesEngineBuilder',
-            projectId: 'devops-javasre',
+            projectId: env.PROJECT_ID/*'devops-javasre',*/
             clusterName: env.CLUSTER_NAME,
             location: env.LOCATION,
             manifestPattern: 'kubernetes/api2-deployment.yaml',
             credentialsId: env.CREDENTIALS_ID,
-            verifyDeployments: false
+            verifyDeployments: true
           ])
       }
     }
