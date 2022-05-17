@@ -16,7 +16,14 @@ spec:
           image: notificationapi
           ports:
             - containerPort: 8080
-          resources: {}
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+
 ---
 apiVersion: v1
 kind: Service
