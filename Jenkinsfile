@@ -17,7 +17,7 @@ pipeline {
         script {
           echo "Docker Build"
 
-          sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."          
+          //sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."          
         }
       }
     }
@@ -25,14 +25,13 @@ pipeline {
         steps {
             echo 'Docker Deliver'
             script {
-                sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-                sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
+                //sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
+                //sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
             }
         }
     }
-    stage('Deploy'){
+    stage('Deploy to GKE') {
         steps {
-            echo 'Deploy'
             step([
             $class: 'KubernetesEngineBuilder',
             projectId: env.PROJECT_ID,
