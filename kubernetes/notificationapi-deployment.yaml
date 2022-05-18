@@ -36,7 +36,7 @@ spec:
                   key: DB_USERNAME
                   optional: false
           image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi:latest
-          imagePullPolicy: Never
+          imagePullPolicy: Always
           name: notificationapi
           resources:
             requests:
