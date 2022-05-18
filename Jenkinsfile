@@ -17,7 +17,7 @@ pipeline {
         script {
           echo "Docker Build"
 
-          sh "cd api2; docker build -t api2:latest ."
+          sh "cd api2; docker build --no-cache -t api2:latest ."
         }
       }
     }
@@ -36,7 +36,7 @@ pipeline {
       steps {
           echo "Docker Build"
 
-          sh "cd deliveryApi; docker build -t deliveryapi:latest ."
+          sh "cd deliveryApi; docker build --no-cache -t deliveryapi:latest ."
       }
     }
     stage ('Docker Push Delivery Api'){
@@ -52,7 +52,7 @@ pipeline {
       steps {
           echo "Docker Build"
 
-          sh "cd notificationApi; docker build -t notificationapi:latest ."        
+          sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."        
       }
     }
     stage ('Docker Push Notifications Api'){
