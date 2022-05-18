@@ -59,8 +59,8 @@ pipeline {
       steps {
           echo "Docker push"
 
-          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationsapi"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationsapi"
+          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
+          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
       }
     }
 
