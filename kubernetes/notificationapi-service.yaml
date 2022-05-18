@@ -5,8 +5,8 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - name: "7000"
-      port: 7000
+    - name: "10553"
+      port: 10553
       targetPort: 8080
   selector:
     app: notificationapi
