@@ -7,7 +7,7 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: p2
-  name: api2
+  name: deliveryapi
 spec:
   replicas: 1
   selector:
@@ -43,23 +43,9 @@ spec:
                   name: apikeys
                   key: DB_USERNAME
                   optional: false
-            - name: MAPS_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: apikeys
-                  key: MAPS_API_KEY
-                  optional: false
-            - name: STRIPE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: apikeys
-                  key: STRIPE_KEY
-                  optional: false
-          image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2:latest
-          imagePullPolicy: Always
-          name: api2
-          ports:
-            - containerPort: 8081
+          image: deliveryapi:latest
+          imagePullPolicy: Never
+          name: deliveryapi
           resources: {}
       restartPolicy: Always
 status: {}
