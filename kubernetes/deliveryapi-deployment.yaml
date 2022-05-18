@@ -43,8 +43,8 @@ spec:
                   name: apikeys
                   key: DB_USERNAME
                   optional: false
-          image: deliveryapi:latest
-          imagePullPolicy: Never
+          image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi:latest
+          imagePullPolicy: Always
           name: deliveryapi
           resources: {}
       restartPolicy: Always
