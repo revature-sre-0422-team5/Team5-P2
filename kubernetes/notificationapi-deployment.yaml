@@ -43,8 +43,8 @@ spec:
                   name: apikeys
                   key: DB_USERNAME
                   optional: false
-          image: notificationapi:latest
-          imagePullPolicy: Never
+          image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi:latest
+          imagePullPolicy: Always
           name: notificationapi
           resources: {}
       restartPolicy: Always
