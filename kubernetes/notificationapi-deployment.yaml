@@ -1,27 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: C:\Programs\kompose.exe convert
-    kompose.version: 1.26.0 (40646f47)
-  creationTimestamp: null
   labels:
-    io.kompose.service: notificationapi
+    app: notificationapi
   name: notificationapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: notificationapi
+      app: notificationapi
   strategy: {}
   template:
     metadata:
-      annotations:
-        kompose.cmd: C:\Programs\kompose.exe convert
-        kompose.version: 1.26.0 (40646f47)
-      creationTimestamp: null
       labels:
-        io.kompose.service: notificationapi
+        app: notificationapi
     spec:
       containers:
         - env:
@@ -44,7 +36,7 @@ spec:
                   key: DB_USERNAME
                   optional: false
           image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi:latest
-          imagePullPolicy: Always
+          imagePullPolicy: Never
           name: notificationapi
           resources: {}
       restartPolicy: Always
