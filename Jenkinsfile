@@ -33,27 +33,35 @@ pipeline {
       }
     }
     stage ('Docker Build Delivery Api'){
+      steps {
           echo "Docker Build"
 
           sh "cd deliveryApi; docker build -t deliveryapi:latest ."
+      }
     }
     stage ('Docker Push Delivery Api'){
+      steps {
           echo "Docker push"
 
           sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
           sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
+      }
     }
 
     stage ('Docker Build Notifications Api'){
+      steps {
           echo "Docker Build"
 
-          sh "cd notificationsApi; docker build -t notificationsApi:latest ."
+          sh "cd notificationsApi; docker build -t notificationsApi:latest ."        
+      }
     }
     stage ('Docker Push Notifications Api'){
+      steps {
           echo "Docker push"
-          
+
           sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationsApi"
           sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationsApi"
+      }
     }
 
     stage ('Deploy to GKE'){
