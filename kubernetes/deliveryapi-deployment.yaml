@@ -8,7 +8,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: p2
+      app: deliveryapi
   strategy: {}
   template:
     metadata:
@@ -38,8 +38,14 @@ spec:
           image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi:latest
           imagePullPolicy: Always
           name: deliveryapi
-          resources: {}
-      restartPolicy: Always
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+          restartPolicy: Always
 status: {}
 
 
