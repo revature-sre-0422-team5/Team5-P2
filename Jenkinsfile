@@ -52,7 +52,7 @@ pipeline {
       steps {
           echo "Docker Build"
 
-          sh "cd notificationsApi; docker build -t notificationsApi:latest ."        
+          sh "cd notificationApi; docker build -t notificationsApi:latest ."        
       }
     }
     stage ('Docker Push Notifications Api'){
