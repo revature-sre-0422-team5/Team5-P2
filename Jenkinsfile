@@ -9,6 +9,7 @@ pipeline {
     stage('Quality Gate') {
         steps{
             echo 'Quality Gate'
+            echo 'test'
         }
     }
     stage('Unit Testing') {
