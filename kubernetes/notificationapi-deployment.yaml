@@ -6,13 +6,13 @@ metadata:
     kompose.version: 1.26.0 (40646f47)
   creationTimestamp: null
   labels:
-    io.kompose.service: p2
+    io.kompose.service: notificationapi
   name: notificationapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: p2
+      io.kompose.service: notificationapi
   strategy: {}
   template:
     metadata:
@@ -21,7 +21,7 @@ spec:
         kompose.version: 1.26.0 (40646f47)
       creationTimestamp: null
       labels:
-        io.kompose.service: p2
+        io.kompose.service: notificationapi
     spec:
       containers:
         - env:
@@ -49,3 +49,24 @@ spec:
           resources: {}
       restartPolicy: Always
 status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\Programs\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: notificationapi
+  name: notificationapi
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8081
+  selector:
+    io.kompose.service: p2
+status:
+  loadBalancer: {}
