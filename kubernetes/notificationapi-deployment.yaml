@@ -38,6 +38,12 @@ spec:
           image: northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi:latest
           imagePullPolicy: Never
           name: notificationapi
-          resources: {}
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
       restartPolicy: Always
 status: {}
