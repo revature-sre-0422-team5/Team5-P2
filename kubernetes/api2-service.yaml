@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: C:\Programs\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: api2
+  name: api2
+spec:
+  type: LoadBalancer
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8081
+  selector:
+    io.kompose.service: p2
+status:
+  loadBalancer: {}
