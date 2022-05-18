@@ -7,7 +7,6 @@ import com.team5.api2.services.MapsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +16,11 @@ public class MapsController {
     @Autowired
     private MapsServices mapsService;
 
-    @PostMapping("/directions")
+    @GetMapping("/directions")
     public ResponseEntity<DirectionsResult> getDirections (@RequestBody getDirectionsRequest gdr){
+        if (gdr.getLocationFrom() == null || gdr.getLocationTo() == null || gdr.getLocationFrom().equals("") || gdr.getLocationTo().equals("")){
+            return ResponseEntity.badRequest().body(null);
+        }
         try {
             return ResponseEntity.ok().body(mapsService.getDirections(gdr.getLocationFrom(), gdr.getLocationTo()));
         }
@@ -30,6 +32,9 @@ public class MapsController {
 
     @GetMapping ("/getDistance")
     public ResponseEntity<Long> getDistance (@RequestBody getDirectionsRequest gdr){
+        if (gdr.getLocationFrom() == null || gdr.getLocationTo() == null || gdr.getLocationFrom().equals("") || gdr.getLocationTo().equals("")){
+            return ResponseEntity.badRequest().body(null);
+        }
         try {
             return ResponseEntity.ok().body(mapsService.getDistance(gdr.getLocationFrom(), gdr.getLocationTo()));
         }
