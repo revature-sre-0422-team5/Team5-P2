@@ -7,7 +7,7 @@ spec:
   ports:
     - name: "9000"
       port: 9000
-      targetPort: 8080
+      targetPort: 7000
   selector:
     app: deliveryapi
 status:
