@@ -14,11 +14,9 @@ spec:
     spec:
       containers:
       - name: notificationapi
-        image: northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker
+        image: northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi:latest
         ports:
         - containerPort: 8080
-      imagePullSecrets:
-      - name: regcred
 ---
 apiVersion: v1
 kind: Service
