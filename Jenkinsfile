@@ -12,7 +12,7 @@ pipeline {
         sh 'echo "Hello world"'
       }
     }
-    stage ('Docker Build'){
+    stage ('Docker Build Api2'){
       steps {
         script {
           echo "Docker Build"
@@ -23,7 +23,7 @@ pipeline {
     }
     //For this step I had to sign into the jenkins account in the vm, generate artifact permissions file, upload the file, and docker login using that file
     //https://cloud.google.com/artifact-registry/docs/docker/authentication#json-key
-    stage ('Docker tag and push to Google Artifact Repository'){
+    stage ('Docker tag Api2 and push to Google Artifact Repository'){
       steps {
         script {
           echo "Docker push"
@@ -31,6 +31,29 @@ pipeline {
           sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
         }
       }
+    }
+    stage ('Docker Build Delivery Api'){
+          echo "Docker Build"
+
+          sh "cd deliveryApi; docker build -t deliveryapi:latest ."
+    }
+    stage ('Docker Push Delivery Api'){
+          echo "Docker push"
+
+          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
+          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
+    }
+
+    stage ('Docker Build Notifications Api'){
+          echo "Docker Build"
+
+          sh "cd notificationsApi; docker build -t notificationsApi:latest ."
+    }
+    stage ('Docker Push Notifications Api'){
+          echo "Docker push"
+          
+          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationsApi"
+          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationsApi"
     }
 
     stage ('Deploy to GKE'){
