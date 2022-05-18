@@ -36,14 +36,14 @@ pipeline {
       steps {
           echo "Docker Build"
 
-          sh "cd deliveryApi; docker build --no-cache -t deliveryapi:latest ."
+          sh "cd deliveryApi; docker build -t deliveryapi:latest ."
       }
     }
     stage ('Docker Push Delivery Api'){
       steps {
           echo "Docker push"
 
-          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
+          sh "docker tag deliveryapi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
           sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
       }
     }
@@ -52,14 +52,14 @@ pipeline {
       steps {
           echo "Docker Build"
 
-          sh "cd notificationApi; docker build --no-cache -t notificationapi:latest ."        
+          sh "cd notificationApi; docker build -t notificationapi:latest ."        
       }
     }
     stage ('Docker Push Notifications Api'){
       steps {
           echo "Docker push"
 
-          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
+          sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
           sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
       }
     }
