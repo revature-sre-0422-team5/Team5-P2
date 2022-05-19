@@ -16,7 +16,9 @@ pipeline {
             steps {
                 script {
                     echo "Docker Build"
-                    sh "cd api2; docker build -t notificationapi:latest ."
+                    sh "docker build -t notificationapi notificationApi"
+                    sh "docker build -t deliveryapi deliveryApi"
+                    sh "docker pull mysql"
                 }
             }
         }
@@ -24,8 +26,12 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
+                    sh "docker tag deliveryapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
+                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
                     sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
                     sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
+                    sh "docker tag mysql northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
+                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
                 }
             }
         }
