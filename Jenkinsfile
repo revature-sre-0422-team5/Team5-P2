@@ -19,6 +19,16 @@ pipeline {
           echo "Docker Build"
 
           sh "cd api2; docker build -t api2:latest ."
+
+        }
+      }
+    }
+    stage ('Docker tag Api2 and push to Google Artifact Repository'){
+      steps {
+        script {
+          echo "Docker push"
+          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/my-first-project/my-first-project/api2"
+          sh "docker push northamerica-northeast2-docker.pkg.dev/my-first-project/my-first-project/api2"
         }
       }
     }
