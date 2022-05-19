@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service("Maps")
 public class MapsServices {
-    
+
     private GeoApiContext context;
 
     @Autowired

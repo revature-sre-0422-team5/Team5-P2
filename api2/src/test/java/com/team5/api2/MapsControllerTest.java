@@ -1,6 +1,5 @@
 package com.team5.api2;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,10 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.model.DirectionsResult;
 import com.team5.api2.services.MapsServices;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.invocation.Invocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,7 +36,7 @@ class MapsControllerTest {
 
 
 	/**
-	 * Test how controller responds to null and regular inputs, and that services get called properly
+	 * Test how controller responds to null and regular inputs for distance calculation
 	 * @throws JsonProcessingException
 	 * @throws Exception
 	 */
@@ -71,6 +68,11 @@ class MapsControllerTest {
 		Mockito.verify(mapsServices, times(1)).getDistance(cnTower, artGalleryOntario);
 	}
 
+	/**
+	 * Test how controller responds to null and regular inputs for getting directions
+	 * @throws JsonProcessingException
+	 * @throws Exception
+	 */
 	@Test
 	void controllerResponseToDirectionsRequest () throws JsonProcessingException, Exception{
 		Map<String, String> request = new HashMap<>();
