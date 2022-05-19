@@ -37,6 +37,7 @@ public class MapsServicesTest {
      */
     @Test
     void checkDistanceApiGetsCalled (){        
+
         //Mock static requirements
         try (MockedStatic<DistanceMatrixApi> distanceApiMock = Mockito.mockStatic(DistanceMatrixApi.class)){
             distanceApiMock.when( () -> DistanceMatrixApi.getDistanceMatrix(any(), any(), any()).await())
@@ -48,11 +49,8 @@ public class MapsServicesTest {
                 () -> DistanceMatrixApi.getDistanceMatrix(any(), any(), any()), 
                 times(1)
             );
-        }
 
-        //Check null returned when api has errors
-        try (MockedStatic<DistanceMatrixApi> distanceApiMock = Mockito.mockStatic(DistanceMatrixApi.class)){
-    
+            //Check null returned when api has errors
             distanceApiMock.when( () -> DistanceMatrixApi.getDistanceMatrix(any(), any(), any()))
             .thenThrow(IllegalStateException.class);
 
@@ -80,12 +78,9 @@ public class MapsServicesTest {
                 () -> DirectionsApi.getDirections(any(), anyString(), anyString()), 
                 times(1)
             );
-        }
 
         //Check null returned when api has errors
-        try (MockedStatic<DirectionsApi> directionApiMock = Mockito.mockStatic(DirectionsApi.class)){
-    
-            directionApiMock.when( () -> DirectionsApi.getDirections(any(), anyString(), anyString()))
+        directionApiMock.when( () -> DirectionsApi.getDirections(any(), anyString(), anyString()))
             .thenThrow(IllegalStateException.class);
 
             Assertions.assertEquals(null, mapsService.getDirections(cnTower, ago));
