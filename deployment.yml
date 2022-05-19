@@ -19,9 +19,8 @@ data:
   EMAIL_USER: email_user
   TWILIO_ACCOUNT_SID: twilio_sid
   TWILIO_PHONE_NUMBER: twilio_number
-  MYSQL_DATABASE: data
   DB_USERNAME: root
-  DB_URL: jdbc:mysql://mysqldb:3306/data
+  DB_URL: jdbc:mysql://mysqldb:3306/data?createDatabaseIfNotExist=true
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
