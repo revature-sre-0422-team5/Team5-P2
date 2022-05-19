@@ -24,7 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * Maps Services Test
 */
 @SpringBootTest
-public class MapsServicesTest {
+class MapsServicesTest {
 
     @Mock
     private GeoApiContext geoApiCtx;

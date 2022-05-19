@@ -38,7 +38,6 @@ class MapsControllerTest {
 	@Autowired
     private ObjectMapper mapper;
 
-
 	/**
 	 * Test how controller responds to null and regular inputs for distance calculation
 	 * @throws JsonProcessingException
