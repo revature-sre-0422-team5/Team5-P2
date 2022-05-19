@@ -20,6 +20,8 @@ data:
   DB_USERNAME: root
   DB_URL: jdbc:mysql://mysqldb:3306/data?createDatabaseIfNotExist=true
   MYSQL_ROOT_PASSWORD: password
+  MYSQL_USER: user
+  MYSQL_PASSWORD: password
   DB_PASSWORD: password
 ---
 apiVersion: v1
