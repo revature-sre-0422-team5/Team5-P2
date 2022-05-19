@@ -22,20 +22,6 @@ pipeline {
         }
       }
     }
-    stage ('Docker Build Delivery Api'){
-      steps {
-          echo "Docker Build"
-
-          sh "cd deliveryApi; docker build -t deliveryapi:latest ."
-      }
-    }
-    stage ('Docker Build Notifications Api'){
-      steps {
-          echo "Docker Build"
-
-          sh "cd notificationApi; docker build -t notificationapi:latest ."        
-      }
-    }
     stage ('Deploy to GKE'){
       steps{
           echo "Deploying to GKE"
