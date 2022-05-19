@@ -27,6 +27,12 @@ public class OrderController {
     @Value("${api.directions}")
     private String directionsApiUrl;
 
+    /**
+     * Create a new order for the customer
+     * @param incomingOrder refers to details of order
+     * @param customerId refers to the customer
+     * @return success or error message
+     */
     @PostMapping("/new/{customerId}")
     public String createOrder(@RequestBody Order incomingOrder,
                               @PathVariable int customerId) {
@@ -46,7 +52,7 @@ public class OrderController {
     public ResponseEntity viewAllOrders(){
         return orderService.viewAllOrders();
     }
-    
+
 
     @GetMapping("/status/{id}")
     public ResponseEntity viewStatusById(@PathVariable int id) {
@@ -58,38 +64,68 @@ public class OrderController {
         return ResponseEntity.ok(orderService.payOrder(id));
     }
 
+    /**
+     * To view order by orderId
+     * @param odrId refers to id of order
+     * @return order
+     */
     @GetMapping("/viewId/{odrId}")
-    public ResponseEntity<Order> viewOrderById(@PathVariable int odrId) {
+    public ResponseEntity<Order> findOrderById(@PathVariable int odrId) {
         Order outGoingOrder = orderService.findByOrderId(odrId);
         return ResponseEntity.ok().body(outGoingOrder);
 
     }
+
+    /**
+     * To add or update location description
+     * @param orderLocation details or description of location
+     * @param odr_id refers to order id
+     * @return Order
+     */
     @PutMapping(value = "/adddescription/{odr_id}")
-    public Order updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
+    public ResponseEntity<Order> updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
         Order Out=orderService.updateLocation(orderService.findByOrderId(odr_id),orderLocation);
-        return Out;
+        return ResponseEntity.ok().body(Out);
     }
 
-    @RequestMapping(value = "/removeitem/{odr_id}/{item_id}", method = RequestMethod.PUT)
+    /**
+     * Remove item from the order using grocery item id
+     * @param odrId refers to order id
+     * @param itemId refers to grocery item id
+     * @return success or error message
+     */
+    @RequestMapping(value = "/removeitem/{odrId}/{itemId}", method = RequestMethod.DELETE)
     public ResponseEntity<String> removeItem(@PathVariable int odrId,@PathVariable int itemId) {
-       boolean success=orderService.removeItem(orderService.findByOrderId(odrId),itemId);
-       if (success==true) {
-           return ResponseEntity.ok().body( "Successfully Removed the item");
-       }else{
-           return ResponseEntity.ok().body("Error in removing item");
-       }
+        boolean success=orderService.removeItem(orderService.findByOrderId(odrId),itemId);
+        log.info( "checking"+orderService.findByOrderId(odrId));
+
+        if (success==true) {
+            return ResponseEntity.ok().body( "Successfully Removed the item");
+        }else{
+            return ResponseEntity.ok().body("Error in removing item");
+        }
 
 
     }
-      
-  @PostMapping(value = "/addItem/{odrId}/{groceryItemID}")
-  public ResponseEntity <Order> addItem(@PathVariable int odrId, @PathVariable int groceryItemID,
-                                        @RequestParam("qty") int quantity) {
+
+    /**
+     * Adding items to order
+     * @param odrId  refers to order id
+     * @param groceryItemID refers to grocery item id
+     * @param quantity refers to quantity of item
+     * @return order with response status
+     */
+
+
+    @PostMapping(value = "/addItem/{odrId}/{groceryItemID}")
+    public ResponseEntity <Order> addItem(@PathVariable int odrId, @PathVariable int groceryItemID,
+                                          @RequestParam("qty") int quantity) {
         log.info("checking"+odrId+groceryItemID+quantity);
         Order order=orderService.addItem(odrId,groceryItemID,quantity);
         log.info("in controller");
         return ResponseEntity.ok().body(order);
-   }
+    }
+
 
     /**
      * Updates the status of an order.
@@ -97,22 +133,22 @@ public class OrderController {
      * @param orderStatus The new status to assign to the order.
      * @return The HTTP response containing the newly updated order.
      */
-   @PutMapping("/status/{odr_id}")
+    @PutMapping("/status/{odr_id}")
     public ResponseEntity<Order> changeOrderStatus(@PathVariable int odr_id,
                                                    @RequestParam("status") String orderStatus) {
-       OrderStatus status = OrderStatus.valueOf(orderStatus);
-       return ResponseEntity.ok(orderService.updateOrderStatus(odr_id, status));
+        OrderStatus status = OrderStatus.valueOf(orderStatus);
+        return ResponseEntity.ok(orderService.updateOrderStatus(odr_id, status));
     }
 
     @DeleteMapping("/delete/{odr_id}")
     public ResponseEntity<String> cancelOrder(@PathVariable int odr_id) {
-         boolean success=orderService.deleteOrder(orderService.findByOrderId(odr_id));
-         if(success==true) {
-             return ResponseEntity.ok().body("Order cancelled Successfully");
-         }
-         else{
-             return ResponseEntity.ok().body("Error in cancelling Order");
-         }
+        boolean success=orderService.deleteOrder(orderService.findByOrderId(odr_id));
+        if(success==true) {
+            return ResponseEntity.ok().body("Order cancelled Successfully");
+        }
+        else{
+            return ResponseEntity.ok().body("Error in cancelling Order");
+        }
     }
 
     /**
