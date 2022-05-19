@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     echo "Docker Build"
-                    //sh "cd api2; docker build -t api2:latest ."
+                    sh "cd api2; docker build -t api2:latest ."
                 }
             }
         }
@@ -24,8 +24,8 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
-                    //sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
-                    //sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+                    sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+                    sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
                     projectId: env.PROJECT_ID,/*'devops-javasre',*/
                     clusterName: env.CLUSTER_NAME,
                     zone: env.LOCATION,
-                    manifestPattern: 'notificationapi.yml',
+                    manifestPattern: 'deployment.yml',
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true])
             }

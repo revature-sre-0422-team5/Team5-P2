@@ -120,7 +120,7 @@ spec:
     spec:
       containers:
       - name: notificationapi
-        image: notificationapi
+        image: northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
