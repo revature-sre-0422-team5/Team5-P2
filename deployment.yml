@@ -4,11 +4,11 @@ metadata:
   name: all-secret
 type: Opaque
 data:
-  EMAIL_PASS: cGFzc3dvcmQK
-  TWILIO_ACCOUNT_TOKEN: cGFzc3dvcmQK
-  MYSQL_ROOT_PASSWORD: cGFzc3dvcmQK
-  MYSQL_PASSWORD: cGFzc3dvcmQK
-  DB_PASSWORD: cGFzc3dvcmQK
+  EMAIL_PASS: cGFzc3dvcmQ=
+  TWILIO_ACCOUNT_TOKEN: cGFzc3dvcmQ=
+  MYSQL_ROOT_PASSWORD: cGFzc3dvcmQ=
+  MYSQL_PASSWORD: cGFzc3dvcmQ=
+  DB_PASSWORD: cGFzc3dvcmQ=
 ---
 apiVersion: v1
 kind: ConfigMap
