@@ -20,6 +20,9 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+/**
+ * Maps Services Test
+*/
 @SpringBootTest
 public class MapsServicesTest {
 
