@@ -29,15 +29,6 @@ pipeline {
           sh "cd deliveryApi; docker build -t deliveryapi:latest ."
       }
     }
-    stage ('Docker Push Delivery Api'){
-      steps {
-          echo "Docker push"
-
-          sh "docker tag deliveryapi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
-      }
-    }
-
     stage ('Docker Build Notifications Api'){
       steps {
           echo "Docker Build"
@@ -45,15 +36,6 @@ pipeline {
           sh "cd notificationApi; docker build -t notificationapi:latest ."        
       }
     }
-    stage ('Docker Push Notifications Api'){
-      steps {
-          echo "Docker push"
-
-          sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
-      }
-    }
-
     stage ('Deploy to GKE'){
       steps{
           echo "Deploying to GKE"
