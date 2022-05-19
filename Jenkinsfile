@@ -10,7 +10,7 @@ pipeline {
     stage('Begin Pipeline') {
       steps {
         sh 'echo "Hello world"'
-        sh 'test1'
+        sh 'echo "Test1"'
       }
     }
     stage ('Docker Build Api2'){
