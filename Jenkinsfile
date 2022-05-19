@@ -27,8 +27,8 @@ pipeline {
       steps {
         script {
           echo "Docker push"
-          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/my-first-project/my-first-project/api2"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/my-first-project/my-first-project/api2"
+          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/logical-veld-346918/my-first-project/api2"
+          sh "docker push northamerica-northeast2-docker.pkg.dev/logical-veld-346918/my-first-project/api2"
         }
       }
     }
