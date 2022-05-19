@@ -7,7 +7,6 @@ data:
   EMAIL_PASS: cGFzc3dvcmQ=
   TWILIO_ACCOUNT_TOKEN: cGFzc3dvcmQ=
   MYSQL_ROOT_PASSWORD: cGFzc3dvcmQ=
-  MYSQL_PASSWORD: cGFzc3dvcmQ=
   DB_PASSWORD: cGFzc3dvcmQ=
 ---
 apiVersion: v1
@@ -21,8 +20,7 @@ data:
   TWILIO_ACCOUNT_SID: twilio_sid
   TWILIO_PHONE_NUMBER: twilio_number
   MYSQL_DATABASE: data
-  MYSQL_USER: user
-  DB_USERNAME: user
+  DB_USERNAME: root
   DB_URL: jdbc:mysql://mysql:3306/data
 ---
 apiVersion: v1
