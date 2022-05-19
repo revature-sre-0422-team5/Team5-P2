@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     echo "Docker Build"
-                    sh "cd api2; docker build -t api2:latest ."
+                    sh "cd api2; docker build -t notificationapi:latest ."
                 }
             }
         }
@@ -24,8 +24,8 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
-                    sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
-                    sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
+                    sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
+                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
                 }
             }
         }
