@@ -1,15 +1,16 @@
 pipeline {
   agent any
   environment {
-      PROJECT_ID = 'devops-javasre'
+      PROJECT_ID = 'my-first-project'
       CLUSTER_NAME = 'autopilot-cluster-1'
       LOCATION = 'northamerica-northeast1'
-      CREDENTIALS_ID = 'devops-javasre'
+      CREDENTIALS_ID = 'my-first-project'
   }
   stages {
     stage('Begin Pipeline') {
       steps {
         sh 'echo "Hello world"'
+        sh 'echo "Test1"'
       }
     }
     stage ('Docker Build Api2'){
@@ -21,17 +22,6 @@ pipeline {
         }
       }
     }
-    //For this step I had to sign into the jenkins account in the vm, generate artifact permissions file, upload the file, and docker login using that file
-    //https://cloud.google.com/artifact-registry/docs/docker/authentication#json-key
-    stage ('Docker tag Api2 and push to Google Artifact Repository'){
-      steps {
-        script {
-          echo "Docker push"
-          sh "docker tag api2 northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/api2"
-        }
-      }
-    }
     stage ('Docker Build Delivery Api'){
       steps {
           echo "Docker Build"
@@ -39,15 +29,6 @@ pipeline {
           sh "cd deliveryApi; docker build -t deliveryapi:latest ."
       }
     }
-    stage ('Docker Push Delivery Api'){
-      steps {
-          echo "Docker push"
-
-          sh "docker tag deliveryapi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/deliveryapi"
-      }
-    }
-
     stage ('Docker Build Notifications Api'){
       steps {
           echo "Docker Build"
@@ -55,15 +36,6 @@ pipeline {
           sh "cd notificationApi; docker build -t notificationapi:latest ."        
       }
     }
-    stage ('Docker Push Notifications Api'){
-      steps {
-          echo "Docker push"
-
-          sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
-          sh "docker push northamerica-northeast2-docker.pkg.dev/devops-javasre/test-p2/notificationapi"
-      }
-    }
-
     stage ('Deploy to GKE'){
       steps{
           echo "Deploying to GKE"
