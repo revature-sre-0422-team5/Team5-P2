@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+//Service just wraps Google Maps APIs
 @Service("Maps")
 public class MapsServices {
 

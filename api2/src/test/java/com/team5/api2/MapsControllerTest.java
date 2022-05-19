@@ -21,6 +21,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+/**
+ * Maps Controller tests
+ */
 @SpringBootTest
 @AutoConfigureMockMvc
 class MapsControllerTest {
@@ -66,6 +70,16 @@ class MapsControllerTest {
 			).andExpect(status().isOk());
 
 		Mockito.verify(mapsServices, times(1)).getDistance(cnTower, artGalleryOntario);
+
+		//Check responses when unchecked error
+		Mockito.when(mapsServices.getDistance(cnTower, artGalleryOntario)).thenThrow(IllegalStateException.class);
+
+		mockMvc.perform(
+			MockMvcRequestBuilders.get("/getDistance")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(request))
+			)
+		.andExpect(status().isInternalServerError());
 	}
 
 	/**
@@ -99,6 +113,16 @@ class MapsControllerTest {
 			).andExpect(status().isOk());
 
 		Mockito.verify(mapsServices, times(1)).getDirections(cnTower, artGalleryOntario);
+
+		//Check responses when unchecked error
+		Mockito.when(mapsServices.getDirections(cnTower, artGalleryOntario)).thenThrow(IllegalStateException.class);
+		
+		mockMvc.perform(
+			MockMvcRequestBuilders.get("/directions")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(request))
+			)
+		.andExpect(status().isInternalServerError());
 	}
 
 }
