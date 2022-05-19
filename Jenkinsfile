@@ -3,7 +3,7 @@ pipeline {
     environment {
         PROJECT_ID = 'revature-346918'
         CLUSTER_NAME = 'delivery-cluster'
-        LOCATION = 'northamerica-northeast2-a'
+        LOCATION = 'northamerica-northeast2'
         CREDENTIALS_ID = 'Team5-P2'
     }
     stages {
@@ -26,12 +26,14 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
+                    /*
                     sh "docker tag deliveryapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
                     sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
                     sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
                     sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
                     sh "docker tag mysql northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
                     sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
+                    */
                 }
             }
         }
@@ -41,7 +43,7 @@ pipeline {
                 step([$class: 'KubernetesEngineBuilder',
                     projectId: env.PROJECT_ID,/*'devops-javasre',*/
                     clusterName: env.CLUSTER_NAME,
-                    zone: env.LOCATION,
+                    location: env.LOCATION,
                     manifestPattern: 'deployment.yml',
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true])
