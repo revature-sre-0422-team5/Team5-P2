@@ -19,10 +19,22 @@ data:
   TWILIO_PHONE_NUMBER: twilio_number
   DB_USERNAME: root
   DB_URL: jdbc:mysql://mysqldb:3306/data?createDatabaseIfNotExist=true
-  MYSQL_ROOT_PASSWORD: password
-  MYSQL_USER: user
-  MYSQL_PASSWORD: password
   DB_PASSWORD: password
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -62,6 +74,9 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
         envFrom:
         - configMapRef:
             name: all-config
