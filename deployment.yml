@@ -69,7 +69,7 @@ spec:
             name: all-secret
         volumeMounts:
         - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
+          mountPath: /mnt/data
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
