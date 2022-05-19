@@ -5,6 +5,7 @@ import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
+import com.team5.deliveryApi.repositories.GroceryItemRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
 import com.team5.deliveryApi.repositories.ShopperRepository;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.Optional;
 
-@SpringBootTest(classes = OrderService.class)
+@SpringBootTest
 public class OrderServiceTest {
     @Autowired
     private OrderService orderService;
@@ -30,6 +31,9 @@ public class OrderServiceTest {
 
     @MockBean
     private ShopperRepository shopperRepository;
+
+    @MockBean
+    private GroceryItemRepository groceryItemRepository;
 
     /**
      * Tests if the order service assigns a shopper to an order properly.

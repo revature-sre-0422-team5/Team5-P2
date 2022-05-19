@@ -1,0 +1,171 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: all-secret
+type: Opaque
+data:
+  EMAIL_PASS: cGFzc3dvcmQK
+  TWILIO_ACCOUNT_TOKEN: cGFzc3dvcmQK
+  MYSQL_ROOT_PASSWORD: cGFzc3dvcmQK
+  MYSQL_PASSWORD: cGFzc3dvcmQK
+  DB_PASSWORD: cGFzc3dvcmQK
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: all-config
+  labels:
+    app: all-config
+data:
+  EMAIL_USER: email_user
+  TWILIO_ACCOUNT_SID: twilio_sid
+  TWILIO_PHONE_NUMBER: twilio_number
+  MYSQL_DATABASE: data
+  MYSQL_USER: user
+  DB_USERNAME: user
+  DB_URL: jdbc:mysql://mysql:3306/data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-claim
+  labels:
+    app: mysql
+    tier: database
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+      tier: database
+  strategy:
+    type: Recreate
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: mysql
+        tier: database
+    spec:
+      containers:
+      - name: mysql
+        image: mysql
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+        envFrom:
+        - configMapRef:
+            name: all-config
+        - secretRef:
+            name: all-secret
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-claim
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deliveryapi
+spec:
+  selector:
+    matchLabels:
+      app: deliveryapi
+  strategy:
+    type: Recreate
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: deliveryapi
+    spec:
+      containers:
+      - name: deliveryapi
+        image: deliveryapi
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 7000
+        envFrom:
+        - configMapRef:
+            name: all-config
+        - secretRef:
+            name: all-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notificationapi
+spec:
+  selector:
+    matchLabels:
+      app: notificationapi
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: notificationapi
+    spec:
+      containers:
+      - name: notificationapi
+        image: notificationapi
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: all-config
+        - secretRef:
+            name: all-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notificationapi-service
+spec:
+  selector:
+    app: notificationapi
+  type: LoadBalancer
+  ports:
+    - port: 8081
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+    tier: database
+spec:
+  selector:
+    app: mysql
+    tier: database
+  ports:
+  - port: 3306
+    targetPort: 3306
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deliveryapi-service
+spec:
+  selector:
+    app: deliveryapi
+  type: LoadBalancer
+  ports:
+    - port: 8082
+      targetPort: 7000

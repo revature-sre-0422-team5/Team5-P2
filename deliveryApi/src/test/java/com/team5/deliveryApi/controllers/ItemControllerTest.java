@@ -33,7 +33,7 @@ public class ItemControllerTest {
     @Test
     public void shouldReturnOkReponseSetItemStatus() throws Exception {
         Mockito.when(itemService.setItemStatus(Mockito.anyInt(), Mockito.anyInt(), Mockito.any()))
-                .thenReturn(new Item(1, ItemStatus.Added, new GroceryItem(), new Order()));
+                .thenReturn(new Item(1, ItemStatus.Added, new GroceryItem()));
 
         mockMvc.perform(MockMvcRequestBuilders.put("/item/status/1/1/2?status=Added"))
                 .andExpect(status().isOk());
