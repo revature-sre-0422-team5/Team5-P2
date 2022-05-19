@@ -94,7 +94,7 @@ spec:
     spec:
       containers:
       - name: deliveryapi
-        image: northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi
+        image: northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 7000
