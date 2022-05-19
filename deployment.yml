@@ -150,6 +150,7 @@ spec:
   selector:
     app: mysqldb
     tier: database
+  type: LoadBalancer
   ports:
   - port: 3306
     targetPort: 3306
