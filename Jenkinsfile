@@ -15,7 +15,7 @@ pipeline {
         stage ('Docker Build'){
             steps {
                 script {
-                    // echo "Docker Build"
+                    echo "Docker Build"
                     // sh "docker build -t notificationapi notificationApi"
                     // sh "docker build -t deliveryapi deliveryApi"
                     // sh "docker pull mysql"
