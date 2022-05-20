@@ -1,7 +1,9 @@
 package com.team5.deliveryApi.controllers;
 
+import com.team5.deliveryApi.dto.credential;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.UserNotFoundException;
+import com.team5.deliveryApi.repositories.CustomerRepository;
 import com.team5.deliveryApi.services.CustomerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,8 @@ import javax.websocket.server.PathParam;
 public class CustomerController {
         @Autowired
         CustomerService customerService;
+        @Autowired
+    CustomerRepository customerRepository;
 
     /**
      * Create account for a new customer
@@ -42,9 +46,48 @@ public class CustomerController {
             }
         }
 
+    @GetMapping("/login")
+    public ResponseEntity login(@RequestBody credential logindto) {
+        try {
+
+            boolean isSuccess = false;
+            isSuccess = customerService.login(logindto);
+
+            if(isSuccess) {
+                return ResponseEntity.ok().body("User successfully logged in");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error login ");
+        }
+    }
+    @GetMapping("/logout")
+    public ResponseEntity logout(@RequestBody credential logoutdto) {
+        try {
+            log.info("CustomerController - /logout");
+            boolean isSuccess = false;
+            isSuccess = customerService.logout(logoutdto);
+
+            if(isSuccess) {
+                return ResponseEntity.ok().body("User logged out");
+            } else {
+                return ResponseEntity.ok().body("User was not logged in - no action taken");
+            }
+        } catch (Exception e) {
+            log.warn("Customer Controller - catch block for logout");
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error logging out customer");
+        }
+    }
+
+
+
         @GetMapping("/all")
         public ResponseEntity viewAllCustomer(){
-            return customerService.viewAllCustomer();
+
+            return ResponseEntity.ok(customerService.findAllCustomers());
         }
 
     /**

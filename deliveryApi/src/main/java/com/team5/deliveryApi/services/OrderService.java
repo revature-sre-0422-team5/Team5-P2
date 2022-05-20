@@ -89,7 +89,7 @@ public class OrderService {
      * @return updated order
      */
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
-        incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
+
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;

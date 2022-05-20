@@ -42,7 +42,12 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+
+    @Column(name = "isloggedin",nullable = false)
+    private int isloggedin;
+
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Order> orders;
 

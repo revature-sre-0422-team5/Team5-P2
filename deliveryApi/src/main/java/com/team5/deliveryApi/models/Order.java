@@ -42,7 +42,7 @@ public class Order {
     private String description;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customer;
@@ -54,7 +54,7 @@ public class Order {
    private List<Item> items;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shopper_id")
     @JsonIgnore
     private Shopper shopper;
