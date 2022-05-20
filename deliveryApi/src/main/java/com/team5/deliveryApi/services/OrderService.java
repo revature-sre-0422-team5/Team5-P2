@@ -33,6 +33,7 @@ public class OrderService {
     private String notificationApiUrl;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
