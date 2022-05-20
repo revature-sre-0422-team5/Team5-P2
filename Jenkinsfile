@@ -45,9 +45,9 @@ pipeline {
         stage ('Deploy to GKE'){
             steps{
                 echo "Deploying to GKE"
-                sh "sed 's|image: directionsapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi|g' deployment/directionsapi-deployment.yml"
-                sh "sed 's|image: deliveryapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi|g' deployment/deliveryapi-deployment.yml"
-                sh "sed 's|image: notificationapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi|g' deployment/notificationapi-deployment.yml"
+                sh "sed -i 's|image: directionsapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi|g' deployment/directionsapi-deployment.yml"
+                sh "sed -i 's|image: deliveryapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi|g' deployment/deliveryapi-deployment.yml"
+                sh "sed -i 's|image: notificationapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi|g' deployment/notificationapi-deployment.yml"
                 step([$class: 'KubernetesEngineBuilder',
                     projectId: env.PROJECT_ID,
                     clusterName: env.CLUSTER_NAME,
