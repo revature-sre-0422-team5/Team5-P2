@@ -4,14 +4,7 @@ import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.models.Shopper;
-<<<<<<< HEAD
-import com.team5.deliveryApi.repositories.CustomerRepository;
-import com.team5.deliveryApi.repositories.GroceryItemRepository;
-import com.team5.deliveryApi.repositories.OrderRepository;
-import com.team5.deliveryApi.repositories.ShopperRepository;
-=======
 import com.team5.deliveryApi.repositories.*;
->>>>>>> origin
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,13 +37,8 @@ public class OrderServiceTest {
 
     @MockBean
     private GroceryItemRepository groceryItemRepository;
-
-<<<<<<< HEAD
-=======
     @Mock
     private RestTemplate restTemplate;
-
->>>>>>> origin
     /**
      * Tests if the order service assigns a shopper to an order properly.
      */
