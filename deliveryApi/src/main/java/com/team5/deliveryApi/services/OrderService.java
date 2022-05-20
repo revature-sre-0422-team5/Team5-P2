@@ -16,9 +16,9 @@ import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 
 import com.team5.deliveryApi.repositories.ShopperRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,27 +29,24 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class OrderService {
-
     @Value("${api.notification}")
     private String notificationApiUrl;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
     private GroceryItemRepository groceryItemRepository;
+
+    @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
     private ShopperRepository shopperRepository;
-
-    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
-                        ShopperRepository shopperRepository,GroceryItemRepository groceryItemRepository,ItemRepository itemRepository) {
-        super();
-        this.customerRepository = customerRepository;
-        this.orderRepository = orderRepository;
-        this.shopperRepository = shopperRepository;
-        this.groceryItemRepository=groceryItemRepository;
-        this.itemRepository=itemRepository;
-    }
-
 
     public ResponseEntity viewAllOrders(){
         return ResponseEntity.ok(orderRepository.findAll());
@@ -179,6 +176,7 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(orderId);
         Optional<Shopper> shopper = shopperRepository.findById(shopperId);
         order.get().setShopper(shopper.get());
+        orderRepository.save(order.get());
         try {
             sendNotification(shopper.get().getEmail(),
                     "You have been assigned an order",
