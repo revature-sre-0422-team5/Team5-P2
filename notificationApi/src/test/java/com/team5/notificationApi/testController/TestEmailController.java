@@ -39,7 +39,7 @@ public class TestEmailController {
     @Test
     public void shouldReturnOkStatusEmail() throws Exception {
         MimeMessage mockMail = mailSender.createMimeMessage();
-        Mockito.when(emailService.buildMimeMessage(Mockito.any())).thenReturn(mockMail);
+        Mockito.when(emailService.buildMimeMessage(Mockito.any(), Mockito.anyBoolean())).thenReturn(mockMail);
         Mockito.when(emailService.sendMail(Mockito.any())).thenReturn(mockMail);
 
         Map<String, String> email = new HashMap<>();

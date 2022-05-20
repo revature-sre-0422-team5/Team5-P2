@@ -25,9 +25,10 @@ public class EmailController {
      * @param mail The contents of the mail.
      */
     @PostMapping
-    public ResponseEntity<Mail> sendMail(@RequestBody Mail mail) {
+    public ResponseEntity<Mail> sendMail(@RequestBody Mail mail,
+                                         @RequestParam(defaultValue = "false", name = "html") boolean isHtml) {
         try {
-            emailService.sendMail(emailService.buildMimeMessage(mail));
+            emailService.sendMail(emailService.buildMimeMessage(mail, isHtml));
             mail.setAttachments(new MultipartFile[0]);
             return ResponseEntity.ok(mail);
         } catch (Exception e) {
@@ -47,7 +48,7 @@ public class EmailController {
             @RequestPart(name = "mail") Mail mail,
             @RequestPart(name = "attachments", required = false) MultipartFile[] files) {
         mail.setAttachments(files);
-        return sendMail(mail);
+        return sendMail(mail, false);
     }
 
 
