@@ -18,12 +18,14 @@ pipeline {
             steps {
                 script {
                     echo "Docker Build"
+                    /*
                     sh "docker build -t directionsapi api2"
                     sh "docker build -t notificationapi notificationApi"
                     sh "docker build -t deliveryapi deliveryApi"
                     sh "docker pull mysql"
                     sh "docker pull prom/prometheus"
                     sh "docker pull grafana/grafana"
+                    */
                 }
             }
         }
@@ -37,7 +39,12 @@ pipeline {
                     sh "docker tag mysql ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/mysql"
                     sh "docker tag prom/prometheus ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/prometheus"
                     sh "docker tag grafana/grafana ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/grafana"
-                    sh "docker push --all-tags"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/mysql"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/prometheus"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/grafana"
                 }
             }
         }
