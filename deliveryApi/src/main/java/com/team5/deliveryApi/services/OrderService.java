@@ -16,6 +16,7 @@ import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 
 import com.team5.deliveryApi.repositories.ShopperRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,6 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class OrderService {
-
     @Value("${api.notification}")
     private String notificationApiUrl;
     @Autowired
@@ -172,6 +172,7 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(orderId);
         Optional<Shopper> shopper = shopperRepository.findById(shopperId);
         order.get().setShopper(shopper.get());
+        orderRepository.save(order.get());
         try {
             sendNotification(shopper.get().getEmail(),
                     "You have been assigned an order",
