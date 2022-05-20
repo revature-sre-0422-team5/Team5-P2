@@ -228,7 +228,10 @@ public class OrderService {
             throw new IllegalStateException ("Http response was null");
         }
 
-        return response;
+        Map<String, String> responseFormat = new HashMap<>();
+        responseFormat.put("link", response);
+
+        return new ObjectMapper().writeValueAsString(responseFormat);
     }
 
     /**
