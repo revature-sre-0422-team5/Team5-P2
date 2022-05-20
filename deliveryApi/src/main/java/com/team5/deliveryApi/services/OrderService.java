@@ -17,29 +17,32 @@ import com.team5.deliveryApi.repositories.CustomerRepository;
 
 import com.team5.deliveryApi.repositories.ShopperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 @Slf4j
 @Service
 public class OrderService {
 
+    @Value("${api.notification}")
+    private String notificationApiUrl;
+    @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
     private OrderRepository orderRepository;
+    @Autowired
     private GroceryItemRepository groceryItemRepository;
+    @Autowired
     private ShopperRepository shopperRepository;
     @Autowired
     private ItemRepository itemRepository;
-    public OrderService(CustomerRepository customerRepository, OrderRepository orderRepository,
-                        ShopperRepository shopperRepository, GroceryItemRepository groceryItemRepository) {
-        this.customerRepository = customerRepository;
-        this.orderRepository = orderRepository;
-        this.shopperRepository = shopperRepository;
-        this.groceryItemRepository = groceryItemRepository;
-    }
-
 
     public ResponseEntity viewAllOrders(){
         return ResponseEntity.ok(orderRepository.findAll());
@@ -62,6 +65,7 @@ public class OrderService {
      * @return
      */
     public boolean saveOrder(int customerId, Order incomingOrder) {
+        orderRepository.save(incomingOrder);
         Customer customer = customerRepository.getById(customerId);
         customer.getOrders().add(incomingOrder);
         incomingOrder.setCustomer(customer);
@@ -69,20 +73,22 @@ public class OrderService {
         return true;
     }
 
-    public Order viewOrderById(int id) {
-        Order outGoingOrder = orderRepository.findById(id).get();
-        return outGoingOrder;
-    }
+    /**
+     * to find order by its id
+     * @param odrId refers to the id of the order
+     * @return the order with the given id
+     */
     public Order findByOrderId(int odrId) {
         Order outGoingOrder = orderRepository.findById(odrId).get();
-        log.info("AMOUNT OF ITEMS:  " + String.valueOf(outGoingOrder.getItems().size()));
-        if (outGoingOrder != null) {
-
-            return outGoingOrder;
-        } else { return null;
-        }
+        return outGoingOrder;
     }
 
+    /**
+     * To update the location of store
+     * @param incomingOrder refers to which order the location is to be updated
+     * @param incomingLocation refers to location description of the store
+     * @return updated order
+     */
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
         incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
         incomingOrder.setDescription(incomingLocation.getDto_description());
@@ -90,17 +96,27 @@ public class OrderService {
         return updatedOrder;
     }
 
-
-    public boolean removeItem(Order incomingOrder,int item_Id){
-
-        /*Optional<Item> cartItem = incomingOrder.getItems().stream().filter(i -> i.getId() == item_Id).findFirst();
-
-           // itemRepository.delete(cartItem);*/
-            orderRepository.save(incomingOrder);
-            return true;
+    /**
+     * Remove an item from the order
+     * @param incomingOrder refers to the order from which item to be removed
+     * @param itemId refers to item id
+     * @return boolean value
+     */
+    public boolean removeItem(Order incomingOrder,int itemId){
+        Item item = incomingOrder.getItems().stream().filter(i -> i.getGroceryItem().getId() == itemId).findFirst().get();
+        itemRepository.delete(item);
+        return true;
 
     }
 
+
+    /**
+     * Adding items to order
+     * @param odrID  refers to order id
+     * @param gItemID refers to grocery item id
+     * @param qnty refers to quantity of grocery item
+     * @return updated order
+     */
     public Order addItem(int odrID,int gItemID,int qnty) {
         GroceryItem groceryItem = groceryItemRepository.findById(gItemID).get();
         Order order = orderRepository.findById(odrID).get();
@@ -108,6 +124,7 @@ public class OrderService {
         order.getItems().add(item);
         return orderRepository.save(order);
     }
+
 
 
     /**
@@ -118,10 +135,29 @@ public class OrderService {
     public Order updateOrderStatus(int orderId, OrderStatus status) {
         Order order = findByOrderId(orderId);
         order.setStatus(status);
+        // Send customer a notification email.
+        if (order.getCustomer().isEmail_subscribe()) {
+            try {
+                if (status.equals(OrderStatus.Submitted)) {
+                    sendNotification(order.getCustomer().getEmail(),
+                            "Your order has been submitted",
+                            "Order number: " + orderId + "\n" +
+                                    "Your order has been successfully submitted.\n\n");
+                } else if (status.equals(OrderStatus.Delivered)) {
+                    sendNotification(order.getCustomer().getEmail(),
+                            "Your order has been delivered",
+                            "Order number: " + orderId + "\n" +
+                                    "Your order has been successfully delivered.\n\n" +
+                                    "How did you like your shopper? Give us a rating!");
+                }
+            } catch (Exception e) {
+                log.error("Failed to send email notification on order status update.");
+                e.printStackTrace();
+            }
+        }
         return orderRepository.save(order);
     }
     public boolean deleteOrder(Order incomingOrder) {
-
         orderRepository.delete(incomingOrder);
         return true;
     }
@@ -136,6 +172,32 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(orderId);
         Optional<Shopper> shopper = shopperRepository.findById(shopperId);
         order.get().setShopper(shopper.get());
+        try {
+            sendNotification(shopper.get().getEmail(),
+                    "You have been assigned an order",
+                    "Order number: " + orderId + "\n" +
+                            "The order is ready to be fulfilled.\n" +
+                            "Good luck, and happy shopping!");
+        } catch (Exception e) {
+            log.error("Failed to send email notification on assigning shopper.");
+            e.printStackTrace();
+        }
         return order.get();
+    }
+
+    /**
+     * Send a email notification message to a user.
+     * @param email The email to send the notification to.
+     * @param subject The subject of the email.
+     * @param message The body message of the email.
+     */
+    public ResponseEntity<Object> sendNotification(String email, String subject, String message) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Boolean> uriParam = new HashMap<>();
+        map.put("recipient", email);
+        map.put("subject", subject);
+        map.put("message", message);
+        uriParam.put("html", false);
+        return restTemplate.postForEntity(notificationApiUrl + "?html={html}", map, Object.class, uriParam);
     }
 }

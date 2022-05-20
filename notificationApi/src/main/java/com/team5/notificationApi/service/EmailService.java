@@ -3,6 +3,7 @@ package com.team5.notificationApi.service;
 import com.team5.notificationApi.model.Mail;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class EmailService {
      * @param mail The contents of the email.
      * @return The built MimeMessage object.
      */
-    public MimeMessage buildMimeMessage(Mail mail) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage buildMimeMessage(Mail mail, boolean isHtml) throws MessagingException, UnsupportedEncodingException {
         MimeMessage msg = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg, mail.getAttachments().length > 0);
 
@@ -41,7 +42,11 @@ public class EmailService {
         helper.setFrom("noreply@email-api.com", "noreply@email-api.com");
         helper.setTo(mail.getRecipient());
         helper.setSubject(mail.getSubject());
-        helper.setText(mail.getMessage());
+        if (isHtml) {
+            msg.setText(mail.getMessage(), "UTF-8", "html");
+        } else {
+            helper.setText(mail.getMessage());
+        }
         helper.setCc(mail.getCc());
         helper.setBcc(mail.getBcc());
         for (MultipartFile f : mail.getAttachments()) {

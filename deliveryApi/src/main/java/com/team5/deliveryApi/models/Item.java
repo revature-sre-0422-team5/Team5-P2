@@ -1,8 +1,4 @@
 package com.team5.deliveryApi.models;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team5.deliveryApi.dto.ItemStatus;
 import lombok.*;
 
@@ -29,6 +25,7 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "grocery_item_id")
     private GroceryItem groceryItem;
+
 
     public Item(int quantity,ItemStatus status,GroceryItem groceryItem){
         this.quantity=quantity;

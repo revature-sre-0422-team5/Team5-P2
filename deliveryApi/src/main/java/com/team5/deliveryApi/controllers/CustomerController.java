@@ -21,6 +21,11 @@ public class CustomerController {
         @Autowired
         CustomerService customerService;
 
+    /**
+     * Create account for a new customer
+     * @param incomingCustomer refers to details of new customer
+     * @return Successful or Error message
+     */
         @PostMapping("/new")
         public String createCustomerAccount(@RequestBody Customer incomingCustomer) {
 
@@ -54,7 +59,7 @@ public class CustomerController {
         try {
             return ResponseEntity.ok(customerService.updateEmailSubscription(id, status));
         } catch (UserNotFoundException e) {
-            log.error("[PUT] User with ID " + id + " was not found.");
+            log.error("User with ID " + id + " was not found.");
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }

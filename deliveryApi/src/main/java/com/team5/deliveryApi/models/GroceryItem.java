@@ -17,9 +17,9 @@ public class GroceryItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private String productName;
 
-    @Column
+    @Column(nullable = false)
     private BigDecimal cost;
 }
