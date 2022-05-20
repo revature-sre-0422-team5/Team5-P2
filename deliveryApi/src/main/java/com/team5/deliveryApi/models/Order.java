@@ -37,17 +37,18 @@ public class Order {
 
     @Column(name = "location_description")
     private String description;
-
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private List<Item> items;
-  
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customer;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany
+    @JoinColumn(name = "orderId")
+    private List<Item> items;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shopper_id")
     @JsonIgnore
     private Shopper shopper;
+
 }

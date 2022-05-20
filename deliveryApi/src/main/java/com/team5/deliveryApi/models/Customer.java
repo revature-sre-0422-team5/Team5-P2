@@ -2,7 +2,6 @@ package com.team5.deliveryApi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -42,10 +41,7 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
- //   @Column(name = "isLoggedIn")
- //   private int isLoggedIn;
-
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Order> orders;
 
