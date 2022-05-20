@@ -9,4 +9,5 @@ api2/target
 
 terraform/
 
+kubernetes/
 kubernetes/secrets.yaml
