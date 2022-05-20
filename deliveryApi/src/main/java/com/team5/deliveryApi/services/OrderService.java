@@ -16,15 +16,24 @@ import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 
 import com.team5.deliveryApi.repositories.ShopperRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 @Slf4j
 @Service
 public class OrderService {
 
+    @Value("${api.notification}")
+    private String notificationApiUrl;
+    @Autowired
+    private RestTemplate restTemplate;
     private CustomerRepository customerRepository;
     private OrderRepository orderRepository;
     private GroceryItemRepository groceryItemRepository;
@@ -78,7 +87,6 @@ public class OrderService {
      */
     public Order findByOrderId(int odrId) {
         Order outGoingOrder = orderRepository.findById(odrId).get();
-
         return outGoingOrder;
     }
 
@@ -102,14 +110,8 @@ public class OrderService {
      * @return boolean value
      */
     public boolean removeItem(Order incomingOrder,int itemId){
-
-       // Item item = incomingOrder.getItems().stream().filter(i -> i.getId() == itemId).findFirst().get();
         Item item = incomingOrder.getItems().stream().filter(i -> i.getGroceryItem().getId() == itemId).findFirst().get();
-        log.info("checking"+item+incomingOrder);
         itemRepository.delete(item);
-
-        itemRepository.save(item);
-        log.info("checking"+item+incomingOrder);
         return true;
 
     }
@@ -123,19 +125,11 @@ public class OrderService {
      * @return updated order
      */
     public Order addItem(int odrID,int gItemID,int qnty) {
-        log.info("checking"+odrID+gItemID+qnty);
-        GroceryItem groceryItem=groceryItemRepository.findById(gItemID).get();
-        log.info("Checking Grocery Item"+groceryItem);
-        Order order=orderRepository.findById(odrID).get();
-        log.info("order"+order+odrID);
-
-        Item item =new Item(qnty, ItemStatus.Added,groceryItem);
-        log.info("item"+item);
-        itemRepository.save(item);
+        GroceryItem groceryItem = groceryItemRepository.findById(gItemID).get();
+        Order order = orderRepository.findById(odrID).get();
+        Item item = itemRepository.save(new Item(qnty, ItemStatus.Added,groceryItem));
         order.getItems().add(item);
-        log.info("Added Order"+order);
-        orderRepository.save(order);
-        return (order);
+        return orderRepository.save(order);
     }
 
 
@@ -148,10 +142,28 @@ public class OrderService {
     public Order updateOrderStatus(int orderId, OrderStatus status) {
         Order order = findByOrderId(orderId);
         order.setStatus(status);
+        if (order.getCustomer().isEmail_subscribe()) {
+            try {
+                if (status.equals(OrderStatus.Submitted)) {
+                    sendNotification(order.getCustomer().getEmail(),
+                            "Your order has been submitted",
+                            "Order number: " + orderId + "\n" +
+                                    "Your order has been successfully submitted.\n\n");
+                } else if (status.equals(OrderStatus.Delivered)) {
+                    sendNotification(order.getCustomer().getEmail(),
+                            "Your order has been delivered",
+                            "Order number: " + orderId + "\n" +
+                                    "Your order has been successfully delivered.\n\n" +
+                                    "How do you like the order?  Give us a review!");
+                }
+            } catch (Exception e) {
+                log.error("Failed to send email notification.");
+                e.printStackTrace();
+            }
+        }
         return orderRepository.save(order);
     }
     public boolean deleteOrder(Order incomingOrder) {
-
         orderRepository.delete(incomingOrder);
         return true;
     }
@@ -167,5 +179,21 @@ public class OrderService {
         Optional<Shopper> shopper = shopperRepository.findById(shopperId);
         order.get().setShopper(shopper.get());
         return order.get();
+    }
+
+    /**
+     * Send a email notification message to a user.
+     * @param email The email to send the notification to.
+     * @param subject The subject of the email.
+     * @param message The body message of the email.
+     */
+    public ResponseEntity<Object> sendNotification(String email, String subject, String message) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Boolean> uriParam = new HashMap<>();
+        map.put("recipient", email);
+        map.put("subject", subject);
+        map.put("message", message);
+        uriParam.put("html", false);
+        return restTemplate.postForEntity(notificationApiUrl + "?html={html}", map, Object.class, uriParam);
     }
 }
