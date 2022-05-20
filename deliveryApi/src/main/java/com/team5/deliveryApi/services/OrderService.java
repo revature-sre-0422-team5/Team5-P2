@@ -77,9 +77,6 @@ public class OrderService {
     public boolean saveOrder(int customerId, Order incomingOrder) {
         orderRepository.save(incomingOrder);
         Customer customer = customerRepository.getById(customerId);
-        
-        //Customer customer = customerRepository.findById(customerId).get();
-
         customer.getOrders().add(incomingOrder);
         incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
