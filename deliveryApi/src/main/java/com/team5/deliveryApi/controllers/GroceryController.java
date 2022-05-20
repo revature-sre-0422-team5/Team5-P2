@@ -5,10 +5,7 @@ import com.team5.deliveryApi.services.GroceryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,7 +32,7 @@ public class GroceryController {
      * @return The HTTP response containing the newly added grocery item.
      */
     @PostMapping
-    public ResponseEntity<GroceryItem> addGrocery(GroceryItem groceryItem) {
+    public ResponseEntity<GroceryItem> addGrocery(@RequestBody GroceryItem groceryItem) {
         return ResponseEntity.ok(groceryService.addGrocery(groceryItem));
     }
 }
