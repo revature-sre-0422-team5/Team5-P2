@@ -18,12 +18,10 @@ pipeline {
             steps {
                 script {
                     echo "Docker Build"
-                    /*
                     sh "docker images prune"
                     sh "docker build -t directionsapi api2"
                     sh "docker build -t notificationapi notificationApi"
                     sh "docker build -t deliveryapi deliveryApi"
-                    */
                 }
             }
         }
@@ -31,14 +29,12 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
-                    /*
                     sh "docker tag directionsapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
                     sh "docker tag deliveryapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
                     sh "docker tag notificationapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
                     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
                     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
                     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
-                    */
                 }
             }
         }
