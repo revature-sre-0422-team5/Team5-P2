@@ -1,13 +1,10 @@
 package com.team5.deliveryApi.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team5.deliveryApi.dto.OrderStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,18 +38,14 @@ public class Order {
     @Column(name = "location_description")
     private String description;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     @JsonIgnore
     private Customer customer;
 
-
-
-   @OneToMany
-   @JoinColumn(name = "orderId")
-   private List<Item> items;
-
+    @OneToMany
+    @JoinColumn(name = "orderId")
+    private List<Item> items;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shopper_id")
