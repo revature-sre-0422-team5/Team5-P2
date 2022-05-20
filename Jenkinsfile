@@ -54,7 +54,7 @@ pipeline {
         stage ('Deploy to GKE'){
             steps{
                 echo "Deploying to GKE"
-                sh "sed 's/image: notificationapi/${REGISTRY_LOCATION}-docker.pkg.dev\/${PROJECT_ID}\/${REPOSITORY}\/notificationapi/g' notificationapi-deployment.yml"
+                sh "sed 's|image: notificationapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi|g' notificationapi-deployment.yml"
                 step([$class: 'KubernetesEngineBuilder',
                     projectId: env.PROJECT_ID,/*'devops-javasre',*/
                     clusterName: env.CLUSTER_NAME,
