@@ -23,9 +23,6 @@ pipeline {
                     sh "docker build -t directionsapi api2"
                     sh "docker build -t notificationapi notificationApi"
                     sh "docker build -t deliveryapi deliveryApi"
-                    sh "docker pull mysql"
-                    sh "docker pull prom/prometheus"
-                    sh "docker pull grafana/grafana"
                     */
                 }
             }
@@ -38,15 +35,9 @@ pipeline {
                     sh "docker tag directionsapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
                     sh "docker tag deliveryapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
                     sh "docker tag notificationapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
-                    sh "docker tag mysql ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/mysql"
-                    sh "docker tag prom/prometheus ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/prometheus"
-                    sh "docker tag grafana/grafana ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/grafana"
                     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
                     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
                     sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
-                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/mysql"
-                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/prometheus"
-                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/grafana"
                     */
                 }
             }
@@ -54,9 +45,11 @@ pipeline {
         stage ('Deploy to GKE'){
             steps{
                 echo "Deploying to GKE"
+                sh "sed 's|image: directionsapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi|g' deployment/directionsapi-deployment.yml"
+                sh "sed 's|image: deliveryapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi|g' deployment/deliveryapi-deployment.yml"
                 sh "sed 's|image: notificationapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi|g' deployment/notificationapi-deployment.yml"
                 step([$class: 'KubernetesEngineBuilder',
-                    projectId: env.PROJECT_ID,/*'devops-javasre',*/
+                    projectId: env.PROJECT_ID,
                     clusterName: env.CLUSTER_NAME,
                     location: env.CLUSTER_LOCATION,
                     manifestPattern: 'deployment',
