@@ -30,7 +30,7 @@ public class TestEmailService {
         mail.setMessage("Test Message");
         mail.setRecipient("test-recevier@nonexistantwebsite123.com");
         mail.setSubject("Test Subject");
-        MimeMessage msg = emailService.buildMimeMessage(mail);
+        MimeMessage msg = emailService.buildMimeMessage(mail, false);
         Assertions.assertEquals(msg.getSubject(), mail.getSubject(),
                 "Did not return the correct email subject line.");
     }
