@@ -3,7 +3,9 @@ pipeline {
     environment {
         PROJECT_ID = 'revature-346918'
         CLUSTER_NAME = 'delivery-cluster'
-        LOCATION = 'northamerica-northeast2'
+        CLUSTER_LOCATION = 'northamerica-northeast2'
+        REGISTRY_LOCATION = 'northamerica-northeast2'
+        REPOSITORY = 'gcp-docker'
         CREDENTIALS_ID = 'Team5-P2'
     }
     stages {
@@ -16,9 +18,12 @@ pipeline {
             steps {
                 script {
                     echo "Docker Build"
-                    // sh "docker build -t notificationapi notificationApi"
-                    // sh "docker build -t deliveryapi deliveryApi"
-                    // sh "docker pull mysql"
+                    sh "docker build -t directionsapi api2"
+                    sh "docker build -t notificationapi notificationApi"
+                    sh "docker build -t deliveryapi deliveryApi"
+                    sh "docker pull mysql"
+                    sh "docker pull prom/prometheus"
+                    sh "docker pull grafana/grafana"
                 }
             }
         }
@@ -26,25 +31,25 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
-                    /*
-                    sh "docker tag deliveryapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
-                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
-                    sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-                    sh "docker tag mysql northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
-                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
-                    */
+                    sh "docker tag directionsapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
+                    sh "docker tag deliveryapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
+                    sh "docker tag notificationapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
+                    sh "docker tag mysql ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/mysql"
+                    sh "docker tag prom/prometheus ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/prometheus"
+                    sh "docker tag grafana/grafana ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/grafana"
+                    sh "docker push --all-tags"
                 }
             }
         }
         stage ('Deploy to GKE'){
             steps{
                 echo "Deploying to GKE"
+                sh "sed 's/image: notificationapi/${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi/g' notificationapi-deployment.yml"
                 step([$class: 'KubernetesEngineBuilder',
                     projectId: env.PROJECT_ID,/*'devops-javasre',*/
                     clusterName: env.CLUSTER_NAME,
-                    location: env.LOCATION,
-                    manifestPattern: 'deployment.yml',
+                    location: env.CLUSTER_LOCATION,
+                    manifestPattern: 'deployment',
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true])
             }

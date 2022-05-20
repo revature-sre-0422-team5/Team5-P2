@@ -11,3 +11,4 @@ data:
   DB_USERNAME: root
   DB_PASSWORD: password
   DB_URL: jdbc:mysql://mysqldb:3306/data?createDatabaseIfNotExist=true
+  DIRECTIONS_API_URL: http://directionsapi
