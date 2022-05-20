@@ -44,7 +44,7 @@ pipeline {
                     projectId: env.PROJECT_ID,/*'devops-javasre',*/
                     clusterName: env.CLUSTER_NAME,
                     location: env.LOCATION,
-                    manifestPattern: 'deployment.yml',
+                    manifestPattern: 'deployment.yaml',
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true])
             }
