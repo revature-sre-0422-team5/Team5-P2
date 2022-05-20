@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.controllers;
 
-import com.team5.deliveryApi.dto.credential;
+import com.team5.deliveryApi.dto.Credential;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.repositories.CustomerRepository;
@@ -47,7 +47,7 @@ public class CustomerController {
         }
 
     @GetMapping("/login")
-    public ResponseEntity login(@RequestBody credential logindto) {
+    public ResponseEntity login(@RequestBody Credential logindto) {
         try {
 
             boolean isSuccess = false;
@@ -64,21 +64,21 @@ public class CustomerController {
         }
     }
     @GetMapping("/logout")
-    public ResponseEntity logout(@RequestBody credential logoutdto) {
+    public ResponseEntity logout(@RequestBody Credential logoutdto) {
         try {
-            log.info("CustomerController - /logout");
+            log.info("CustomerController -logout");
             boolean isSuccess = false;
             isSuccess = customerService.logout(logoutdto);
 
             if(isSuccess) {
                 return ResponseEntity.ok().body("User logged out");
             } else {
-                return ResponseEntity.ok().body("User was not logged in - no action taken");
+                return ResponseEntity.ok().body("User was not logged in ");
             }
         } catch (Exception e) {
-            log.warn("Customer Controller - catch block for logout");
+            log.info("Customer Controller - Exception");
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body("Error logging out customer");
+            return ResponseEntity.internalServerError().body("Error logging out ");
         }
     }
 
@@ -102,7 +102,7 @@ public class CustomerController {
         try {
             return ResponseEntity.ok(customerService.updateEmailSubscription(id, status));
         } catch (UserNotFoundException e) {
-            log.error("[PUT] User with ID " + id + " was not found.");
+            log.error("User with ID " + id + " was not found.");
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }

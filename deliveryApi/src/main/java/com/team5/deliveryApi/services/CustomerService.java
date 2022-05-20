@@ -1,6 +1,6 @@
 package com.team5.deliveryApi.services;
 
-import com.team5.deliveryApi.dto.credential;
+import com.team5.deliveryApi.dto.Credential;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.repositories.CustomerRepository;
@@ -38,7 +38,7 @@ public class CustomerService {
         return customers;
     }
 
-    public boolean login(credential logindto) throws UserNotFoundException, IllegalStateException {
+    public boolean login(Credential logindto) throws UserNotFoundException, IllegalStateException {
 
         boolean isSuccess = false;
 
@@ -66,7 +66,7 @@ public class CustomerService {
         return isSuccess;
     }
 
-    public boolean logout(credential logoutdto)  throws UserNotFoundException, IllegalStateException{
+    public boolean logout(Credential logoutdto)  throws UserNotFoundException, IllegalStateException{
         boolean isSuccess = false;
 
        if (logoutdto.getUsername() == null) {
