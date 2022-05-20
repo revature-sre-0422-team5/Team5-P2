@@ -50,11 +50,7 @@ public class OrderServiceTest {
                 "John Smith", "john.smith@gmail.com", true, new ArrayList<>()));
         Optional<Order> order = Optional.of(new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
-<<<<<<< HEAD
                 new Customer(),new ArrayList<>(), null));
-=======
-                new Customer(), null, shopper.get()));
->>>>>>> main
         Mockito.when(orderRepository.findById(Mockito.anyInt())).thenReturn(order);
         Mockito.when(shopperRepository.findById(Mockito.anyInt())).thenReturn(shopper);
 
