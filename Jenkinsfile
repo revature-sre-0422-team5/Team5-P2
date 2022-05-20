@@ -19,8 +19,8 @@ pipeline {
         steps {
             echo 'Docker Deliver'
             script {
-                sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-                sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
+                sh "docker tag notificationapi us-central1-docker.pkg.dev/devopssre-346918/project-3/notificationapi"
+                sh "docker push us-central1-docker.pkg.dev/devopssre-346918/project-3/notificationapi"
             }
         }
     }
