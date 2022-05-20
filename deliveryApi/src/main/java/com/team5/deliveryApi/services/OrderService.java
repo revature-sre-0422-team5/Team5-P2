@@ -142,6 +142,7 @@ public class OrderService {
     public Order updateOrderStatus(int orderId, OrderStatus status) {
         Order order = findByOrderId(orderId);
         order.setStatus(status);
+        // Send customer a notification email.
         if (order.getCustomer().isEmail_subscribe()) {
             try {
                 if (status.equals(OrderStatus.Submitted)) {
@@ -154,10 +155,10 @@ public class OrderService {
                             "Your order has been delivered",
                             "Order number: " + orderId + "\n" +
                                     "Your order has been successfully delivered.\n\n" +
-                                    "How do you like the order?  Give us a review!");
+                                    "How did you like your shopper? Give us a rating!");
                 }
             } catch (Exception e) {
-                log.error("Failed to send email notification.");
+                log.error("Failed to send email notification on order status update.");
                 e.printStackTrace();
             }
         }
@@ -178,6 +179,16 @@ public class OrderService {
         Optional<Order> order = orderRepository.findById(orderId);
         Optional<Shopper> shopper = shopperRepository.findById(shopperId);
         order.get().setShopper(shopper.get());
+        try {
+            sendNotification(shopper.get().getEmail(),
+                    "You have been assigned an order",
+                    "Order number: " + orderId + "\n" +
+                            "The order is ready to be fulfilled.\n" +
+                            "Good luck, and happy shopping!");
+        } catch (Exception e) {
+            log.error("Failed to send email notification on assigning shopper.");
+            e.printStackTrace();
+        }
         return order.get();
     }
 
