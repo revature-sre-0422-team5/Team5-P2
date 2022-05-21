@@ -1,12 +1,13 @@
 package com.team5.deliveryApi.services;
 
 import com.team5.deliveryApi.dto.ItemStatus;
+import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.GroceryItem;
 import com.team5.deliveryApi.models.Item;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
-import com.team5.deliveryApi.dto.OrderLocation;
+
 import com.team5.deliveryApi.repositories.GroceryItemRepository;
 import com.team5.deliveryApi.repositories.ItemRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
@@ -26,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class OrderService {
@@ -71,6 +73,9 @@ public class OrderService {
     public boolean saveOrder(int customerId, Order incomingOrder) {
         orderRepository.save(incomingOrder);
         Customer customer = customerRepository.getById(customerId);
+        if(customer == null) {
+            return false;
+        }
         customer.getOrders().add(incomingOrder);
         incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
@@ -93,8 +98,7 @@ public class OrderService {
      * @param incomingLocation refers to location description of the store
      * @return updated order
      */
-    public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
-
+    public Order updateDescription(Order incomingOrder, OrderLocation incomingLocation){
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;
@@ -162,6 +166,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
     public boolean deleteOrder(Order incomingOrder) {
+
         orderRepository.delete(incomingOrder);
         return true;
     }

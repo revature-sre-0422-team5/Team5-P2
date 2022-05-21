@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.http.RequestEntity.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -33,5 +38,43 @@ public class CustomerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.put("/customer/subscribe/1?status=true"))
                 .andExpect(status().isOk());
+    }
+    @Test
+    public void shouldLogOut() throws Exception {
+
+        Mockito.when(customerService.logout(any())).thenReturn(true);
+        mockMvc.perform(get("/customer/logout")
+                        .contentType("application/json")
+                        .content("{\"username\": \"rosh\", \"password\": \"rosh\"}"))
+                .andExpect(status().isOk()).andExpect(content().string("User logged out"));
+
+    }
+    @Test
+    public void shouldNotLogIn() throws Exception {
+
+        Mockito.when(customerService.login(any())).thenReturn(false);
+        mockMvc.perform(get("/customer/login")
+                        .contentType("application/json")
+                        .content("{\"username\": \" \", \"password\": \"rosh\"}"))
+                .andExpect(status().isNotFound());
+    }
+    @Test
+    public void shouldCreateCustomer() throws Exception {
+      /*  Customer mockCustomer = new Customer();
+        mockCustomer.setId(1);
+        mockCustomer.setEmail("rosh@gmail.com");
+        mockCustomer.setPassword("rosh");
+        mockCustomer.setLocation("Toronto");
+        mockCustomer.setIsloggedin(0);
+        mockCustomer.setUsername("rosh");
+        mockCustomer.setName("rosh");
+
+
+
+       Mockito.when(customerService.saveCustomer(any())).thenReturn(true);
+        mockMvc.perform(post("/customer/new")
+                        .contentType("application/json")
+                        .content("{\"email\": \"rosh@gmail.com\", \"password\": \"rosh\",\"name\": \"rosh\", \"username\": \"rosh\",\"location\": \"Toronto\"}"))
+                .andExpect(status().isOk());*/
     }
 }
