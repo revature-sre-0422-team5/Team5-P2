@@ -24,7 +24,7 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    @Value("${api.directions}")
+    @Value("${api.directions:none}")
     private String directionsApiUrl;
 
     /**
@@ -124,6 +124,30 @@ public class OrderController {
         Order order=orderService.addItem(odrId,groceryItemID,quantity);
         log.info("in controller");
         return ResponseEntity.ok().body(order);
+    }
+
+    /**
+     * Sends a order submit request to api2
+     * If anything goes wrong fallback and update the status of the order to makingorder
+     * @param odrId
+     * @return response from api2
+     */
+    @PutMapping (value = "/submit/{odrId}")
+    public ResponseEntity<String> submitOrder (@PathVariable int odrId){
+        try {
+            log.info("[PUT] - Submitting Order");
+            String response = orderService.submitOrder(odrId);
+
+            orderService.updateOrderStatus(odrId, OrderStatus.Submitted);
+            return ResponseEntity.ok().body(response);
+        }
+        catch (Exception e){
+            log.error("Something went wrong submitting an order");            
+            e.printStackTrace();
+
+            orderService.updateOrderStatus(odrId, OrderStatus.MakingOrder);
+            return ResponseEntity.internalServerError().body(null);
+        }
     }
 
 

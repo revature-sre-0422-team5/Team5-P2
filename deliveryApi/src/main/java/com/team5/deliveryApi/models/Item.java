@@ -1,7 +1,4 @@
 package com.team5.deliveryApi.models;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team5.deliveryApi.dto.ItemStatus;
 import lombok.*;
 
@@ -12,7 +9,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Item {
@@ -35,10 +31,6 @@ public class Item {
         this.quantity=quantity;
         this.status=status;
         this.groceryItem=groceryItem;
-
     }
-
-
-
 }
 

@@ -5,7 +5,6 @@ import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.models.Shopper;
-import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.repositories.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,14 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 public class OrderServiceTest {
@@ -43,9 +39,9 @@ public class OrderServiceTest {
 
     @MockBean
     private GroceryItemRepository groceryItemRepository;
-
     @Mock
     private RestTemplate restTemplate;
+
     protected List<Order> list = new ArrayList<Order>();
     /**
      * Tests if the order service assigns a shopper to an order properly.
@@ -91,25 +87,25 @@ public class OrderServiceTest {
    }
     @Test
     public void shouldSaveOrderWork(){
-     /*   Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         Customer customer = new Customer(1, "John Smith", "johnsmithy123",
                 "JohnSmithPassword", "100 Nowhereville",
-                false, "john.smith@gmail.com", list);
+                false, "john.smith@gmail.com", new ArrayList<>());
         Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
         orderService.saveOrder(1,order);
-        Assertions.assertNotNull(orderService.viewAllOrders());*/
+        Assertions.assertNotNull(orderService.viewAllOrders());
     }
     @Test
     public void shouldAddItemById(){
-       /* Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+       Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         orderService.saveOrder(1,order);
-        Assertions.assertNotNull(orderService.addItem(2,3,5));*/
+        Assertions.assertNotNull(orderService.addItem(2,3,5));
     }
     @Test
     public void shouldUpdateOrderLocation(){
