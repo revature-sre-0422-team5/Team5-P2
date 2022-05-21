@@ -68,6 +68,7 @@ public class OrderService {
     }
 
     public boolean payOrder(int id){
+        log.info("Updating status for order: " + id);
         orderRepository.updatePayStatusById("Paid", id);
         return true;
     }

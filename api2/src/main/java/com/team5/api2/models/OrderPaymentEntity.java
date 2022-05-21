@@ -17,7 +17,7 @@ public class OrderPaymentEntity {
 
     @Id
     @Column(name="orderPaymentId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     private int orderPaymentId;
 
     @Column(name = "stripeChargeId", nullable = false)

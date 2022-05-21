@@ -24,7 +24,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service("PaymentsService")
+@Slf4j
 public class PaymentsServices {
 
     @Autowired
@@ -41,6 +44,8 @@ public class PaymentsServices {
     public String chargeUser (int orderReferenceId, long chargeAmount)
     {
         try {
+            log.info("Creating stripe link for " + orderReferenceId +" amount: " + chargeAmount);
+
             SessionCreateParams params =
             SessionCreateParams.builder()
               .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -68,29 +73,40 @@ public class PaymentsServices {
           return session.getUrl();
         }
         catch (Exception e){
+            log.error("Something went wrong generating a stripe link for user" + orderReferenceId);
             e.printStackTrace();
             return null;
         }
     }
 
     public String processOrderStatus (String sessionId) throws StripeException {
-        String paymentId = Session.retrieve(sessionId).getPaymentIntent();
+        try {
+            String paymentId = Session.retrieve(sessionId).getPaymentIntent();
 
-        int orderPaymentId = payrepo.findByStripeId(paymentId).get(0).getOrderPaymentId();
-        
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_HTML);
-
-        HttpEntity<String> entity = null;
-        ResponseEntity<String> response = restTemplate.exchange(deliveryApiUrl+"/order/pay/"+ orderPaymentId, HttpMethod.PUT, entity, String.class);
-
-        if (response.getStatusCode() != HttpStatus.OK){
-            throw new IllegalStateException ("Something went wrong with the http request");
+            int orderPaymentId = payrepo.findByStripeId(paymentId).get(0).getOrderPaymentId();
+            
+            RestTemplate restTemplate = new RestTemplate();
+    
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.TEXT_HTML);
+    
+            HttpEntity<String> entity = null;
+    
+            log.info("Submitting update payment status for " + orderPaymentId);
+    
+            ResponseEntity<String> response = restTemplate.exchange(deliveryApiUrl+"/order/pay/"+ orderPaymentId, HttpMethod.PUT, entity, String.class);
+    
+            if (response.getStatusCode() != HttpStatus.OK){
+                throw new IllegalStateException ("Something went wrong with the http request");
+            }
+    
+            return response.getBody();    
         }
-
-        return response.getBody();
+        catch (Exception e){
+            log.error("Something went wrong for sessionId" + sessionId);
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void payShopper (String userEmail, long amount){
