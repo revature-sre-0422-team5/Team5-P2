@@ -83,8 +83,8 @@ public class OrderController {
      * @return Order
      */
     @PutMapping(value = "/adddescription/{odr_id}")
-    public ResponseEntity<Order> updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
-        Order Out=orderService.updateLocation(orderService.findByOrderId(odr_id),orderLocation);
+    public ResponseEntity<Order> updateDescription(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
+        Order Out=orderService.updateDescription(orderService.findByOrderId(odr_id),orderLocation);
         return ResponseEntity.ok().body(Out);
     }
 

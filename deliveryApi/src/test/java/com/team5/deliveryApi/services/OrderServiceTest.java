@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -43,6 +44,7 @@ public class OrderServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
+    protected List<Order> list = new ArrayList<Order>();
     /**
      * Tests if the order service assigns a shopper to an order properly.
      */
@@ -59,13 +61,17 @@ public class OrderServiceTest {
         Order returned = orderService.assignShopper(1, 1);
         Assertions.assertEquals(returned.getShopper(), shopper.get());
     }
-    /*
+
     @Test
     public void shouldSaveOrderWork(){
         Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        Customer customer = new Customer(1, "John Smith", "johnsmithy123",
+                "JohnSmithPassword", "100 Nowhereville",
+                false, "john.smith@gmail.com", list);
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
         orderService.saveOrder(1,order);
         Assertions.assertNotNull(orderService.viewAllOrders());
     }
@@ -77,9 +83,8 @@ public class OrderServiceTest {
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         orderService.saveOrder(1,order);
-        //orderService.payOrder(1);
         Assertions.assertTrue( orderService.payOrder(1));
-        Assertions.assertEquals("Paid",orderService.viewStatusById(1));
+        Assertions.assertEquals("Paid",orderService.findByOrderId(1).getPay_status());
     }
 
     @Test
@@ -89,31 +94,36 @@ public class OrderServiceTest {
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         orderService.saveOrder(1,order);
-        Assertions.assertEquals("testDate",orderService.findByOrderId(1).getDate());
+        Assertions.assertEquals("11/11/1111",orderService.findByOrderId(1).getDate());
     }
 
+
     @Test
-    public void shouldUpdateLocation(){
+    public void shouldUpdateOrderLocation(){
         Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         orderService.saveOrder(1,order);
-        OrderLocation orderLocation = new OrderLocation("Tononto","House");
-        orderService.updateLocation(order,orderLocation);
-        Assertions.assertEquals("Toronto",orderService.findByOrderId(1).getStore_location());
+        OrderLocation orderLocation = new OrderLocation("Toronto");
+        orderService.updateDescription(order,orderLocation);
+        Assertions.assertEquals("Toronto",orderService.findByOrderId(1).getDescription());
     }
 
     @Test
     public void shouldAddItemById(){
-
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        Assertions.assertNotNull(orderService.addItem(2,3,5));
     }
 
     @Test
     public void shouldRemoveItemById(){
 
     }
-*/
 
     /**
      * Tests if the order status gets updated properly.
