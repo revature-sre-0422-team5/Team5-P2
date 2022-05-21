@@ -35,6 +35,6 @@ public class ShopperServiceTest {
         Shopper shopper = new Shopper(1,"username","password","name","email",false,new ArrayList<>());
         Mockito.when(shopperRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(shopper));
         shopperService.saveShopper(shopper);
-        Assertions.assertEquals("username",shopperService.viewShopperById(1).getUsername());
+        Assertions.assertEquals("username",shopperService.getShopperById(1).get().getUsername());
     }
 }
