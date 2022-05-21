@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.MockitoPostProcessor;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.http.RequestEntity.post;
@@ -50,6 +54,16 @@ public class CustomerControllerTest {
 
     }
     @Test
+    public void shouldLogIn() throws Exception {
+
+        Mockito.when(customerService.login(any())).thenReturn(true);
+        mockMvc.perform(get("/customer/login")
+                        .contentType("application/json")
+                        .content("{\"username\": \"rosh\", \"password\": \"rosh\"}"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void shouldNotLogIn() throws Exception {
 
         Mockito.when(customerService.login(any())).thenReturn(false);
@@ -60,21 +74,20 @@ public class CustomerControllerTest {
     }
     @Test
     public void shouldCreateCustomer() throws Exception {
-      /*  Customer mockCustomer = new Customer();
-        mockCustomer.setId(1);
+    /*  Customer mockCustomer = new Customer();
         mockCustomer.setEmail("rosh@gmail.com");
         mockCustomer.setPassword("rosh");
         mockCustomer.setLocation("Toronto");
-        mockCustomer.setIsloggedin(0);
         mockCustomer.setUsername("rosh");
         mockCustomer.setName("rosh");
 
 
 
        Mockito.when(customerService.saveCustomer(any())).thenReturn(true);
-        mockMvc.perform(post("/customer/new")
+
+       mockMvc.perform(post("/customer/new")
                         .contentType("application/json")
-                        .content("{\"email\": \"rosh@gmail.com\", \"password\": \"rosh\",\"name\": \"rosh\", \"username\": \"rosh\",\"location\": \"Toronto\"}"))
-                .andExpect(status().isOk());*/
+                .content("{\"name\": \"rosh\",\"username\": \"rosh\",\"password\": \"rosh\",\"email\": \"rosh@gmail.com\",\"location\": \"Toronto\"}"))
+                .andExpect(status().isOk()).andExpect(content().string("Account created Successfully"));*/
     }
 }
