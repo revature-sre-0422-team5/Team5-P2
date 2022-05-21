@@ -1,6 +1,7 @@
 package com.team5.deliveryApi.models;
 
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
