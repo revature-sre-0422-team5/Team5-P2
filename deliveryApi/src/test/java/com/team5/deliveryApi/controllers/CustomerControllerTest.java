@@ -30,7 +30,6 @@ public class CustomerControllerTest {
     public void shouldReturnOkOnEmailSubscription() throws Exception {
         Mockito.when(customerService.updateEmailSubscription(Mockito.anyInt(), Mockito.anyBoolean()))
                 .thenReturn(new Customer());
-
         mockMvc.perform(MockMvcRequestBuilders.put("/customer/subscribe/1?status=true"))
                 .andExpect(status().isOk());
     }
