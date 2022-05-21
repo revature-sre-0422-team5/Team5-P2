@@ -193,7 +193,7 @@ public class OrderService {
         if (order.isPresent()){
             return (order.get().getItems().stream()
             .map(item -> item.getQuantity() * item.getGroceryItem().getCost().longValue())
-            .reduce(50L, (a,b) -> a+b ));    
+            .reduce(500L, (a,b) -> a+b ));    
         }
         return Long.MAX_VALUE;
     }
