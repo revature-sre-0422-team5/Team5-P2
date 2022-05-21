@@ -37,10 +37,8 @@ public class OrderServiceTest {
 
     @MockBean
     private GroceryItemRepository groceryItemRepository;
-
     @Mock
     private RestTemplate restTemplate;
-
     /**
      * Tests if the order service assigns a shopper to an order properly.
      */
