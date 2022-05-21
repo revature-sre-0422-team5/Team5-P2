@@ -35,11 +35,11 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class OrderService {
-
-    @Value("${api.notification}")
+    @Value("${api.notification:none}")
     private String notificationApiUrl;
 
     @Value("${api.directions}")
@@ -191,6 +191,7 @@ public class OrderService {
      * @return boolean
      */
     public boolean deleteOrder(Order incomingOrder) {
+
         orderRepository.delete(incomingOrder);
         return true;
     }
@@ -211,9 +212,6 @@ public class OrderService {
         }
         return Long.MAX_VALUE;
     }
-
-    @Value("${DIRECTIONS_API_URL:none}")
-    private String api2Url;
 
     /**
      * Sends an HTTP request to api2 for the stripe checkout page.
