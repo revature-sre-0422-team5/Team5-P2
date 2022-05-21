@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Shopper")
+@RequestMapping("/shopper")
 public class ShopperController {
     @Autowired
     ShopperService shopperService;
