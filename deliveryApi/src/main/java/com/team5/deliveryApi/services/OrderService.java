@@ -1,12 +1,13 @@
 package com.team5.deliveryApi.services;
 
 import com.team5.deliveryApi.dto.ItemStatus;
+import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.GroceryItem;
 import com.team5.deliveryApi.models.Item;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
-import com.team5.deliveryApi.dto.OrderLocation;
+
 import com.team5.deliveryApi.repositories.GroceryItemRepository;
 import com.team5.deliveryApi.repositories.ItemRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
@@ -95,7 +96,6 @@ public class OrderService {
      * @return updated order
      */
     public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
-        incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;
