@@ -24,9 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -50,8 +48,8 @@ public class OrderService {
     @Autowired
     private ShopperRepository shopperRepository;
 
-    public ResponseEntity viewAllOrders(){
-        return ResponseEntity.ok(orderRepository.findAll());
+    public List<Order> viewAllOrders(){
+        return (orderRepository.findAll());
     }
 
 
@@ -111,10 +109,22 @@ public class OrderService {
      * @return boolean value
      */
     public boolean removeItem(Order incomingOrder,int itemId){
-        Item item = incomingOrder.getItems().stream().filter(i -> i.getGroceryItem().getId() == itemId).findFirst().get();
-        itemRepository.delete(item);
-        return true;
+        try{
+            if(incomingOrder.getItems() == null){
+                return false;
+            }
+            else {
+                Item item = incomingOrder.getItems().stream().filter(i ->
+                        (i != null) &&
+                                i.getGroceryItem().getId() == itemId).findFirst().get();
+                itemRepository.delete(item);
+            }
 
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return true;
     }
 
 
