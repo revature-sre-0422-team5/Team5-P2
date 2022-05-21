@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deliveryapi
+spec:
+  selector:
+    matchLabels:
+      app: deliveryapi
+  strategy:
+    type: Recreate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: deliveryapi
+    spec:
+      containers:
+      - name: deliveryapi
+        image: deliveryapi
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 7000
+        envFrom:
+        - configMapRef:
+            name: api-config
+        - secretRef:
+            name: api-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deliveryapi-service
+spec:
+  selector:
+    app: deliveryapi
+  type: LoadBalancer
+  ports:
+    - port: 8082
+      targetPort: 7000
