@@ -68,4 +68,9 @@ public class ItemService {
         return cartItem.get();
     }
 
+    public Item findItemById(int itemId){
+        Item item = itemRepository.findById(itemId).get();
+        return item;
+    }
+
 }

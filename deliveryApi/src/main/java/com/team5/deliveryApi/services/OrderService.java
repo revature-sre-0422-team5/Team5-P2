@@ -38,6 +38,7 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class OrderService {
+
     @Value("${api.notification}")
     private String notificationApiUrl;
     @Autowired
@@ -124,7 +125,6 @@ public class OrderService {
                                 i.getGroceryItem().getId() == itemId).findFirst().get();
                 itemRepository.delete(item);
             }
-
         }
         catch (Exception e){
             e.printStackTrace();
@@ -207,7 +207,7 @@ public class OrderService {
         return Long.MAX_VALUE;
     }
 
-    @Value("${DIRECTIONS_API_URL}")
+    @Value("${DIRECTIONS_API_URL:none}")
     private String api2Url;
 
     /**
