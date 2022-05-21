@@ -73,6 +73,9 @@ public class OrderService {
     public boolean saveOrder(int customerId, Order incomingOrder) {
         orderRepository.save(incomingOrder);
         Customer customer = customerRepository.getById(customerId);
+        if(customer == null) {
+            return false;
+        }
         customer.getOrders().add(incomingOrder);
         incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
@@ -95,7 +98,7 @@ public class OrderService {
      * @param incomingLocation refers to location description of the store
      * @return updated order
      */
-    public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
+    public Order updateDescription(Order incomingOrder, OrderLocation incomingLocation){
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;

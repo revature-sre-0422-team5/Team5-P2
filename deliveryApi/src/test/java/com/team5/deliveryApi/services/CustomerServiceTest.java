@@ -1,6 +1,7 @@
 package com.team5.deliveryApi.services;
 
 import com.team5.deliveryApi.models.Customer;
+import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.repositories.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +31,7 @@ public class CustomerServiceTest {
     public void shouldReturnCustomerWithUpdatedEmailSubscription() throws UserNotFoundException {
         Customer customer = new Customer(1, "John Smith", "johnsmithy123",
                 "JohnSmithPassword", "100 Nowhereville",
-                false, "john.smith@gmail.com", new ArrayList<>());
+                false, "john.smith@gmail.com", new ArrayList<Order>());
         Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
 
         Customer updated = customerService.updateEmailSubscription(1, true);
