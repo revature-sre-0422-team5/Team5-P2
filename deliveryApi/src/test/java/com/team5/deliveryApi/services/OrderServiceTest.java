@@ -3,6 +3,7 @@ package com.team5.deliveryApi.services;
 import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
+import com.team5.deliveryApi.models.GroceryItem;
 import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.repositories.*;
@@ -16,8 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -44,7 +45,6 @@ public class OrderServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
-    protected List<Order> list = new ArrayList<Order>();
     /**
      * Tests if the order service assigns a shopper to an order properly.
      */
@@ -70,7 +70,7 @@ public class OrderServiceTest {
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         Customer customer = new Customer(1, "John Smith", "johnsmithy123",
                 "JohnSmithPassword", "100 Nowhereville",
-                false, "john.smith@gmail.com", list);
+                false, "john.smith@gmail.com",  new ArrayList<>());
         Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
         orderService.saveOrder(1,order);
         Assertions.assertNotNull(orderService.viewAllOrders());
@@ -117,12 +117,25 @@ public class OrderServiceTest {
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         orderService.saveOrder(1,order);
-        Assertions.assertNotNull(orderService.addItem(2,3,5));
+        GroceryItem groceryItem = new GroceryItem(1,"Test Item",new BigDecimal(100));
+        Mockito.when(groceryItemRepository.findById(Mockito.any())).thenReturn(Optional.of(groceryItem));
+        orderService.addItem(1,1,5);
+        Assertions.assertNotNull(orderService.findByOrderId(1).getItems());
     }
 
+    //No Such Element Exception
     @Test
     public void shouldRemoveItemById(){
-
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        GroceryItem groceryItem = new GroceryItem(1,"Test Item",new BigDecimal(100));
+        Mockito.when(groceryItemRepository.findById(Mockito.any())).thenReturn(Optional.of(groceryItem));
+        orderService.addItem(1,1,1);
+        orderService.removeItem(order,1);
+        Assertions.assertNull(orderService.findByOrderId(1).getItems());
     }
 
     /**
@@ -130,7 +143,25 @@ public class OrderServiceTest {
      */
     @Test
     public void shouldUpdateOrderStatus() {
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        orderService.updateOrderStatus(1, OrderStatus.MakingOrder);
+        Assertions.assertEquals(orderService.findByOrderId(1).getStatus(),OrderStatus.MakingOrder);
+    }
 
+    @Test
+    public void shouldDeleteOrder(){
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        Assertions.assertNotNull(orderService.viewAllOrders());
+        orderService.deleteOrder(order);
+        Assertions.assertEquals(new ArrayList<>(),orderService.viewAllOrders());
     }
 
     /**

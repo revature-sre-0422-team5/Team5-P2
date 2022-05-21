@@ -50,7 +50,7 @@ public class OrderController {
 
     @GetMapping("/all")
     public ResponseEntity viewAllOrders(){
-        return orderService.viewAllOrders();
+        return ResponseEntity.ok(orderService.viewAllOrders());
     }
 
 
