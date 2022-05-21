@@ -37,6 +37,10 @@ import java.util.Optional;
 public class OrderService {
     @Value("${api.notification}")
     private String notificationApiUrl;
+
+    @Value("${api.directions}")
+    private String api2Url;
+    
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -60,7 +64,8 @@ public class OrderService {
     }
 
     public boolean payOrder(int id){
-        orderRepository.findById(id).get().setPay_status("Paid");
+        log.info("Updating status for order: " + id);
+        orderRepository.updatePayStatusById("Paid", id);
         return true;
     }
 
@@ -185,13 +190,10 @@ public class OrderService {
         if (order.isPresent()){
             return (order.get().getItems().stream()
             .map(item -> item.getQuantity() * item.getGroceryItem().getCost().longValue())
-            .reduce(5L, (a,b) -> a+b ));    
+            .reduce(500L, (a,b) -> a+b ));    
         }
         return Long.MAX_VALUE;
     }
-
-    @Value("${DIRECTIONS_API_URL}")
-    private String api2Url;
 
     /**
      * Sends an HTTP request to api2 for the stripe checkout page.

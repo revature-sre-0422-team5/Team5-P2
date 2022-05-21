@@ -16,8 +16,7 @@ import javax.persistence.*;
 public class OrderPaymentEntity {
 
     @Id
-    @Column(name="orderPaymentId")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="orderPaymentId", nullable = false)
     private int orderPaymentId;
 
     @Column(name = "stripeChargeId", nullable = false)
