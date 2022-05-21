@@ -37,6 +37,11 @@ import java.util.Optional;
 public class OrderService {
     @Value("${api.notification}")
     private String notificationApiUrl;
+
+    @Value("${api.directions}")
+    private String api2Url;
+    
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -193,9 +198,6 @@ public class OrderService {
         }
         return Long.MAX_VALUE;
     }
-
-    @Value("${DIRECTIONS_API_URL}")
-    private String api2Url;
 
     /**
      * Sends an HTTP request to api2 for the stripe checkout page.
