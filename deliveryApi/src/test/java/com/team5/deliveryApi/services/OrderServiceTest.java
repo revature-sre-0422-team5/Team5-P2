@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -43,12 +44,14 @@ public class OrderServiceTest {
     private GroceryItemRepository groceryItemRepository;
     @Mock
     private RestTemplate restTemplate;
+
+    protected List<Order> list = new ArrayList<Order>();
     /**
      * Tests if the order service assigns a shopper to an order properly.
      */
-    @Test
+   @Test
     public void shouldAssignShopperToOrder() {
-        Optional<Shopper> shopper = Optional.of(new Shopper(1, "john_smith", "passwordJohn",
+    Optional<Shopper> shopper = Optional.of(new Shopper(1, "john_smith", "passwordJohn",
                 "John Smith", "john.smith@gmail.com", true, new ArrayList<>()));
         Optional<Order> order = Optional.of(new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
@@ -58,6 +61,7 @@ public class OrderServiceTest {
 
         Order returned = orderService.assignShopper(1, 1);
         Assertions.assertEquals(returned.getShopper(), shopper.get());
+
     }
 
     @Test
@@ -172,4 +176,18 @@ public class OrderServiceTest {
         Assertions.assertThrows(Exception.class, () -> orderService.sendNotification("test@gmail.com",
                 "test subject", "test message"));
     }
+
+    @Test
+    public void ShouldDeleteOrder() {
+     /*   Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.delete(Mockito.mock(Order)));*/
+
+    }
+
 }
+
+
+
+
