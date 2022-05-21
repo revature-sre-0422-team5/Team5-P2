@@ -41,18 +41,14 @@ public class OrderService {
     private RestTemplate restTemplate;
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private OrderRepository orderRepository;
-
     @Autowired
     private GroceryItemRepository groceryItemRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
-
     @Autowired
     private ShopperRepository shopperRepository;
+    @Autowired
+    private ItemRepository itemRepository;
 
     public ResponseEntity viewAllOrders(){
         return ResponseEntity.ok(orderRepository.findAll());
@@ -271,6 +267,7 @@ public class OrderService {
         map.put("subject", subject);
         map.put("message", message);
         uriParam.put("html", false);
+        log.info("Sending notification post request to " + notificationApiUrl);
         return restTemplate.postForEntity(notificationApiUrl + "?html={html}", map, Object.class, uriParam);
     }
 }
