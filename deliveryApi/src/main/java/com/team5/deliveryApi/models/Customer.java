@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,5 +54,6 @@ public class Customer {
     private List<Order> orders;
 
 
-
+    public Customer(int id, String name, String username, String password, String location, boolean email_subscribe, String email, ArrayList<Order> orders) {
+    }
 }
