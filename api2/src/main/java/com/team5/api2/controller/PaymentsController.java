@@ -9,7 +9,6 @@ import com.team5.api2.services.PaymentsServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +46,8 @@ public class PaymentsController {
     @GetMapping ("/success")
     public ResponseEntity<String> chargeUser(@RequestParam("session_id") String session_id){
         try {
-            return ResponseEntity.ok().body(session_id);
+            String reply = ps.processOrderStatus(session_id);
+            return ResponseEntity.ok().body(reply);
         }
         catch (Exception e){
             e.printStackTrace();

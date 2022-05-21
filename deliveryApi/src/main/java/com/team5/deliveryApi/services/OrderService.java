@@ -41,7 +41,6 @@ public class OrderService {
     @Value("${api.directions}")
     private String api2Url;
     
-
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -69,7 +68,7 @@ public class OrderService {
     }
 
     public boolean payOrder(int id){
-        orderRepository.findById(id).get().setPay_status("Paid");
+        orderRepository.updatePayStatusById("Paid", id);
         return true;
     }
 
