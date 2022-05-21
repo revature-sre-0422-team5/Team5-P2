@@ -4,6 +4,7 @@ import com.team5.deliveryApi.dto.ItemStatus;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.GroceryItem;
 import com.team5.deliveryApi.models.Item;
+import com.team5.deliveryApi.models.Order;
 import com.team5.deliveryApi.services.ItemService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -32,7 +33,7 @@ public class ItemControllerTest {
     @Test
     public void shouldReturnOkReponseSetItemStatus() throws Exception {
         Mockito.when(itemService.setItemStatus(Mockito.anyInt(), Mockito.anyInt(), Mockito.any()))
-                .thenReturn(new Item(1, 1, ItemStatus.Added, new GroceryItem()));
+                .thenReturn(new Item(1, ItemStatus.Added, new GroceryItem()));
 
         mockMvc.perform(MockMvcRequestBuilders.put("/item/status/1/1/2?status=Added"))
                 .andExpect(status().isOk());

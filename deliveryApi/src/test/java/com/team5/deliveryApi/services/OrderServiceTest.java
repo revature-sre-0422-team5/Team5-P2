@@ -43,10 +43,11 @@ public class OrderServiceTest {
 
     @MockBean
     private GroceryItemRepository groceryItemRepository;
-
     @Mock
     private RestTemplate restTemplate;
+
     protected List<Order> list = new ArrayList<Order>();
+
     /**
      * Tests if the order service assigns a shopper to an order properly.
      */
@@ -91,16 +92,16 @@ public class OrderServiceTest {
    }
     @Test
     public void shouldSaveOrderWork(){
-     /*   Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+       Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         Customer customer = new Customer(1, "John Smith", "johnsmithy123",
                 "JohnSmithPassword", "100 Nowhereville",
-                false, "john.smith@gmail.com", list);
+                false, "john.smith@gmail.com", (ArrayList<Order>) list);
         Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
         orderService.saveOrder(1,order);
-        Assertions.assertNotNull(orderService.viewAllOrders());*/
+        Assertions.assertNotNull(orderService.viewAllOrders());
     }
     @Test
     public void shouldAddItemById(){
@@ -109,7 +110,7 @@ public class OrderServiceTest {
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         orderService.saveOrder(1,order);
-        Assertions.assertNotNull(orderService.addItem(2,3,5));*/
+        Assertions.assertNotNull(orderService.addItem(1,3,5))*/
     }
     @Test
     public void shouldUpdateOrderLocation(){
@@ -144,10 +145,13 @@ public class OrderServiceTest {
 
     @Test
     public void ShouldDeleteOrder() {
-     /*   Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+    /* Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new Customer(), new ArrayList<>(), null);
-        Mockito.when(orderRepository.delete(Mockito.mock(Order)));*/
+    Mockito.when(orderService.deleteOrder(order)).thenReturn(true);
+    orderService.saveOrder(1,order);
+    Assertions.assertNotEquals("11/11/1111",orderService.findByOrderId(1).getDate());*/
+
 
     }
 
