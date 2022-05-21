@@ -61,6 +61,7 @@ public class OrderController {
 
     @PutMapping("/pay/{id}")
     public ResponseEntity payOrderById(@PathVariable int id){
+        log.info("[PUT] - pay for order: " + id);
         return ResponseEntity.ok(orderService.payOrder(id));
     }
 
@@ -115,8 +116,6 @@ public class OrderController {
      * @param quantity refers to quantity of item
      * @return order with response status
      */
-
-
     @PostMapping(value = "/addItem/{odrId}/{groceryItemID}")
     public ResponseEntity <Order> addItem(@PathVariable int odrId, @PathVariable int groceryItemID,
                                           @RequestParam("qty") int quantity) {
@@ -135,7 +134,7 @@ public class OrderController {
     @PutMapping (value = "/submit/{odrId}")
     public ResponseEntity<String> submitOrder (@PathVariable int odrId){
         try {
-            log.info("[PUT] - Submitting Order");
+            log.info("[PUT] - Submitting Order: " + odrId);
             String response = orderService.submitOrder(odrId);
 
             orderService.updateOrderStatus(odrId, OrderStatus.Submitted);

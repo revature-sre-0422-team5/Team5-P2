@@ -1,4 +1,4 @@
-package com.team5.api2;
+package com.team5.api2.controllertests;
 
 import java.util.HashMap;
 import java.util.Map;
