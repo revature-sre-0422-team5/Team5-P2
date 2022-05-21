@@ -84,11 +84,36 @@ public class CustomerServiceTest {
 
     @Test
     public void shouldViewCustomerByIdWork(){
-    /*  Customer customer = new Customer(1, "John Smith", "johnsmithy123",
+    /* Customer customer = new Customer(1, "John Smith", "johnsmithy123",
                 "JohnSmithPassword", "100 Nowhereville",
                 false, "john.smith@gmail.com", new ArrayList<>());
         Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
-        customerService.saveCustomer(customer);
-        Assertions.assertEquals("johnsmithy123",customerService.viewCustomerById(1).get().getUsername());*/
+        //customerService.saveCustomer(customer);
+        Assertions.assertEquals("john.smith@gmail.com",customerService.viewCustomerById(1).get().getEmail());*/
     }
+    @Test
+    public void shouldThrowIllegalStateExceptionLogin() {
+       Credential logindto1 = new Credential("rosh", null);
+        Credential logindto2 = new Credential(null, "rosh");
+        Credential logindto3 = new Credential(null, null);
+
+        IllegalStateException ex = Assertions.assertThrows(IllegalStateException.class, ()-> {
+          customerService.login(logindto1);
+        });
+        Assertions.assertEquals("Username or password cannot be null", ex.getMessage(),
+                "Method did not throw with null password");
+
+        ex = Assertions.assertThrows(IllegalStateException.class, ()-> {
+            customerService.login(logindto2);
+        });
+        Assertions.assertEquals("Username or password cannot be null", ex.getMessage(),
+                "Method did not throw with null username");
+
+        ex = Assertions.assertThrows(IllegalStateException.class, ()-> {
+            customerService.login(logindto3);
+        });
+        Assertions.assertEquals("Username or password cannot be null", ex.getMessage(),
+                "Method did not throw with null username & null password");
+    }
+
 }
