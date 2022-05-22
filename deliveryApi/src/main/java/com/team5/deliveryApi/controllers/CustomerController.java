@@ -46,6 +46,11 @@ public class CustomerController {
             }
         }
 
+    /**
+     * Login for customer
+     * @param logindto credentials to login
+     * @return Response message
+     */
     @GetMapping("/login")
     public ResponseEntity login(@RequestBody Credential logindto) {
         try {
@@ -63,6 +68,12 @@ public class CustomerController {
             return ResponseEntity.internalServerError().body("Error login ");
         }
     }
+
+    /**
+     * To logout for customer
+     * @param logoutdto credentials to logout
+     * @return Response message
+     */
     @GetMapping("/logout")
     public ResponseEntity logout(@RequestBody Credential logoutdto) {
         try {
@@ -82,7 +93,10 @@ public class CustomerController {
         }
     }
 
-
+    /**
+     * To get all customers
+     * @return Return all customers
+     */
 
         @GetMapping("/all")
         public ResponseEntity viewAllCustomer(){
