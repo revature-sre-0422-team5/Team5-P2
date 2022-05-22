@@ -36,13 +36,17 @@ public class ItemService {
      */
      public Item setItemStatus(int orderId, int itemId, ItemStatus newStatus) throws ItemNotFoundException {
         Order order = orderRepository.getById(orderId);
-        Optional<Item> cartItem = order.getItems().stream().filter(i -> i.getId() == itemId).findFirst();
-        if (!cartItem.isPresent()) {
-            throw new ItemNotFoundException();
+        if (order != null){
+            Optional<Item> cartItem = order.getItems().stream()
+                    .filter(i -> i.getId() == itemId).findFirst();
+            if (!cartItem.isPresent()) {
+                throw new ItemNotFoundException();
+            }
+            cartItem.get().setStatus(newStatus);
+            itemRepository.save(cartItem.get());
+            return cartItem.get();
         }
-        cartItem.get().setStatus(newStatus);
-        itemRepository.save(cartItem.get());
-        return cartItem.get();
+         throw new ItemNotFoundException();
     }
 
     /**
@@ -55,6 +59,9 @@ public class ItemService {
      */
     public Item replaceItem(int orderId, int oldItemId, int newItemId) throws ItemNotFoundException {
         Order order = orderRepository.getById(orderId);
+        if(order == null){
+            throw new ItemNotFoundException();
+        }
         Optional<Item> cartItem = order.getItems().stream().filter(i -> i.getId() == oldItemId).findFirst();
         if (!cartItem.isPresent()) {
             throw new ItemNotFoundException();

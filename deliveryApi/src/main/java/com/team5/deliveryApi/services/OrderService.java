@@ -63,8 +63,8 @@ public class OrderService {
     }
 
 
-    public ResponseEntity viewStatusById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
+    public OrderStatus viewStatusById(int id){
+        return orderRepository.findById(id).get().getStatus();
     }
 
     public boolean payOrder(int id){
