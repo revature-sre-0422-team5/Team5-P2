@@ -11,6 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -83,4 +85,19 @@ public class CustomerControllerTest {
                 .content("{\"name\": \"rosh\",\"username\": \"rosh\",\"password\": \"rosh\",\"email\": \"rosh@gmail.com\",\"location\": \"Toronto\"}"))
                 .andExpect(status().isOk()).andExpect(content().string("Account created Successfully"));*/
     }
+
+    @Test
+    public void shouldReturnOkOnCreateCusotmer() throws Exception{
+
+    }
+    @Test
+    public void shouldReturnOkOnViewAllCustomer() throws Exception {
+        if (customerService != null) {
+            Mockito.when(customerService.findAllCustomers())
+                    .thenReturn(new ArrayList<>());
+            mockMvc.perform(MockMvcRequestBuilders.get("/customer/all"))
+                    .andExpect(status().isOk());
+        }
+    }
+
 }
