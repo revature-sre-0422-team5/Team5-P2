@@ -3,7 +3,6 @@ package com.team5.deliveryApi.controllers;
 import com.team5.deliveryApi.dto.Credential;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.UserNotFoundException;
-import com.team5.deliveryApi.repositories.CustomerRepository;
 import com.team5.deliveryApi.services.CustomerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +19,8 @@ import javax.websocket.server.PathParam;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-        @Autowired
-        CustomerService customerService;
-        @Autowired
-    CustomerRepository customerRepository;
+    @Autowired
+    private CustomerService customerService;
 
     /**
      * Create account for a new customer
