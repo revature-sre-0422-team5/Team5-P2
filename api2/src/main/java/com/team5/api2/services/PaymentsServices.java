@@ -15,6 +15,7 @@ import com.team5.api2.models.OrderPaymentEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service("PaymentsService")
 @Slf4j
 public class PaymentsServices {
+
+    RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     private PaymentsRequestRepository payrepo;
@@ -84,8 +87,6 @@ public class PaymentsServices {
             String paymentId = Session.retrieve(sessionId).getPaymentIntent();
 
             int orderPaymentId = payrepo.findByStripeId(paymentId).get(0).getOrderPaymentId();
-            
-            RestTemplate restTemplate = new RestTemplate();
     
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.TEXT_HTML);
