@@ -132,11 +132,56 @@ public class OrderControllerTest {
         }
     }
 
+    @Test
+    public void shouldReturnOkOnSubmitOrder() throws Exception {
+        if (orderService != null) {
+            Mockito.when(orderService.submitOrder(Mockito.anyInt()))
+                    .thenReturn(Mockito.anyString());
+            mockMvc.perform(MockMvcRequestBuilders.put("/order/submit/1"))
+                    .andExpect(status().isOk());
+        }
+    }
 
+    @Test
+    public void shouldReturnOkOnChangeOrderStatus() throws Exception{
+        if (orderService != null) {
+            Mockito.when(orderService.updateOrderStatus(Mockito.anyInt(),Mockito.any()))
+                    .thenReturn(new Order());
+            mockMvc.perform(MockMvcRequestBuilders.put("/order/status/1?status=MakingOrder"))
+                    .andExpect(status().isOk());
+        }
+    }
 
+    @Test
+    public void shouldReturnOkOnAssignShopper() throws Exception{
+        if (orderService != null) {
+            Mockito.when(orderService.assignShopper(Mockito.anyInt(),Mockito.anyInt()))
+                    .thenReturn(new Order());
+            mockMvc.perform(MockMvcRequestBuilders.put("/order/assign/1/2"))
+                    .andExpect(status().isOk());
+        }
+    }
 
+    @Test
+    public void shouldReturnOkOnCancelOrder() throws Exception {
+        if (orderService != null) {
+            Mockito.when(orderService.deleteOrder(Mockito.any()))
+                    .thenReturn(true);
+            mockMvc.perform(MockMvcRequestBuilders.delete("/order/delete/1"))
+                    .andExpect(status().isOk());
+        }
+    }
 
-
+    /*
+    @Test
+    public void shouldReturnOkOnGetCustomerDirection() throws Exception {
+        if (orderService != null) {
+            Mockito.when(orderService.findByOrderId(Mockito.anyInt()))
+                    .thenReturn(new Order());
+            mockMvc.perform(MockMvcRequestBuilders.get("/order/directions/1"))
+                    .andExpect(status().isOk());
+        }
+    }*/
 
 
 }
