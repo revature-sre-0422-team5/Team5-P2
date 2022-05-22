@@ -37,10 +37,10 @@ import java.util.Optional;
 @Slf4j
 @Service
 public class OrderService {
-    @Value("${api.notification}")
+    @Value("${api.notification:none}")
     private String notificationApiUrl;
 
-   // @Value("${api.directions}")
+   //@Value("${api.directions}")
    // private String api2Url;
 
     @Value("${DIRECTIONS_API_URL}")
