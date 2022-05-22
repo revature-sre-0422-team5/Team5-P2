@@ -31,7 +31,7 @@ public class ItemControllerTest {
      * response if the item status was set.
      */
     @Test
-    public void shouldReturnOkReponseSetItemStatus() throws Exception {
+    public void shouldReturnOkResponseSetItemStatus() throws Exception {
         Mockito.when(itemService.setItemStatus(Mockito.anyInt(), Mockito.anyInt(), Mockito.any()))
                 .thenReturn(new Item(1, ItemStatus.Added, new GroceryItem()));
 

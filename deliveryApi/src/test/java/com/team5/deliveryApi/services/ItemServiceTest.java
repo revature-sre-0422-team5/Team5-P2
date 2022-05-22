@@ -22,6 +22,9 @@ public class ItemServiceTest {
     @Autowired
     private ItemService itemService;
 
+    @Autowired
+    private OrderService orderService;
+
     @MockBean
     private CustomerRepository customerRepository;
 
@@ -37,7 +40,6 @@ public class ItemServiceTest {
     @MockBean
     private GroceryItemRepository groceryItemRepository;
 
-    //Null Point Exception
     @Test
     public void shouldChangeItemStatus() throws ItemNotFoundException {
         Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
@@ -46,6 +48,7 @@ public class ItemServiceTest {
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
         GroceryItem groceryItem = new GroceryItem(1,"Test Item",new BigDecimal(100));
         Mockito.when(groceryItemRepository.findById(Mockito.any())).thenReturn(Optional.of(groceryItem));
+        orderService.addItem(1,1,1);
         Item item = new Item(1,1, ItemStatus.Added,groceryItem);
         Mockito.when(itemRepository.findById(Mockito.any())).thenReturn(Optional.of(item));
         itemService.setItemStatus(1,1,ItemStatus.Unavailable);
@@ -53,8 +56,32 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void shouldReplaceItem(){
+    public void shouldThrowItemNotFoundExceptionOnChangeItemStatus() throws ItemNotFoundException {
+        ItemNotFoundException ex = Assertions.assertThrows(ItemNotFoundException.class, () -> {
+            itemService.setItemStatus(1,1,ItemStatus.Unavailable);
+        });
+    }
 
+    @Test
+    public void shouldReplaceItem() throws ItemNotFoundException {
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder, "2049 London Street", "", "My grocery items", new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        GroceryItem groceryItem = new GroceryItem(1,"Test Item",new BigDecimal(100));
+        Mockito.when(groceryItemRepository.findById(Mockito.any())).thenReturn(Optional.of(groceryItem));
+        Item item = new Item(1,1, ItemStatus.Added,groceryItem);
+        Item item2 = new Item(2,1, ItemStatus.Replaced,groceryItem);
+        orderService.addItem(1,1,1);
+        orderService.addItem(1,2,1);
+        Mockito.when(itemRepository.findById(Mockito.any())).thenReturn(Optional.of(item));
+
+        Assertions.assertEquals(item2, itemService.replaceItem(1,1,2));
+    }
+
+    @Test
+    public void shouldThrowItemNotFoundExceptionOnReplaceItem() throws ItemNotFoundException {
+        ItemNotFoundException ex = Assertions.assertThrows(ItemNotFoundException.class, () -> {
+            itemService.replaceItem(1,1,2);
+        });
     }
 
 }
