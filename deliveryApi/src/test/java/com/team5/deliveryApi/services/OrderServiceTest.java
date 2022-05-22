@@ -130,7 +130,7 @@ public class OrderServiceTest {
     }
     @Test
     public void shouldChangePayStatus(){
-      /*  Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+      /* /* Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
                 new Customer(), new ArrayList<>(), null);
         Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
