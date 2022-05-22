@@ -20,6 +20,7 @@ public class PaymentsController {
     @Autowired
     private PaymentsServices ps;
 
+    /*
     @GetMapping ("/get-order-cost")
     public ResponseEntity <OrderCostCalculationResponse> getJourneyCost (@RequestBody OrderCostRequest ocr){
         try {
@@ -30,6 +31,7 @@ public class PaymentsController {
             return ResponseEntity.internalServerError().body(null);
         }
     }
+    */
 
     @PostMapping ("/checkout-order")
     public ResponseEntity<String> chargeUser(@RequestBody ChargeUserInfoRequest cuir){
@@ -55,9 +57,10 @@ public class PaymentsController {
         }
     }
 
+    /*
     @PostMapping("/pay-shopper")
     public ResponseEntity payShopper(){
         return ResponseEntity.internalServerError().body(null);
     }
-    
+    */
 }
