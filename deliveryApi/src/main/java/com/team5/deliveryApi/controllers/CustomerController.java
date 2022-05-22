@@ -5,8 +5,6 @@ import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.services.CustomerService;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +26,8 @@ public class CustomerController {
      */
         @PostMapping("/new")
         public String createCustomerAccount(@RequestBody Customer incomingCustomer) {
-
-            /** To get logging message*/
-            Logger logger = LoggerFactory.getLogger(CustomerController.class);
             boolean success = customerService.saveCustomer(incomingCustomer);
-            logger.info("Adding new Customer");
-            logger.info("incoming Customer"+ incomingCustomer);
+            log.info("Adding new Customer: " + incomingCustomer);
             if (success ==true) {
                 return "Account created successfully";
 
