@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.controllers;
 
+import com.team5.deliveryApi.dto.Credential;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.UserNotFoundException;
 import com.team5.deliveryApi.services.CustomerService;
@@ -18,8 +19,8 @@ import javax.websocket.server.PathParam;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
-        @Autowired
-        CustomerService customerService;
+    @Autowired
+    private CustomerService customerService;
 
     /**
      * Create account for a new customer
@@ -42,9 +43,62 @@ public class CustomerController {
             }
         }
 
+    /**
+     * Login for customer
+     * @param logindto credentials to login
+     * @return Response message
+     */
+    @GetMapping("/login")
+    public ResponseEntity login(@RequestBody Credential logindto) {
+        try {
+
+            boolean isSuccess = false;
+            isSuccess = customerService.login(logindto);
+
+            if(isSuccess) {
+                return ResponseEntity.ok().body("User successfully logged in");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error login ");
+        }
+    }
+
+    /**
+     * To logout for customer
+     * @param logoutdto credentials to logout
+     * @return Response message
+     */
+    @GetMapping("/logout")
+    public ResponseEntity logout(@RequestBody Credential logoutdto) {
+        try {
+            log.info("CustomerController -logout");
+            boolean isSuccess = false;
+            isSuccess = customerService.logout(logoutdto);
+
+            if(isSuccess) {
+                return ResponseEntity.ok().body("User logged out");
+            } else {
+                return ResponseEntity.ok().body("User was not logged in ");
+            }
+        } catch (Exception e) {
+            log.info("Customer Controller - Exception");
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("Error logging out ");
+        }
+    }
+
+    /**
+     * To get all customers
+     * @return Return all customers
+     */
+
         @GetMapping("/all")
         public ResponseEntity viewAllCustomer(){
-            return customerService.viewAllCustomer();
+
+            return ResponseEntity.ok(customerService.findAllCustomers());
         }
 
     /**

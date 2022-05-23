@@ -36,7 +36,7 @@ public class Order {
 
     @Column(name = "location_description")
     private String description;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     @JsonIgnore

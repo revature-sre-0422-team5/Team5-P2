@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.services;
 
+import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -39,12 +41,15 @@ public class OrderServiceTest {
     private GroceryItemRepository groceryItemRepository;
     @Mock
     private RestTemplate restTemplate;
+
+    protected List<Order> list = new ArrayList<Order>();
+
     /**
      * Tests if the order service assigns a shopper to an order properly.
      */
-    @Test
+   @Test
     public void shouldAssignShopperToOrder() {
-        Optional<Shopper> shopper = Optional.of(new Shopper(1, "john_smith", "passwordJohn",
+    Optional<Shopper> shopper = Optional.of(new Shopper(1, "john_smith", "passwordJohn",
                 "John Smith", "john.smith@gmail.com", true, new ArrayList<>()));
         Optional<Order> order = Optional.of(new Order(1, "11/11/1111", OrderStatus.MakingOrder,
                 "2049 London Street", "", "My grocery items",
@@ -54,7 +59,9 @@ public class OrderServiceTest {
 
         Order returned = orderService.assignShopper(1, 1);
         Assertions.assertEquals(returned.getShopper(), shopper.get());
+
     }
+
 
     /**
      * Tests if the order status gets updated properly.
@@ -74,4 +81,80 @@ public class OrderServiceTest {
         Assertions.assertThrows(Exception.class, () -> orderService.sendNotification("test@gmail.com",
                 "test subject", "test message"));
     }
+
+    @Test
+    public void shouldSaveOrderWork(){
+
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        Customer customer = new Customer(1, "John Smith", "johnsmithy123",
+                "JohnSmithPassword", "100 Nowhereville",
+
+                false, "john.smith@gmail.com", (ArrayList<Order>) list);
+
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
+        orderService.saveOrder(1,order);
+        Assertions.assertNotNull(orderService.viewAllOrders());
+    }
+    @Test
+    public void shouldAddItemById(){
+    /*   Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+
+        Assertions.assertNotNull(orderService.addItem(1,3,5));*/
+
+    }
+    @Test
+    public void shouldUpdateOrderLocation(){
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        OrderLocation orderLocation = new OrderLocation("Toronto");
+        orderService.updateDescription(order,orderLocation);
+        Assertions.assertEquals("Toronto",orderService.findByOrderId(1).getDescription());
+    }
+    @Test
+    public void shouldFindOrderByID(){
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        Assertions.assertEquals("11/11/1111",orderService.findByOrderId(1).getDate());
+    }
+    @Test
+    public void shouldChangePayStatus(){
+      /* /* Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        Assertions.assertTrue( orderService.payOrder(1));
+        Assertions.assertEquals("Paid",orderService.findByOrderId(1).getPay_status());*/
+    }
+
+    @Test
+    public void ShouldDeleteOrder() {
+    /* Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+    Mockito.when(orderService.deleteOrder(order)).thenReturn(true);
+    orderService.saveOrder(1,order);
+    Assertions.assertNotEquals("11/11/1111",orderService.findByOrderId(1).getDate());*/
+
+
+    }
+
 }
+
+
+
+
