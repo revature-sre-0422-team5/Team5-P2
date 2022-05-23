@@ -1,16 +1,17 @@
 package com.team5.deliveryApi.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class GroceryItem {
     @Id
     @Column(name = "id", nullable = false)

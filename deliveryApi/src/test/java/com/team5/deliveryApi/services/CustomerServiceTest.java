@@ -21,21 +21,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(classes = CustomerService.class)
 public class CustomerServiceTest {
+
     @Autowired
     private CustomerService customerService;
 
     @MockBean
     private CustomerRepository customerRepository;
 
-
-
     @Test
     public void shouldReturnAllCustomers() {
-
         Mockito.when(customerRepository.findAll()).thenReturn(Collections.emptyList());
         List<Customer> customers=customerRepository.findAll();
         assertTrue(customers.isEmpty());
     }
+    
     @Test
     public void shouldReturnTrueWithValidUsernameLogin() throws Exception{
         Credential logindto = new Credential("rosh", "rosh");
@@ -47,7 +46,6 @@ public class CustomerServiceTest {
         mockCustomer.setLocation("Toronto");
         mockCustomer.setIsloggedin(0);
         mockCustomer.setUsername("rosh");
-
 
         Mockito.when(customerRepository.findByUsername(mockCustomer.getUsername())).thenReturn(mockCustomer);
         boolean isSuccess = customerService.login(logindto);
@@ -84,13 +82,19 @@ public class CustomerServiceTest {
 
     @Test
     public void shouldViewCustomerByIdWork(){
+        Customer customer = new Customer(1, "John Smith", "johnsmithy123",
+                "JohnSmithPassword", "100 Nowhereville",
+                false, "john.smith@gmail.com", new ArrayList<>());
+        Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
+        customerService.saveCustomer(customer);
+        Assertions.assertEquals("johnsmithy123",customerService.viewCustomerById(1).get().getUsername());
+    }
     /* Customer customer = new Customer(1, "John Smith", "johnsmithy123",
                 "JohnSmithPassword", "100 Nowhereville",
                 false, "john.smith@gmail.com", new ArrayList<>());
         Mockito.when(customerRepository.findById(Mockito.any())).thenReturn(Optional.of(customer));
         //customerService.saveCustomer(customer);
         Assertions.assertEquals("john.smith@gmail.com",customerService.viewCustomerById(1).get().getEmail());*/
-    }
     @Test
     public void shouldThrowIllegalStateExceptionLogin() {
        Credential logindto1 = new Credential("rosh", null);

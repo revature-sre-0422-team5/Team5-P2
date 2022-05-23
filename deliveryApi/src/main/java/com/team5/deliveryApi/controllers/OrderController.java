@@ -50,13 +50,13 @@ public class OrderController {
 
     @GetMapping("/all")
     public ResponseEntity viewAllOrders(){
-        return orderService.viewAllOrders();
+        return ResponseEntity.ok(orderService.viewAllOrders());
     }
 
 
     @GetMapping("/status/{id}")
     public ResponseEntity viewStatusById(@PathVariable int id) {
-        return orderService.viewStatusById(id);
+        return ResponseEntity.ok(orderService.viewStatusById(id));
     }
 
     @PutMapping("/pay/{id}")
@@ -74,7 +74,6 @@ public class OrderController {
     public ResponseEntity<Order> findOrderById(@PathVariable int odrId) {
         Order outGoingOrder = orderService.findByOrderId(odrId);
         return ResponseEntity.ok().body(outGoingOrder);
-
     }
 
     /**
@@ -105,8 +104,6 @@ public class OrderController {
         }else{
             return ResponseEntity.ok().body("Error in removing item");
         }
-
-
     }
 
     /**
