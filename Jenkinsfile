@@ -3,7 +3,7 @@ pipeline {
     environment {
         PROJECT_ID = 'devops-javasre'
         CLUSTER_NAME = 'cluster-name'
-        CLUSTER_LOCATION = 'northamerica-northeast2'
+        CLUSTER_LOCATION = 'northamerica-northeast2-a'
         REGISTRY_LOCATION = 'northamerica-northeast2'
         REPOSITORY = 'repository-name'
         CREDENTIALS_ID = 'credentials-id'
