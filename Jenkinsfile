@@ -5,8 +5,8 @@ pipeline {
         CLUSTER_NAME = 'cluster-name'
         CLUSTER_LOCATION = 'northamerica-northeast2-a'
         REGISTRY_LOCATION = 'northamerica-northeast2'
-        REPOSITORY = 'repository-name'
-        CREDENTIALS_ID = 'credentials-id'
+        REPOSITORY = 'gcp-docker'
+        CREDENTIALS_ID = 'Team5-P2'
     }
     stages {
         stage ('Docker Build'){
