@@ -45,6 +45,7 @@ metadata:
 spec:
   selector:
     app: deliveryapi
+  type: ClusterIP
   ports:
     - protocol: TCP
       port: 8082
