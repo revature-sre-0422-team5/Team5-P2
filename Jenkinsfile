@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PROJECT_ID = 'project-id'
+        PROJECT_ID = 'devops-javasre'
         CLUSTER_NAME = 'cluster-name'
         CLUSTER_LOCATION = 'northamerica-northeast2'
         REGISTRY_LOCATION = 'northamerica-northeast2'
