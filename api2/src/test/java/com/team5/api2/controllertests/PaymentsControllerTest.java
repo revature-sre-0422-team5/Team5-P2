@@ -37,20 +37,6 @@ class PaymentsControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    /*
-    @Test
-    void getOrderCost () throws Exception{
-        Map<String, String> request = new HashMap<>();
-
-        request.put("orderIdReference", "1");
-
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/get-order-cost")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(mapper.writeValueAsString(request))
-        ).andExpectAll(status().isOk());
-    }*/
-
     @Test
     void checkoutOrder () throws Exception{
         Map<String, String> request = new HashMap<>();
@@ -97,15 +83,5 @@ class PaymentsControllerTest {
             .content(mapper.writeValueAsString(request))
         ).andExpectAll(status().isInternalServerError());
     }
-
-    /*
-    @Test
-    void payShopper() throws Exception{
-        mockMvc.perform (
-            MockMvcRequestBuilders.post("/pay-shopper")
-            .contentType(MediaType.APPLICATION_JSON)
-        ).andExpectAll(status().isInternalServerError());
-    }
-    */
     
 }
