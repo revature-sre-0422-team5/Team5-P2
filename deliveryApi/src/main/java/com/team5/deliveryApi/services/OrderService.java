@@ -3,12 +3,13 @@ package com.team5.deliveryApi.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team5.deliveryApi.dto.ItemStatus;
+import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.GroceryItem;
 import com.team5.deliveryApi.models.Item;
 import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.Order;
-import com.team5.deliveryApi.dto.OrderLocation;
+
 import com.team5.deliveryApi.repositories.GroceryItemRepository;
 import com.team5.deliveryApi.repositories.ItemRepository;
 import com.team5.deliveryApi.repositories.OrderRepository;
@@ -32,15 +33,19 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class OrderService {
-    @Value("${api.notification}")
+    @Value("${api.notification:none}")
     private String notificationApiUrl;
 
-    @Value("${api.directions}")
+   //@Value("${api.directions}")
+   // private String api2Url;
+
+    @Value("${DIRECTIONS_API_URL}")
     private String api2Url;
-    
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -78,6 +83,9 @@ public class OrderService {
     public boolean saveOrder(int customerId, Order incomingOrder) {
         orderRepository.save(incomingOrder);
         Customer customer = customerRepository.getById(customerId);
+        if(customer == null) {
+            return false;
+        }
         customer.getOrders().add(incomingOrder);
         incomingOrder.setCustomer(customer);
         orderRepository.save(incomingOrder);
@@ -100,8 +108,7 @@ public class OrderService {
      * @param incomingLocation refers to location description of the store
      * @return updated order
      */
-    public Order updateLocation(Order incomingOrder, OrderLocation incomingLocation){
-        incomingOrder.getCustomer().setLocation(incomingLocation.getDto_from_location());
+    public Order updateDescription(Order incomingOrder, OrderLocation incomingLocation){
         incomingOrder.setDescription(incomingLocation.getDto_description());
         Order updatedOrder=orderRepository.save(incomingOrder);
         return updatedOrder;
@@ -174,6 +181,7 @@ public class OrderService {
      * @return boolean
      */
     public boolean deleteOrder(Order incomingOrder) {
+
         orderRepository.delete(incomingOrder);
         return true;
     }
@@ -195,6 +203,8 @@ public class OrderService {
         return Long.MAX_VALUE;
     }
 
+
+
     /**
      * Sends an HTTP request to api2 for the stripe checkout page.
      * @param orderId
@@ -202,7 +212,7 @@ public class OrderService {
      * @throws JsonProcessingException
      * @throws IllegalStateException when orderCost is less than $0.5 or when something went wrong with the http request
      */
-    public String submitOrder (int orderId) throws JsonProcessingException, IllegalStateException{
+   public String submitOrder (int orderId) throws JsonProcessingException, IllegalStateException{
         long orderCost = calculateOrderCost(orderId);
         if (orderCost < 50){
             throw new IllegalStateException("Amount is less than 50 cents");
