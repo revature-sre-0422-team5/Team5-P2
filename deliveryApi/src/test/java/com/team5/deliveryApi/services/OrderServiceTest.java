@@ -66,11 +66,6 @@ public class OrderServiceTest {
     }
 
 
-    @Test
-    public void shouldUpdateOrderStatus2() {
-
-    }
-
     /**
      * Tests the email notification sender.
      */
@@ -99,17 +94,7 @@ public class OrderServiceTest {
         Assertions.assertNotNull(orderService.viewAllOrders());
     }
 
-    @Test
-    public void shouldAddItemById2(){
-    /*   Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
-                "2049 London Street", "", "My grocery items",
-                new Customer(), new ArrayList<>(), null);
-        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
-        orderService.saveOrder(1,order);
 
-        Assertions.assertNotNull(orderService.addItem(1,3,5));*/
-
-    }
     @Test
     public void shouldUpdateOrderLocation(){
         Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
