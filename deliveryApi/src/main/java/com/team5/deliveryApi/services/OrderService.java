@@ -42,9 +42,12 @@ public class OrderService {
     @Value("${api.notification:none}")
     private String notificationApiUrl;
 
-    @Value("${api.directions}")
+   //@Value("${api.directions}")
+   // private String api2Url;
+
+    @Value("${DIRECTIONS_API_URL}")
     private String api2Url;
-    
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
@@ -213,6 +216,8 @@ public class OrderService {
         return Long.MAX_VALUE;
     }
 
+
+
     /**
      * Sends an HTTP request to api2 for the stripe checkout page.
      * @param orderId
@@ -220,7 +225,7 @@ public class OrderService {
      * @throws JsonProcessingException
      * @throws IllegalStateException when orderCost is less than $0.5 or when something went wrong with the http request
      */
-    public String submitOrder (int orderId) throws JsonProcessingException, IllegalStateException{
+   public String submitOrder (int orderId) throws JsonProcessingException, IllegalStateException{
         long orderCost = calculateOrderCost(orderId);
         if (orderCost < 50){
             throw new IllegalStateException("Amount is less than 50 cents");
