@@ -29,6 +29,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.*;
+
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +42,7 @@ public class OrderService {
     @Value("${api.notification:none}")
     private String notificationApiUrl;
 
-   //@Value("${api.directions}")
-   // private String api2Url;
-
-    @Value("${DIRECTIONS_API_URL}")
+    @Value("${api.directions}")
     private String api2Url;
 
     @Autowired
@@ -59,13 +58,13 @@ public class OrderService {
     @Autowired
     private ItemRepository itemRepository;
 
-    public ResponseEntity viewAllOrders(){
-        return ResponseEntity.ok(orderRepository.findAll());
+    public List<Order> viewAllOrders(){
+        return (orderRepository.findAll());
     }
 
 
-    public ResponseEntity viewStatusById(int id){
-        return ResponseEntity.ok(orderRepository.findById(id).get().getStatus());
+    public OrderStatus viewStatusById(int id){
+        return orderRepository.findById(id).get().getStatus();
     }
 
     public boolean payOrder(int id){
@@ -121,10 +120,21 @@ public class OrderService {
      * @return boolean value
      */
     public boolean removeItem(Order incomingOrder,int itemId){
-        Item item = incomingOrder.getItems().stream().filter(i -> i.getGroceryItem().getId() == itemId).findFirst().get();
-        itemRepository.delete(item);
+        try{
+            if(incomingOrder.getItems() == null){
+                return false;
+            }
+            else {
+                Item item = incomingOrder.getItems().stream().filter(i ->
+                        (i != null) &&
+                                i.getGroceryItem().getId() == itemId).findFirst().get();
+                itemRepository.delete(item);
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return true;
-
     }
 
 

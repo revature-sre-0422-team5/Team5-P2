@@ -11,6 +11,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -57,7 +59,6 @@ public class CustomerControllerTest {
 
     @Test
     public void shouldNotLogIn() throws Exception {
-
         Mockito.when(customerService.login(any())).thenReturn(false);
         mockMvc.perform(get("/customer/login")
                         .contentType("application/json")
@@ -82,4 +83,25 @@ public class CustomerControllerTest {
                 .content("{\"name\": \"rosh\",\"username\": \"rosh\",\"password\": \"rosh\",\"email\": \"rosh@gmail.com\",\"location\": \"Toronto\"}"))
                .andExpect(content().string("Account created successfully"));*/
     }
+
+    @Test
+    public void shouldReturnOkOnCreateCustomer() throws Exception{
+
+    }
+
+    /**
+     * Tests if viewAllCustomer() returns an
+     * ok response if users are found.
+     * @throws Exception
+     */
+    @Test
+    public void shouldReturnOkOnViewAllCustomer() throws Exception {
+        if (customerService != null) {
+            Mockito.when(customerService.findAllCustomers())
+                    .thenReturn(new ArrayList<>());
+            mockMvc.perform(MockMvcRequestBuilders.get("/customer/all"))
+                    .andExpect(status().isOk());
+        }
+    }
+
 }
