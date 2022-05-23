@@ -6,7 +6,7 @@ pipeline {
         CLUSTER_LOCATION = 'northamerica-northeast2-a'
         REGISTRY_LOCATION = 'northamerica-northeast2'
         REPOSITORY = 'repository-name'
-        CREDENTIALS_ID = 'Team5-P2'
+        CREDENTIALS_ID = 'credentials-id'
     }
     stages {
         stage ('Docker Build'){
