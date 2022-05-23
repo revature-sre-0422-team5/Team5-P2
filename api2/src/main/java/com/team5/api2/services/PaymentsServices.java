@@ -1,20 +1,16 @@
 package com.team5.api2.services;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Payout;
 import com.stripe.model.checkout.Session;
+
 import com.stripe.param.checkout.SessionCreateParams;
 import com.team5.api2.Repositories.PaymentsRequestRepository;
 import com.team5.api2.models.OrderPaymentEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service("PaymentsService")
 @Slf4j
 public class PaymentsServices {
+
+    RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     private PaymentsRequestRepository payrepo;
@@ -81,11 +79,11 @@ public class PaymentsServices {
 
     public String processOrderStatus (String sessionId) throws StripeException {
         try {
+            log.info ("processing order with session: "+ sessionId);
+
             String paymentId = Session.retrieve(sessionId).getPaymentIntent();
 
             int orderPaymentId = payrepo.findByStripeId(paymentId).get(0).getOrderPaymentId();
-            
-            RestTemplate restTemplate = new RestTemplate();
     
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.TEXT_HTML);
@@ -106,20 +104,6 @@ public class PaymentsServices {
             log.error("Something went wrong for sessionId" + sessionId);
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public void payShopper (String userEmail, long amount){
-        try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("amount", amount);
-            params.put("currency", "cad");
-    
-            Payout payout = Payout.create(params);
-
-        }
-        catch (StripeException e){
-            e.printStackTrace();
         }
     }
 }

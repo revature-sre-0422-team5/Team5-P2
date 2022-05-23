@@ -33,7 +33,7 @@ public class OrderControllerTest {
     @Test
     public void shouldReturnOrder() throws Exception{
      /*  Order order=new Order(2, "11/11/1111", OrderStatus.MakingOrder,
-                "2049 London Street", "unpaid", "Walmart",
+                "2049 London Street", "", "Walmart",
                 new Customer(), new ArrayList<>(),null);
 
         Mockito.when(orderService.findByOrderId(2))
