@@ -118,10 +118,5 @@ class PaymentsServicesTest {
             e.printStackTrace();
         }
     }
-
-    @Test
-    void payShopperSkeleton (){
-        paymentsService.payShopper("test@example.com", 1234L);
-    }
     
 }

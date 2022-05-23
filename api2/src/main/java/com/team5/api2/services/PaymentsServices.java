@@ -84,6 +84,8 @@ public class PaymentsServices {
 
     public String processOrderStatus (String sessionId) throws StripeException {
         try {
+            log.info ("processing order with session: "+ sessionId);
+
             String paymentId = Session.retrieve(sessionId).getPaymentIntent();
 
             int orderPaymentId = payrepo.findByStripeId(paymentId).get(0).getOrderPaymentId();
@@ -107,20 +109,6 @@ public class PaymentsServices {
             log.error("Something went wrong for sessionId" + sessionId);
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public void payShopper (String userEmail, long amount){
-        try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("amount", amount);
-            params.put("currency", "cad");
-    
-            Payout payout = Payout.create(params);
-
-        }
-        catch (StripeException e){
-            e.printStackTrace();
         }
     }
 }
