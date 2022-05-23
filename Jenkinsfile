@@ -1,24 +1,22 @@
 pipeline {
     agent any
     environment {
-        PROJECT_ID = 'devopssre-346918'
-        CLUSTER_NAME = 'autopilot-cluster-1'
-        LOCATION = 'us-central1'
-        CREDENTIALS_ID = 'Project_2_DevOpsSre'
+        PROJECT_ID = 'project-id'
+        CLUSTER_NAME = 'cluster-name'
+        CLUSTER_LOCATION = 'northamerica-northeast2'
+        REGISTRY_LOCATION = 'northamerica-northeast2'
+        REPOSITORY = 'repository-name'
+        CREDENTIALS_ID = 'credentials-id'
     }
     stages {
-        stage('Begin Pipeline') {
-            steps {
-                sh 'echo "Hello world"'
-            }
-        }
         stage ('Docker Build'){
             steps {
                 script {
                     echo "Docker Build"
-                    // sh "docker build -t notificationapi notificationApi"
-                    // sh "docker build -t deliveryapi deliveryApi"
-                    // sh "docker pull mysql"
+                    sh "docker images prune"
+                    sh "docker build -t directionsapi api2"
+                    sh "docker build -t notificationapi notificationApi"
+                    sh "docker build -t deliveryapi deliveryApi"
                 }
             }
         }
@@ -26,25 +24,26 @@ pipeline {
             steps {
                 script {
                     echo "Docker push"
-                    /*
-                    sh "docker tag deliveryapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
-                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/deliveryapi"
-                    sh "docker tag notificationapi northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/notificationapi"
-                    sh "docker tag mysql northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
-                    sh "docker push northamerica-northeast2-docker.pkg.dev/revature-346918/gcp-docker/mysql"
-                    */
+                    sh "docker tag directionsapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
+                    sh "docker tag deliveryapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
+                    sh "docker tag notificationapi ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi"
+                    sh "docker push ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi"
                 }
             }
         }
         stage ('Deploy to GKE'){
             steps{
                 echo "Deploying to GKE"
+                sh "sed -i 's|image: directionsapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/directionsapi|g' deployment/directionsapi-deployment.yml"
+                sh "sed -i 's|image: deliveryapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/deliveryapi|g' deployment/deliveryapi-deployment.yml"
+                sh "sed -i 's|image: notificationapi|image: ${REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/notificationapi|g' deployment/notificationapi-deployment.yml"
                 step([$class: 'KubernetesEngineBuilder',
-                    projectId: env.PROJECT_ID,/*'devops-javasre',*/
+                    projectId: env.PROJECT_ID,
                     clusterName: env.CLUSTER_NAME,
-                    location: env.LOCATION,
-                    manifestPattern: 'deployment.yaml',
+                    location: env.CLUSTER_LOCATION,
+                    manifestPattern: 'deployment',
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true])
             }
