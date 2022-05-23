@@ -42,10 +42,7 @@ public class OrderService {
     @Value("${api.notification:none}")
     private String notificationApiUrl;
 
-   //@Value("${api.directions}")
-   // private String api2Url;
-
-    @Value("${DIRECTIONS_API_URL}")
+    @Value("${api.directions}")
     private String api2Url;
 
     @Autowired
