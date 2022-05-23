@@ -9,6 +9,7 @@ api2/target
 
 terraform/
 
+deployment/api-config.yml
 kubernetes/secrets.yaml
 
 old/
