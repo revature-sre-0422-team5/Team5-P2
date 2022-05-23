@@ -1,6 +1,7 @@
 package com.team5.deliveryApi.controllers;
 
 import com.team5.deliveryApi.models.Customer;
+import com.team5.deliveryApi.models.Shopper;
 import com.team5.deliveryApi.services.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -86,7 +87,21 @@ public class CustomerControllerTest {
 
     @Test
     public void shouldReturnOkOnCreateCustomer() throws Exception{
-
+        if(customerService != null) {
+            Mockito.when(customerService.saveCustomer(new Customer())).thenReturn(true);
+            mockMvc.perform(MockMvcRequestBuilders.post("/customer/new")
+                    .contentType("application/json")
+                    .content("\t{\n" +
+                            "\t\t\"name\": \"newCustomer\",\n" +
+                            "\t\t\"username\": \"login\",\n" +
+                            "\t\t\"password\": \"password\",\n" +
+                            "\t\t\"location\": \"Toronto\",\n" +
+                            "\t\t\"email\": \"email\",\n" +
+                            "\t\t\"isloggedin\": 1,\n" +
+                            "\t\t\"orders\": []\n" +
+                            "\t}")
+            ).andExpect(status().isOk());
+        }
     }
 
     /**

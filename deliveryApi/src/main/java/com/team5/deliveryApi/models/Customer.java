@@ -42,9 +42,6 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-
-
-
     @Column(name = "isloggedin",nullable = false)
     private int isloggedin;
 
@@ -52,7 +49,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Order> orders;
-
 
     public Customer(int id, String name, String username, String password, String location, boolean email_subscribe, String email, ArrayList<Order> orders) {
     }
