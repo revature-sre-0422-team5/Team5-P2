@@ -28,15 +28,13 @@ public class CustomerServiceTest {
     @MockBean
     private CustomerRepository customerRepository;
 
-
-
     @Test
     public void shouldReturnAllCustomers() {
-
         Mockito.when(customerRepository.findAll()).thenReturn(Collections.emptyList());
         List<Customer> customers=customerRepository.findAll();
         assertTrue(customers.isEmpty());
     }
+    
     @Test
     public void shouldReturnTrueWithValidUsernameLogin() throws Exception{
         Credential logindto = new Credential("rosh", "rosh");
@@ -48,7 +46,6 @@ public class CustomerServiceTest {
         mockCustomer.setLocation("Toronto");
         mockCustomer.setIsloggedin(0);
         mockCustomer.setUsername("rosh");
-
 
         Mockito.when(customerRepository.findByUsername(mockCustomer.getUsername())).thenReturn(mockCustomer);
         boolean isSuccess = customerService.login(logindto);

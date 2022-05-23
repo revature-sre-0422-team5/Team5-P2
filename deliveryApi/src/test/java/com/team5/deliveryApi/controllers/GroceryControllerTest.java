@@ -23,6 +23,11 @@ public class GroceryControllerTest {
     @MockBean
     private GroceryService groceryService;
 
+    /**
+     * Tests if GetGroceries() returns an
+     * ok response if groceries are found.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnGetGroceries() throws Exception {
         if(groceryService != null){
@@ -32,6 +37,11 @@ public class GroceryControllerTest {
         }
     }
 
+    /**
+     * Tests if addGrocery() returns an
+     * ok response if grocery is created.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnAddGrocery() throws Exception {
         if(groceryService != null){
