@@ -12,7 +12,7 @@ pipeline {
         stage ('Docker Build'){
             steps {
                 script {
-                    echo "Docker Build"
+                    echo "Docker Build" 
                     sh "docker images prune"
                     sh "docker build -t directionsapi api2"
                     sh "docker build -t notificationapi notificationApi"
