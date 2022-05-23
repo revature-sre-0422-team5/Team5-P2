@@ -9,17 +9,42 @@ spec:
     requests:
       storage: 1Gi
 ---
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
 metadata:
-  name: spring-prometheus
-spec:
-  selector:
-    matchLabels:
-      app: prometheus
-  endpoints:
-  - port: http-traffic
-    path: "/actuator"
+  name: prometheus
+rules:
+- apiGroups: [""]
+  resources:
+  - nodes
+  - services
+  - endpoints
+  - pods
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources:
+  - configmaps
+  verbs: ["get"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+- kind: ServiceAccount
+  name: prometheus
+  namespace: default
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -38,6 +63,7 @@ data:
       static_configs:
       - targets: ['localhost:9090']
     - job_name: 'kubernetes-service-endpoints'
+      metrics_path: '/actuator/prometheus'
       kubernetes_sd_configs:
       - role: endpoints
       relabel_configs:
