@@ -29,8 +29,8 @@ public class ShopperService {
     // To fetch shopper by Id
     public Optional<Shopper> getShopperById(int id){return shopperRepository.findById(id);
     }
-    //For get mapping, fetching shopper by their Id.
-    public ResponseEntity viewShopperById(int id){
-        return ResponseEntity.ok(shopperRepository.findById(id).get());
+    //For get mapping, fetching shopper by their Id
+    public Shopper viewShopperById(int id){
+        return shopperRepository.findById(id).get();
     }
 }
