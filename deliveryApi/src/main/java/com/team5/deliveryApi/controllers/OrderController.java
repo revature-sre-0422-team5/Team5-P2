@@ -24,7 +24,7 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    @Value("${api.directions}")
+    @Value("${api.directions:none}")
     private String directionsApiUrl;
 
     /**
@@ -50,13 +50,13 @@ public class OrderController {
 
     @GetMapping("/all")
     public ResponseEntity viewAllOrders(){
-        return orderService.viewAllOrders();
+        return ResponseEntity.ok(orderService.viewAllOrders());
     }
 
 
     @GetMapping("/status/{id}")
     public ResponseEntity viewStatusById(@PathVariable int id) {
-        return orderService.viewStatusById(id);
+        return ResponseEntity.ok(orderService.viewStatusById(id));
     }
 
     @PutMapping("/pay/{id}")
@@ -74,7 +74,6 @@ public class OrderController {
     public ResponseEntity<Order> findOrderById(@PathVariable int odrId) {
         Order outGoingOrder = orderService.findByOrderId(odrId);
         return ResponseEntity.ok().body(outGoingOrder);
-
     }
 
     /**
@@ -84,8 +83,8 @@ public class OrderController {
      * @return Order
      */
     @PutMapping(value = "/adddescription/{odr_id}")
-    public ResponseEntity<Order> updateLocationOrder(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
-        Order Out=orderService.updateLocation(orderService.findByOrderId(odr_id),orderLocation);
+    public ResponseEntity<Order> updateDescription(@RequestBody OrderLocation orderLocation, @PathVariable int odr_id) {
+        Order Out=orderService.updateDescription(orderService.findByOrderId(odr_id),orderLocation);
         return ResponseEntity.ok().body(Out);
     }
 
@@ -105,8 +104,6 @@ public class OrderController {
         }else{
             return ResponseEntity.ok().body("Error in removing item");
         }
-
-
     }
 
     /**
