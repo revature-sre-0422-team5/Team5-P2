@@ -1,12 +1,12 @@
 pipeline {
     agent any
     environment {
-        PROJECT_ID = 'project-id'
-        CLUSTER_NAME = 'cluster-name'
+        PROJECT_ID = 'revature-346918'
+        CLUSTER_NAME = 'delivery-cluster'
         CLUSTER_LOCATION = 'northamerica-northeast2'
         REGISTRY_LOCATION = 'northamerica-northeast2'
-        REPOSITORY = 'repository-name'
-        CREDENTIALS_ID = 'credentials-id'
+        REPOSITORY = 'gcp-docker'
+        CREDENTIALS_ID = 'Team5-P2'
     }
     stages {
         stage ('Docker Build'){
