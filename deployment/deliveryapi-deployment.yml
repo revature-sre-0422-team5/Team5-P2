@@ -19,7 +19,7 @@ spec:
         image: deliveryapi
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 7000
+        - containerPort: 7070
         envFrom:
         - configMapRef:
             name: api-config
@@ -36,4 +36,4 @@ spec:
   type: LoadBalancer
   ports:
     - port: 8082
-      targetPort: 7000
+      targetPort: 7070
