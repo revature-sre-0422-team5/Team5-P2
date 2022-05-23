@@ -41,7 +41,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: deliveryapi-service
+  name: deliveryapi-service-internal
 spec:
   selector:
     app: deliveryapi
