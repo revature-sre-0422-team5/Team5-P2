@@ -1,5 +1,7 @@
 package com.team5.deliveryApi.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team5.deliveryApi.dto.ItemStatus;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.GroceryItem;
@@ -19,10 +21,14 @@ import com.team5.deliveryApi.repositories.ShopperRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -31,22 +37,22 @@ import java.util.Optional;
 public class OrderService {
     @Value("${api.notification}")
     private String notificationApiUrl;
+
+    @Value("${api.directions}")
+    private String api2Url;
+    
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private OrderRepository orderRepository;
-
     @Autowired
     private GroceryItemRepository groceryItemRepository;
-
-    @Autowired
-    private ItemRepository itemRepository;
-
     @Autowired
     private ShopperRepository shopperRepository;
+    @Autowired
+    private ItemRepository itemRepository;
 
     public ResponseEntity viewAllOrders(){
         return ResponseEntity.ok(orderRepository.findAll());
@@ -58,7 +64,8 @@ public class OrderService {
     }
 
     public boolean payOrder(int id){
-        orderRepository.findById(id).get().setPay_status("Paid");
+        log.info("Updating status for order: " + id);
+        orderRepository.updatePayStatusById("Paid", id);
         return true;
     }
 
@@ -130,7 +137,6 @@ public class OrderService {
     }
 
 
-
     /**
      * Update the status of an order.
      * @param orderId The ID of the order to update.
@@ -161,9 +167,69 @@ public class OrderService {
         }
         return orderRepository.save(order);
     }
+
+    /**
+     * Deletes an order from the repository
+     * @param incomingOrder
+     * @return boolean
+     */
     public boolean deleteOrder(Order incomingOrder) {
         orderRepository.delete(incomingOrder);
         return true;
+    }
+
+    /**
+     * Calculates the order cost. At the moment, it's a flat rate 5 per delivery + orderItem * quantity. 
+     * If something goes wrong return max amount
+     * @param orderId
+     * @return order cost as a double
+     */
+    public long calculateOrderCost (int orderId){
+        Optional<Order> order = orderRepository.findById(orderId);
+
+        if (order.isPresent()){
+            return (order.get().getItems().stream()
+            .map(item -> item.getQuantity() * item.getGroceryItem().getCost().longValue())
+            .reduce(500L, (a,b) -> a+b ));    
+        }
+        return Long.MAX_VALUE;
+    }
+
+    /**
+     * Sends an HTTP request to api2 for the stripe checkout page.
+     * @param orderId
+     * @return returns the response for the request
+     * @throws JsonProcessingException
+     * @throws IllegalStateException when orderCost is less than $0.5 or when something went wrong with the http request
+     */
+    public String submitOrder (int orderId) throws JsonProcessingException, IllegalStateException{
+        long orderCost = calculateOrderCost(orderId);
+        if (orderCost < 50){
+            throw new IllegalStateException("Amount is less than 50 cents");
+        }
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, String> request = new HashMap<>();
+
+        request.put("orderReferenceId", String.valueOf(orderId));         
+        request.put("orderAmount", String.valueOf(calculateOrderCost(orderId)));
+        request.put("receiptEmail", String.valueOf(orderId));
+
+        HttpEntity<String> httpRequest = new HttpEntity<>(new ObjectMapper().writeValueAsString(request), headers);
+        String response = restTemplate.postForObject(URI.create(api2Url+"/checkout-order"), httpRequest, String.class);
+
+        if (response == null){
+            throw new IllegalStateException ("Http response was null");
+        }
+
+        Map<String, String> responseFormat = new HashMap<>();
+        responseFormat.put("link", response);
+
+        return new ObjectMapper().writeValueAsString(responseFormat);
     }
 
     /**
@@ -203,6 +269,7 @@ public class OrderService {
         map.put("subject", subject);
         map.put("message", message);
         uriParam.put("html", false);
+        log.info("Sending notification post request to " + notificationApiUrl);
         return restTemplate.postForEntity(notificationApiUrl + "?html={html}", map, Object.class, uriParam);
     }
 }

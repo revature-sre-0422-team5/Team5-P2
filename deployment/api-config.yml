@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  labels:
+    app: api-config
+data:
+  EMAIL_USER: email_user
+  TWILIO_ACCOUNT_SID: twilio_sid
+  TWILIO_PHONE_NUMBER: twilio_number
+  DB_USERNAME: root
+  DB_PASSWORD: password
+  DB_URL: jdbc:mysql://mysqldb:3306/data?createDatabaseIfNotExist=true
+  DIRECTIONS_API_URL: http://directionsapi-service:8082/directions
+  NOTIFICATION_API_URL: http://notificationapi-service:8081/notification/email
