@@ -24,6 +24,11 @@ public class ShopperControllerTest {
     @MockBean
     private ShopperService shopperService;
 
+    /**
+     * Tests if viewAllShopper() returns an
+     * ok response if shoppers are found.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnViewAllShoppers() throws Exception {
         if(shopperService != null){
@@ -31,8 +36,13 @@ public class ShopperControllerTest {
             mockMvc.perform(MockMvcRequestBuilders.get("/shopper/all"))
                     .andExpect(status().isOk());
         }
-
     }
+
+    /**
+     * Tests if viewAllShopperById() returns an
+     * ok response if shopper is found.
+     * @throws Exception
+     */
     @Test
     public void  shouldReturnOkOnViewShopperById() throws Exception {
         if(shopperService != null){
@@ -43,6 +53,11 @@ public class ShopperControllerTest {
         }
     }
 
+    /**
+     * Tests if createShopperAccount() returns an
+     * ok response if shopper is created.
+     * @throws Exception
+     */
     @Test
     public void shouldCreateShopperAccount() throws Exception {
         if(shopperService != null) {
@@ -61,6 +76,11 @@ public class ShopperControllerTest {
         }
     }
 
+    /**
+     * Tests if onLogin() returns an
+     * ok response if shopper is logged In.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnLogin() throws Exception {
         if(shopperService != null){
@@ -79,6 +99,11 @@ public class ShopperControllerTest {
         }
     }
 
+    /**
+     * Tests if logOut() returns an
+     * ok response if shopper is loggedOut.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnLogout() throws Exception {
         if(shopperService != null){

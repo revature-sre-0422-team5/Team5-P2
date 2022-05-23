@@ -60,7 +60,6 @@ public class CustomerControllerTest {
 
     @Test
     public void shouldNotLogIn() throws Exception {
-
         Mockito.when(customerService.login(any())).thenReturn(false);
         mockMvc.perform(get("/customer/login")
                         .contentType("application/json")
@@ -87,9 +86,15 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void shouldReturnOkOnCreateCusotmer() throws Exception{
+    public void shouldReturnOkOnCreateCustomer() throws Exception{
 
     }
+
+    /**
+     * Tests if viewAllCustomer() returns an
+     * ok response if users are found.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnViewAllCustomer() throws Exception {
         if (customerService != null) {

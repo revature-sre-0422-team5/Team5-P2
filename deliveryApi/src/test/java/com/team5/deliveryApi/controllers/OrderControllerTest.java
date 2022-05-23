@@ -42,6 +42,11 @@ public class OrderControllerTest {
                 .andExpect(status().isOk());*/
     }
 
+    /**
+     * Tests if create() returns a
+     * Bad response if user is not created.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnBadOnCreateOrder() throws Exception {
         if(orderService != null) {
@@ -58,6 +63,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if viewStatusById() returns an
+     * ok response if users are found.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnViewStatusById() throws Exception {
         if(orderService != null){
@@ -68,6 +78,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if viewAllOrder() returns an
+     * ok response if orders are found.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnViewAllOrders() throws Exception {
         if (orderService != null) {
@@ -78,6 +93,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if PayById() returns an
+     * ok response if pay status is changed.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnPayById() throws  Exception{
         if (orderService != null) {
@@ -88,6 +108,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if FindOrderById() returns an
+     * ok response if order is found.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOKOnFindOrderById() throws Exception{
         if (orderService != null) {
@@ -98,6 +123,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if UpdateDescription() returns an
+     * ok response if description is updated.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnUpdateDescription() throws Exception {
         if (orderService != null) {
@@ -112,6 +142,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if RemoveItem() returns an
+     * ok response if item is removed.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnRemoveItem() throws Exception{
         if (orderService != null) {
@@ -121,7 +156,11 @@ public class OrderControllerTest {
                     .andExpect(status().isOk());
         }
     }
-
+    /**
+     * Tests if AddItem() returns an
+     * ok response if item is added.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnAddItem() throws Exception{
         if (orderService != null) {
@@ -132,6 +171,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if sumbitOrder() returns an
+     * ok response if order is submitted.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnSubmitOrder() throws Exception {
         if (orderService != null) {
@@ -142,6 +186,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if changeOrderStatus() returns an
+     * ok response if status is changed.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnChangeOrderStatus() throws Exception{
         if (orderService != null) {
@@ -152,6 +201,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if AssignShopper() returns an
+     * ok response if shopper is assigned.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnAssignShopper() throws Exception{
         if (orderService != null) {
@@ -162,6 +216,11 @@ public class OrderControllerTest {
         }
     }
 
+    /**
+     * Tests if cancelOrder() returns an
+     * ok response if order is cancelled.
+     * @throws Exception
+     */
     @Test
     public void shouldReturnOkOnCancelOrder() throws Exception {
         if (orderService != null) {
@@ -182,7 +241,5 @@ public class OrderControllerTest {
                     .andExpect(status().isOk());
         }
     }*/
-
-
 }
 
