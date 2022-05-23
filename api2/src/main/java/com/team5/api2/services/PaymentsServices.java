@@ -1,21 +1,16 @@
 package com.team5.api2.services;
 
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Payout;
 import com.stripe.model.checkout.Session;
+
 import com.stripe.param.checkout.SessionCreateParams;
 import com.team5.api2.Repositories.PaymentsRequestRepository;
 import com.team5.api2.models.OrderPaymentEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
