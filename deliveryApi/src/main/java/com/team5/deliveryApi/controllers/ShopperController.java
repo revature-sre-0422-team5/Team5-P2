@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Shopper")
+@RequestMapping("/shopper")
 public class ShopperController {
     @Autowired
     ShopperService shopperService;
@@ -64,7 +64,7 @@ public class ShopperController {
 
     // Fetch Shopper by ID, passing ID as path variable in get mapping method
     @GetMapping("/{id}")
-    public ResponseEntity viewShopperById(@PathVariable int id){return shopperService.viewShopperById(id);}
+    public ResponseEntity viewShopperById(@PathVariable int id){return ResponseEntity.ok(shopperService.viewShopperById(id));}
 
     // Displays list of all shoppers by Get Mapping method
     @GetMapping("/all")

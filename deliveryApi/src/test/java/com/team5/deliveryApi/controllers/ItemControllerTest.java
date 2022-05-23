@@ -1,10 +1,9 @@
 package com.team5.deliveryApi.controllers;
 
 import com.team5.deliveryApi.dto.ItemStatus;
-import com.team5.deliveryApi.models.Customer;
 import com.team5.deliveryApi.models.GroceryItem;
 import com.team5.deliveryApi.models.Item;
-import com.team5.deliveryApi.models.Order;
+import com.team5.deliveryApi.models.ItemNotFoundException;
 import com.team5.deliveryApi.services.ItemService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -31,11 +30,26 @@ public class ItemControllerTest {
      * response if the item status was set.
      */
     @Test
-    public void shouldReturnOkReponseSetItemStatus() throws Exception {
+    public void shouldReturnOkResponseSetItemStatus() throws Exception {
         Mockito.when(itemService.setItemStatus(Mockito.anyInt(), Mockito.anyInt(), Mockito.any()))
                 .thenReturn(new Item(1, ItemStatus.Added, new GroceryItem()));
-
         mockMvc.perform(MockMvcRequestBuilders.put("/item/status/1/1/2?status=Added"))
                 .andExpect(status().isOk());
+        Mockito.when(itemService.replaceItem(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyInt()))
+                .thenReturn(new Item(1, ItemStatus.Added, new GroceryItem()));
+        mockMvc.perform(MockMvcRequestBuilders.put("/item/status/1/1/2?status=Replaced"))
+                .andExpect(status().isOk());
+    }
+
+    /**
+     * Tests if setItemStatus() returns
+     * a bad request response if an exception is thrown.
+     */
+    @Test
+    public void shouldReturnBadRequest() throws Exception {
+        Mockito.when(itemService.setItemStatus(Mockito.anyInt(), Mockito.anyInt(), Mockito.any()))
+                .thenThrow(new ItemNotFoundException());
+        mockMvc.perform(MockMvcRequestBuilders.put("/item/status/1/1/2?status=Added"))
+                .andExpect(status().isBadRequest());
     }
 }

@@ -8,6 +8,5 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderLocation {
-    private String dto_from_location;
     private String dto_description;
 }
