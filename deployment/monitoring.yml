@@ -36,7 +36,7 @@ data:
         metrics_path: '/actuator/prometheus'
         scrape_interval: 5s
         static_configs:
-        - targets: ['api2:8081', 'notificationapi:8080', 'deliveryApi:8080']
+        - targets: ['directionsapi-service:8083', 'notificationapi-service:8081', 'deliveryapi-service:8082']
 ---
 apiVersion: apps/v1
 kind: Deployment
