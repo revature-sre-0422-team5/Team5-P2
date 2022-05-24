@@ -24,7 +24,7 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-    @Value("${api.directions:none}")
+    @Value("${api.directions}")
     private String directionsApiUrl;
 
     /**

@@ -25,7 +25,7 @@ public class MapsController {
 
     @PostMapping ("/directions")
     public ResponseEntity<DirectionsResult> getDirections (@RequestBody getDirectionsRequest gdr){
-        log.info("[GET] - Received directions request");
+        log.info("[POST] - Received directions request");
         if (gdr.getLocationFrom() == null || gdr.getLocationTo() == null || gdr.getLocationFrom().equals("") || gdr.getLocationTo().equals("")){
             log.warn("User input either null or empty strings for locations");
             return ResponseEntity.badRequest().body(null);
