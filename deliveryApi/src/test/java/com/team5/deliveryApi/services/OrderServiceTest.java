@@ -1,5 +1,6 @@
 package com.team5.deliveryApi.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.team5.deliveryApi.dto.OrderLocation;
 import com.team5.deliveryApi.dto.OrderStatus;
 import com.team5.deliveryApi.models.Customer;
@@ -190,6 +191,17 @@ public class OrderServiceTest {
     Assertions.assertNotEquals("11/11/1111",orderService.findByOrderId(1).getDate());*/
 
 
+    }
+
+    @Test
+    public void shouldSubmitOrderThrowConnectException() throws JsonProcessingException {
+        Order order = new Order(1, "11/11/1111", OrderStatus.MakingOrder,
+                "2049 London Street", "", "My grocery items",
+                new Customer(), new ArrayList<>(), null);
+        Mockito.when(orderRepository.findById(Mockito.any())).thenReturn(Optional.of(order));
+        orderService.saveOrder(1,order);
+        //Assertions.assertNotNull(orderService.submitOrder(1));
+        Assertions.assertThrows(Exception.class, () -> orderService.submitOrder(1));
     }
 
     //TODO
