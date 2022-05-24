@@ -58,6 +58,7 @@ public class CustomerService {
             log.info("Login Success");
             isSuccess = true;
             customer.setIsloggedin(1);
+            customerRepository.save(customer);
             log.info("value="+customer.getIsloggedin());
 
         } else {
@@ -80,10 +81,11 @@ public class CustomerService {
             throw new UserNotFoundException();
         }
 
-        if (customer.getIsloggedin() == 0) {
+        if (customer.getIsloggedin() == 1) {
             log.info("Customer logged out successfully");
             isSuccess = true;
-            customer.setIsloggedin(1);
+            customer.setIsloggedin(0);
+            customerRepository.save(customer);
         } else {
             log.info("Customer not logged in");
         }
