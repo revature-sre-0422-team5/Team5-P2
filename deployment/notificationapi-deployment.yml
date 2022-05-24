@@ -27,11 +27,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: notificationapi-service-internal
+  name: notificationapi-service
 spec:
   selector:
     app: notificationapi
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 8081
       targetPort: 8080
