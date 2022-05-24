@@ -71,7 +71,7 @@ public class CustomerControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.post("/customer/new")
                 .contentType("application/json")
-                .content("{'name': 'rosh','username': 'rosh','password': 'rosh','email': 'rosh@gmail.com','location': 'Toronto'}"))
+                .content("{\"name\": \"rosh\",\"username\": \"rosh\",\"password\": \"rosh\",\"email\": \"rosh@gmail.com\",\"location\": \"Toronto\"}"))
                .andExpect(content().string("Account created successfully"));
     }
 
