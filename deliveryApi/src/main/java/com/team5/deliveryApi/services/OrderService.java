@@ -240,7 +240,7 @@ public class OrderService {
         request.put("receiptEmail", String.valueOf(orderId));
 
         HttpEntity<String> httpRequest = new HttpEntity<>(new ObjectMapper().writeValueAsString(request), headers);
-        String response = restTemplate.postForObject(URI.create(api2Url+"checkout-order"), httpRequest, String.class);
+        String response = restTemplate.postForObject(URI.create(api2Url+"/checkout-order"), httpRequest, String.class);
 
         if (response == null){
             throw new IllegalStateException ("Http response was null");
