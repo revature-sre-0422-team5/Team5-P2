@@ -67,18 +67,13 @@ public class CustomerControllerTest {
     }
     @Test
     public void shouldCreateCustomer() throws Exception {
-
         Mockito.when(customerService.saveCustomer(any())).thenReturn(true);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/customer/new")
-                         .contentType("application/json")
-                 .content("{"name": "rosh","username": "rosh","password": "rosh","email": "rosh@gmail.com","location": "Toronto"}"))
-                .andExpect(content().string("Account created successfully"));
-    }
-
-    @Test
-    public void shouldReturnOkOnCreateCustomer() throws Exception{
-
+                .contentType("application/json")
+                .content("{'name': 'rosh','username': 'rosh','password': 'rosh','email': 'rosh@gmail.com','location': 'Toronto'}"))
+               .andExpect(content().string("Account created successfully"));
+        }
     }
 
     /**
