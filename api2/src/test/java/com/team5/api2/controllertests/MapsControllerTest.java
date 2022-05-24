@@ -94,7 +94,7 @@ class MapsControllerTest {
 		request.put("locationFrom", cnTower);
 
 		mockMvc.perform(
-			MockMvcRequestBuilders.get("/directions")
+			MockMvcRequestBuilders.post("/directions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(request))
 			).andExpect(status().isBadRequest());
@@ -106,7 +106,7 @@ class MapsControllerTest {
 		Mockito.when(mapsServices.getDirections(cnTower, artGalleryOntario)).thenReturn(new DirectionsResult());
 
 		mockMvc.perform(
-			MockMvcRequestBuilders.get("/directions")
+			MockMvcRequestBuilders.post("/directions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(request))
 			).andExpect(status().isOk());
@@ -117,7 +117,7 @@ class MapsControllerTest {
 		Mockito.when(mapsServices.getDirections(cnTower, artGalleryOntario)).thenThrow(IllegalStateException.class);
 		
 		mockMvc.perform(
-			MockMvcRequestBuilders.get("/directions")
+			MockMvcRequestBuilders.post("/directions")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(mapper.writeValueAsString(request))
 			)
