@@ -196,6 +196,6 @@ public class OrderController {
         RestTemplate restTemplate = new RestTemplateBuilder().build();
         map.put("locationFrom", order.getStore_location());
         map.put("locationTo", order.getCustomer().getLocation());
-        return restTemplate.postForEntity(directionsApiUrl, map, Object.class);
+        return restTemplate.postForEntity(directionsApiUrl+"delivery", map, Object.class);
     }
 }
